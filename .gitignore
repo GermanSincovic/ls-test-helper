@@ -3,5 +3,5 @@
 /shelf/
 /workspace.xml
 /files/
-/venv/
+/venv/**
 /logs/**

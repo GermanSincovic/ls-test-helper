@@ -3,14 +3,12 @@ import os
 # TEST
 
 from flask import Flask, request, Response, render_template
-from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 from modules import Health, FileManager, Resp, Collector, Log, Kafka
 from modules.Constants import MAINTENANCE, UPLOAD_DIR, UI_DIR
 
 app = Flask(__name__, template_folder=UI_DIR, static_folder="ui")
-cors = CORS(app)
 app.secret_key = 'SLKJdjD&s%1234!'
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 Response(headers={'Content-Type': 'application/json; charset=utf-8'})

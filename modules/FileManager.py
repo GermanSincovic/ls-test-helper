@@ -2,10 +2,10 @@ import json
 import os
 import subprocess
 import datetime
-from stat import ST_SIZE, ST_ATIME
 from apscheduler.schedulers.background import BackgroundScheduler
 from modules import Log
-from modules.Constants import RESULTS_DIR, MAIN_REPOSITORY_PATH, MODULES_DIR
+from modules.Constants import RESULTS_DIR, MAIN_REPOSITORY_PATH, MODULES_DIR, BASE_FOLDER, ARCHIVE_DIR, LOGS_DIR, \
+    UPLOAD_DIR
 
 
 def __listdirattr(path):
@@ -103,3 +103,16 @@ def run_cleaner():
     scheduler.add_job(func=remove_old_result_files, trigger="interval", hours=3)
     scheduler.start()
     Log.info("Cleaner running in background")
+
+
+def check_dirs_existing():
+    if not os.path.exists(MAIN_REPOSITORY_PATH):
+        os.makedirs(MAIN_REPOSITORY_PATH)
+    if not os.path.exists(ARCHIVE_DIR):
+        os.makedirs(ARCHIVE_DIR)
+    if not os.path.exists(RESULTS_DIR):
+        os.makedirs(RESULTS_DIR)
+    if not os.path.exists(UPLOAD_DIR):
+        os.makedirs(UPLOAD_DIR)
+    if not os.path.exists(LOGS_DIR):
+        os.makedirs(LOGS_DIR)

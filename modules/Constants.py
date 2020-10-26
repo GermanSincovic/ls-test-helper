@@ -8,6 +8,12 @@ RESULTS_DIR = os.path.join(MAIN_REPOSITORY_PATH, "results")
 
 ARCHIVE_DIR = os.path.join(MAIN_REPOSITORY_PATH, "archive")
 
+UPLOAD_DIR = os.path.join(MAIN_REPOSITORY_PATH, 'uploaded')
+
 MODULES_DIR = os.path.join(BASE_FOLDER, "modules")
+
+UI_DIR = os.path.join(BASE_FOLDER, 'ui')
+
+LOGS_DIR = os.path.join(BASE_FOLDER, 'logs')
 
 MAINTENANCE = False

@@ -4,4 +4,4 @@
 /workspace.xml
 /files/
 /venv/
-/logs/
+/logs/**

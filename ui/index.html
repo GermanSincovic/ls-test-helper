@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>LS Test Helper</title>
+		<link rel="shortcut icon" href="/ui/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="/ui/styles/bootstrap.min.css">
+        <link rel="stylesheet" href="/ui/styles/main.css">
+		<script src="/ui/js/jquery.min.js"></script>
+        <script src="/ui/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/ui/js/differ.js"></script>
+	</head>
+	<body>
+		<div class="container-fluid mt-3">
+
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-logger-tab" data-toggle="pill" href="#pills-logger" role="tab" aria-controls="pills-logger" aria-selected="false">Collector</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-health-page-tab" data-toggle="pill" href="#pills-health-page" role="tab" aria-controls="pills-health-page" aria-selected="false">Health page</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="pills-kafka-tab" data-toggle="pill" href="#pills-kafka" role="tab" aria-controls="pills-kafka" aria-selected="false">Kafka</a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade" id="pills-logger" role="tabpanel" aria-labelledby="pills-logger-tab">
+                    <div class="row">
+                        <div class="col">
+                            <div id="main" class="container-fluid ml-5">
+                                <div class="row">
+
+									<!-- COLLECTOR FORM -->
+                                    <form id="main_form" onsubmit="return false;">
+									    <input class="form-control" type="datetime-local" name="dtl">
+									    <select class="form-control" id="component_selector" name="component" required><option value="" disabled selected></option></select>
+									    <select class="form-control" id="endpoint_selector" name="endpoint" required></select>
+									    <div id="dynamic_input"></div>
+									    <input id="main_form_submit" class="form-control" type="submit" value="Extract">
+									</form>
+
+									<!-- FILE SYSTEM VIEW -->
+                                    <div class="form-group list-group list-group-flush mx-3" id="files-container">
+										<div id="files-uploader">
+											<form id="files-uploader-form" onsubmit="return false;">
+												<div class="form-group">
+													<input type="file" name="file" class="form-control-file">
+												</div>
+											</form>
+										</div>
+                                    	<ul class="nav nav-pills mb-3" id="pills-file-system" role="tablist">
+										</ul>
+										<div class="tab-content" id="pills-tab-file-system">
+										</div>
+                                    </div>
+
+                                </div>
+
+								<!-- COMPARING TABLE VIEW -->
+                                <div class="container-fluid mt-5">
+                                    <div class="row">
+                                        <table class="sticky">
+										    <thead>
+										        <tr id="line-head" valign="top"></tr>
+										    </thead>
+										    <tbody>
+										        <tr id="line"></tr>
+										    </tbody>
+										</table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="pills-health-page" role="tabpanel" aria-labelledby="pills-health-page-tab">
+					
+					<!-- HEALTH PAGE MONITOR HEADER -->
+					<ul class="nav nav-pills mb-3" id="pills-tab-monitoring-nav" role="tablist">
+					</ul>
+
+					<!-- HEALTH PAGE MONITOR BODY -->
+					<div class="tab-content" id="pills-tab-monitoring">
+					</div>
+
+				</div>
+
+				<!-- KAFKA PRODUCER -->
+                <div class="tab-pane fade" id="pills-kafka" role="tabpanel" aria-labelledby="pills-kafka-tab">
+					<form id="kafka-producer-form" onsubmit="return false;" class="ml-5 mt-5">
+						<div class="form-group row">
+							<label for="kafka_topic" class="col-sm-1 col-form-label">Topic</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" name="kafka_topic" id="kafka_topic">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="kafka_key" class="col-sm-1 col-form-label">Key</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" name="kafka_key" id="kafka_key">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="kafka_message" class="col-sm-1 col-form-label">Message</label>
+							<div class="col-sm-5">
+								<textarea class="form-control" name="kafka_message" id="kafka_message" rows="10"></textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="kafka_send" class="col-sm-1 col-form-label"></label>
+							<div class="col-sm-5">
+								<button type="submit" class="btn btn-success" id="kafka_send">Send</button>
+							</div>
+						</div>
+					</form>
+	            </div>
+
+            </div>
+
+
+        </div>
+
+        <!-- SPINNER -->
+        <div id="spinner_wrapper" class="d-none">
+			<div class="spinner-border"></div>
+		</div>
+
+		<!-- MESSAGE CONTAINER -->
+
+		<div id="message_wrapper">
+			<div class="container">
+				<div id="message_container" class="col">
+				</div>
+			</div>
+		</div>
+
+		<script src="/ui/js/differ.js"></script>
+		<script type="module" src="/ui/js/main.js"></script>
+	</body>
+</html>

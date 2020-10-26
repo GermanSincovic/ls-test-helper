@@ -1,0 +1,119 @@
+import {TabMemoriser} from './TabMemoriser.js'
+
+export function HealthViewer(data){
+
+	function getEnvironmentCrashCount(env_data){
+		var count = 0;
+		env_data.forEach(c => {
+			if(c.hasOwnProperty("status") && c.status == "CRASHED"){ count++; }
+		}, count)
+		return count;
+	}
+
+	function getTableHeaders(json){
+		var tr = document.createElement("tr");
+		Object.keys(json).forEach(key => {
+			if(key != "status" && key != "updated"){
+				var th = document.createElement("th");
+					th.innerText = key;
+				tr.append(th);
+			}
+		})
+		return tr;
+	}
+
+	function getTableLines(json){
+		var tr = document.createElement("tr");
+		if(json.status){
+			tr.className = json.status.toLowerCase();
+		}
+		Object.keys(json).forEach(key => {
+			if(key != "status" && key != "updated"){
+				var td = document.createElement("td");
+					td.innerText = json[key];
+				tr.append(td);
+			}
+		})
+		return tr;
+	}
+
+	var environment_list = [];
+	var crash_count_list = [];
+
+	var header_container = "pills-tab-monitoring-nav";
+	var body_container = "pills-tab-monitoring";
+	header_container = document.getElementById(header_container);
+	body_container = document.getElementById(body_container);
+
+	// crear health page
+	header_container.innerHTML = "";
+	body_container.innerHTML = "";
+
+	// header + statistic
+	data.forEach(el => {
+		var env_name = Object.keys(el)[0];
+			environment_list.push(env_name);
+			crash_count_list.push(getEnvironmentCrashCount(el[env_name]));
+	}, environment_list, crash_count_list)
+
+	// rendering header
+	environment_list.forEach( (env, index) =>{
+		var header_item = document.createElement("li");
+			header_item.className = "nav-item";
+			header_item.setAttribute("role", "presentation");
+			
+		var header_link = document.createElement("a");
+			header_link.id = "pills-" + env + "-tab";
+			header_link.className = "nav-link";
+			header_link.dataset.toggle = "pill";
+			header_link.dataset.env = env;
+			header_link.href= "#pills-" + env;
+			header_link.setAttribute("role", "tab");
+			header_link.setAttribute("aria-controls", "pills-" + env);
+			header_link.setAttribute("aria-selected", "false");
+			header_link.innerText = env.toUpperCase();
+
+		var crash_count = crash_count_list[index];
+		var header_badge = document.createElement("span");
+			header_badge.className = "badge badge-pill badge-danger";
+			header_badge.innerText = crash_count;
+
+			if(crash_count > 0){
+				header_link.append(header_badge);
+			}
+			header_item.append(header_link)
+			header_container.append(header_item);
+	});
+
+	// rendering body with tables
+	data.forEach(el => {
+		var body_item = document.createElement("div");
+			body_item.id = "pills-" + Object.keys(el)[0];
+			body_item.className = "tab-pane fade";
+			body_item.setAttribute("role", "tabpanel");
+			body_item.setAttribute("aria-labelledby", "pills-" + Object.keys(el)[0] + "-tab");
+
+		var table = document.createElement("table");
+			table.className = "table table-sm small";
+			table.dataset.env = Object.keys(el)[0];
+
+		var thead = document.createElement("thead");
+		var tbody = document.createElement("tbody");
+
+		var components = el[Object.keys(el)[0]];
+			thead.append(getTableHeaders(components[0]));
+
+			components.forEach(component => {
+				tbody.append(getTableLines(component));
+			});
+
+			table.append(thead);
+			table.append(tbody);
+			body_item.append(table);
+				body_container.append(body_item);
+
+	}, body_container);
+
+	new TabMemoriser("#pills-tab-monitoring-nav", "last-env-monitoring-nav-tab");
+
+}

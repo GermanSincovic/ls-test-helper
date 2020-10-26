@@ -1,0 +1,6 @@
+flask==1.1.1
+requests~=2.24.0
+lxml~=4.5.2
+paramiko~=2.7.2
+APScheduler~=3.6.3
+Werkzeug~=1.0.1

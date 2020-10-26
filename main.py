@@ -45,7 +45,7 @@ def files():
 def files_uploading():
     if request.method == 'POST':
         if 'file' not in request.files:
-            return Resp.throw_error(418)
+            return Resp.throw_error(400)
         file = request.files['file']
         if file.filename == '':
             return Resp.throw_error(400)
@@ -99,4 +99,4 @@ FileManager.run_cleaner()
 
 if __name__ == '__main__':
     Log.info("Application starting...")
-    app.run(host="0.0.0.0", port=8090, debug=False)
+    app.run(host="0.0.0.0", port=80, debug=False)

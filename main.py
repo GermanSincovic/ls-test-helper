@@ -78,9 +78,7 @@ def collect():
 
 @app.route('/logs', methods=['GET'])
 def get_logs():
-    with open("/logs/app.log") as logs:
-        response = make_response(logs.read())
-        return response
+    return Resp.get_file_content(FileManager.get_log())
 
 
 @app.route('/kafka/produce/<string:topic>', methods=['POST'])

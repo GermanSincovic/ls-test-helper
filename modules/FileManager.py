@@ -116,3 +116,9 @@ def check_dirs_existing():
         os.makedirs(UPLOAD_DIR)
     if not os.path.exists(LOGS_DIR):
         os.makedirs(LOGS_DIR)
+
+
+def get_log():
+    with open('logs/app.log') as log:
+        data = log.read()
+        return data, 200

@@ -8,6 +8,11 @@ def get_response(data_list):
     return response
 
 
+def get_file_content(data):
+    response = make_response(data)
+    return response
+
+
 def throw_error(code):
     error_messages = {
         400: "Bad request",

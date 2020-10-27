@@ -76,6 +76,12 @@ def collect():
         return Resp.throw_error(400)
 
 
+@app.route('/logs', methods=['GET'])
+def collect():
+    with open("/logs/app.log") as logs:
+        return Resp.get_response([logs.read(), 200])
+
+
 @app.route('/kafka/produce/<string:topic>', methods=['POST'])
 def kafka_produce(topic):
     if request.args.get("key") and request.json:

@@ -8,7 +8,7 @@ import {ToggleSpinner} from './ToggleSpinner.js'
 export function RequestManager(){
 
 
-	this.BASE_API_URL = "http://10.5.106.105:8090/";
+	this.BASE_API_URL = "http://10.5.106.105:80/";
 
 	this.getHealthPage = function(){
 		$.ajax({

@@ -77,7 +77,7 @@ def collect():
 
 
 @app.route('/logs', methods=['GET'])
-def collect():
+def get_logs():
     with open("/logs/app.log") as logs:
         return Resp.get_response([logs.read(), 200])
 

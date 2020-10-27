@@ -2,7 +2,7 @@ import os
 
 # TEST
 
-from flask import Flask, request, Response, render_template
+from flask import Flask, request, Response, render_template, make_response
 from werkzeug.utils import secure_filename
 
 from modules import Health, FileManager, Resp, Collector, Log, Kafka
@@ -79,7 +79,8 @@ def collect():
 @app.route('/logs', methods=['GET'])
 def get_logs():
     with open("/logs/app.log") as logs:
-        return Resp.get_response([logs.read(), 200])
+        response = make_response(logs.read())
+        return response
 
 
 @app.route('/kafka/produce/<string:topic>', methods=['POST'])

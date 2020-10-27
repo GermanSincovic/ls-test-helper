@@ -1,10 +1,12 @@
 import json
+import os
 import re
 import time
 import paramiko
 from datetime import datetime
 
 from modules import Log
+from modules.Constants import RESULTS_DIR, MODULES_DIR
 
 
 def get_config():
@@ -17,7 +19,7 @@ def connect(dns):
     try:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(dns, username='ivan.didyk', key_filename='C:\\Users\\IDidyk\\.ssh\\id_rsa.ppk')
+        ssh.connect(dns, username='ivan.didyk', key_filename=os.path.join(MODULES_DIR, 'id_rsa.ppk'))
     except TimeoutError as error:
         Log.error(error)
         return str(error), 410
@@ -95,7 +97,7 @@ def collect(data):
     Log.info("Try to copy remote file...")
     sftp = ssh.open_sftp()
     remote_path = "/home/ivan.didyk/{}".format(file_name)
-    local_path = "C:\\Users\\IDidyk\\PycharmProjects\\ls-logger-api\\files\\results\\{}".format(file_name)
+    local_path = os.path.join(RESULTS_DIR, file_name)
     sftp.get(remote_path, local_path)
 
     # Remove remote file

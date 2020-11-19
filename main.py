@@ -81,10 +81,10 @@ def get_logs():
     return Resp.get_file_content(FileManager.get_log())
 
 
-@app.route('/kafka/produce/<string:topic>', methods=['POST'])
-def kafka_produce(topic):
+@app.route('/kafka/produce/<string:environment>/<string:topic>', methods=['POST'])
+def kafka_produce(environment, topic):
     if request.args.get("key") and request.json:
-        return Resp.get_response(Kafka.produce(topic, request.args.get("key"), request.json))
+        return Resp.get_response(Kafka.produce(environment, topic, request.args.get("key"), request.json))
     else:
         return Resp.throw_error(400)
 

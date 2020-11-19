@@ -145,7 +145,7 @@ export function RequestManager(){
 //        console.log(JSON.parse(res_json.kafka_message));
 
 		$.ajax({
-		    url: this.BASE_API_URL + "kafka/produce/" + res_json.kafka_topic + "?key=" + res_json.kafka_key,
+		    url: this.BASE_API_URL + "kafka/produce/" + res_json.kafka_env + "/" + res_json.kafka_topic + "?key=" + res_json.kafka_key,
 		    method: "post",
             headers: { "Content-Type": "application/json" },
 		    data: res_json.kafka_message,

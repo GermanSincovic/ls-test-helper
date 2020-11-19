@@ -19,7 +19,8 @@ def connect(dns):
     try:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(dns, username='ivan.didyk', key_filename=os.path.join(MODULES_DIR, 'id_rsa.ppk'))
+        ssh.connect(dns, username='ivan.didyk', key_filename='C:\\Users\\IDidyk\\.ssh\\id_rsa.ppk')
+        # ssh.connect(dns, username='ivan.didyk', key_filename=os.path.join(MODULES_DIR, 'id_rsa.ppk'))
     except TimeoutError as error:
         Log.error(error)
         return str(error), 410

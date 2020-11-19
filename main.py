@@ -1,8 +1,6 @@
 import os
 
-# TEST
-
-from flask import Flask, request, Response, render_template, make_response
+from flask import Flask, request, Response, render_template
 from werkzeug.utils import secure_filename
 
 from modules import Health, FileManager, Resp, Collector, Log, Kafka

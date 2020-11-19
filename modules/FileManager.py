@@ -119,6 +119,6 @@ def check_dirs_existing():
 
 
 def get_log():
-    with open('logs/app.log') as log:
+    with open('logs/app-current.log') as log:
         data = log.read()
         return data, 200

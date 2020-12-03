@@ -41,6 +41,10 @@
     font-weight: normal;
     box-shadow: 0 5px 12px 0px rgba(0,0,0,0.5)
 }
+.sticky form{
+    position: sticky;
+    top: 4em;
+}
 .valign-top{
     vertical-align: top;
 }
@@ -97,4 +101,15 @@ tr[data-type='stage']{
 
 tr[data-type='event'][data-epr='1']{
     background-color: #00ff80;
+}
+
+button[aria-pressed="true"]{
+    background-color: #00ff80;
+}
+
+button[aria-pressed="false"]{
+    background-color: #dae0e5;
+}
+img{
+    background-color: transparent;
 }

@@ -9,8 +9,7 @@ import {PAPIEvent} from './PAPIEvent.js'
 
 export function RequestManager(){
 
-
-	this.BASE_API_URL = "http://10.5.106.105:80/";
+	this.BASE_API_URL = location.origin + "/";
 
 	this.getHealthPage = function(){
 		$.ajax({

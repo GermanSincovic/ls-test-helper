@@ -63,8 +63,14 @@ export function PAPIDaily(data){
     var static_url = window.api_config["static-data-base-url"] + "/low/";
 
     data.forEach(stage => {
+        var stage_live_count = 0;
+        stage.Events.forEach(event => {
+            if(event.Epr == "1" || event.Epr == 1){
+                stage_live_count++;
+            }
+        });
         new_table_body.innerHTML +=
-            "<tr data-type='stage'>" +
+            "<tr data-type='stage' data-live-count='" + stage_live_count + "'>" +
                 "<td colspan='5'>" +
                     "<b>" + stage.Cnm + "</b> " +
                     "<small class='text-muted'>(" + stage.Cid + ")</small> " +
@@ -73,9 +79,6 @@ export function PAPIDaily(data){
                 "</td>" +
             "</tr>";
         stage.Events.forEach(event => {
-
-            var badge_link1 = (event.T1[0].Img) ? static_url + event.T1[0].Img : "/ui/img/no_badge.png";
-            var badge_link2 = (event.T2[0].Img) ? static_url + event.T2[0].Img : "/ui/img/no_badge.png";
             new_table_body.innerHTML +=
                 "<tr data-type='event' data-epr='" + event.Epr + "'>"
                     + this.getEventStartDateCol(event.Esd)
@@ -88,5 +91,8 @@ export function PAPIDaily(data){
     })
     cur_table_body.remove();
     table.append(new_table_body);
+    if($("#live-only button")[0].attributes['aria-pressed'].value == "true"){
+        toggleLiveEvents();
+    }
 
 }

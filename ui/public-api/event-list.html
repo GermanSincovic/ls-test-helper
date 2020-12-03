@@ -22,7 +22,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-3">
+                <div class="col-3 sticky">
                     <form action="#" onsubmit="return false;">
                         <div id="sport-selector">
                             <div class="form-check">
@@ -60,7 +60,7 @@
                             <input type="date" id="calendar-picker" onchange="chooseDate(this.value)">
                         </div>
                         <div id="live-only" class="mt-3">
-                            <button class="btn btn-secondary" data-enabled="false" onchange="toggleLiveEvents();">Live only</button>
+                            <button type="button" class="btn" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="toggleLiveEvents();">Live only</button>
                         </div>
                     </form>
                 </div>
@@ -72,6 +72,7 @@
             });
             function toggleLiveEvents(){
                 $("[data-type='event'][data-epr!='1']").toggleClass("d-none");
+                $("[data-type='stage'][data-live-count='0']").toggleClass("d-none");
             }
             function chooseSport(val){
                 location.href = location.pathname + "?sport=" + val + "&date=" + location.ls_date;

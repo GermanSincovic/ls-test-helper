@@ -25,6 +25,11 @@ def get_application_config():
         return json.load(config_file), 200
 
 
+def get_url_mapping_config():
+    with open('modules/EnvironmentUrlMapping.conf') as config_file:
+        return json.load(config_file)
+
+
 def get_file(folder, filename):
     with open(os.path.join(MAIN_REPOSITORY_PATH, folder, filename)) as file:
         data = file.read()
@@ -116,9 +121,3 @@ def check_dirs_existing():
         os.makedirs(UPLOAD_DIR)
     if not os.path.exists(LOGS_DIR):
         os.makedirs(LOGS_DIR)
-
-
-def get_log():
-    with open('logs/app-current.log') as log:
-        data = log.read()
-        return data, 200

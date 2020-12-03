@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>LS Test Helper | Daily</title>
+        <meta charset="UTF-8">
+        <link rel="shortcut icon" href="/ui/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/ui/styles/bootstrap.min.css">
+        <link rel="stylesheet" href="/ui/styles/main.css">
+        <script src="/ui/js/jquery.min.js"></script>
+        <script src="/ui/js/popper.min.js"></script>
+        <script src="/ui/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div id="main" style="zoom: 100%;" class="container-fluid mx-3 my-5">
+            <div class="row">
+                <div class="col-9">
+                    <h3 data-type="header"></h3>
+                    </br>
+                    <table id="event-list-table" class="table table-bordered table-sm">
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-3">
+                    <form action="#" onsubmit="return false;">
+                        <div id="sport-selector">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sport" id="soccer" value="soccer" onclick="chooseSport(this.value)">
+                                <label class="form-check-label" for="soccer">
+                                Soccer
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sport" id="basketball" value="basketball" onclick="chooseSport(this.value)">
+                                <label class="form-check-label" for="basketball">
+                                Basketball
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sport" id="tennis" value="tennis" onclick="chooseSport(this.value)">
+                                <label class="form-check-label" for="tennis">
+                                Tennis
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sport" id="hockey" value="hockey" onclick="chooseSport(this.value)">
+                                <label class="form-check-label" for="hockey">
+                                Ice hockey
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sport" id="cricket" value="cricket" onclick="chooseSport(this.value)">
+                                <label class="form-check-label" for="cricket">
+                                Cricket
+                                </label>
+                            </div>
+                        </div>
+                        <div id="calendar" class="mt-3">
+                            <input type="date" id="calendar-picker" onchange="chooseDate(this.value)">
+                        </div>
+                        <div id="live-only" class="mt-3">
+                            <button class="btn btn-secondary" data-enabled="false" onchange="toggleLiveEvents();">Live only</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script type="application/javascript">
+            $( document ).ready(function() {
+                $("[data-type='header']").text(location.environment.toUpperCase() + " / " + location.sport.toUpperCase() + " / " + location.date);
+            });
+            function toggleLiveEvents(){
+                $("[data-type='event'][data-epr!='1']").toggleClass("d-none");
+            }
+            function chooseSport(val){
+                location.href = location.pathname + "?sport=" + val + "&date=" + location.ls_date;
+            }
+            function chooseDate(val){
+                location.href = location.pathname + "?sport=" + location.sport + "&date=" + val.split('-').join('');
+            }
+        </script>
+        <script type="module" src="/ui/js/public_api.js"></script>
+    </body>
+</html>

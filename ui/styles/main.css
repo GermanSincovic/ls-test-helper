@@ -86,3 +86,15 @@ p.list-group-item:hover{
         background-color: #FFF;
     }
 }
+
+table img {
+    margin: 0 .5em;
+}
+
+tr[data-type='stage']{
+    background-color: #dee2e6;
+}
+
+tr[data-type='event'][data-epr='1']{
+    background-color: #00ff80;
+}

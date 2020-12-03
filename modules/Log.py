@@ -9,7 +9,7 @@ filepath = os.path.join(BASE_FOLDER, "logs", "app-current.log")
 
 def create_rotating_log():
     logging.basicConfig(
-        handlers=[RotatingFileHandler(filepath, maxBytes=100000, backupCount=10)],
+        handlers=[RotatingFileHandler(filepath, maxBytes=52428800, backupCount=10)],
         level=logging.DEBUG,
         format="[%(asctime)s] %(levelname)s %(message)s",
         datefmt='%Y-%m-%dT%H:%M:%S')

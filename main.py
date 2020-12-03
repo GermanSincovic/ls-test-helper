@@ -1,9 +1,10 @@
+import json
 import os
 
 from flask import Flask, request, Response, render_template
 from werkzeug.utils import secure_filename
 
-from modules import Health, FileManager, Resp, Collector, Log, Kafka
+from modules import Health, FileManager, Resp, Collector, Log, Kafka, PublicApiHelper
 from modules.Constants import MAINTENANCE, UPLOAD_DIR, UI_DIR
 
 app = Flask(__name__, template_folder=UI_DIR, static_folder="ui")
@@ -20,6 +21,39 @@ def get_ui():
         return render_template('index.html')
 
 
+@app.route('/ui/public-api', methods=['GET'])
+def get_public_api_ui():
+    if MAINTENANCE:
+        return render_template('maintenance.html')
+    else:
+        return render_template('public-api/index.html')
+
+
+@app.route('/ui/public-api/<string:environment>/<string:feed>', methods=['GET'])
+def get_public_api_ui_env_feed(environment, feed):
+    if environment not in ['dev', 'test', 'preprod', 'prod'] or feed not in ['event-list', 'event']:
+        return Resp.throw_error(400)
+    if MAINTENANCE:
+        return render_template('maintenance.html')
+    else:
+        return render_template('public-api/' + feed + '.html')
+
+
+@app.route('/public-api/<string:environment>/<string:feed>', methods=['GET'])
+def get_public_api_env_feed(environment, feed):
+    if environment not in ['dev', 'test', 'preprod', 'prod'] or feed not in ['event-list', 'event']:
+        return Resp.throw_error(400)
+    return Resp.get_response(
+        PublicApiHelper.get_public_api_data(
+            environment=environment,
+            feed=feed,
+            sport=request.args.get("sport"),
+            date=request.args.get("date"),
+            id=request.args.get("id")
+        )
+    )
+
+
 @app.route('/health-page', methods=['GET'])
 def health_page():
     if request.method == 'GET':
@@ -29,6 +63,11 @@ def health_page():
 @app.route("/config", methods=['GET'])
 def get_config():
     return Resp.get_response(FileManager.get_application_config())
+
+
+@app.route("/urlconfig", methods=['GET'])
+def get_url_config():
+    return Resp.get_response([FileManager.get_url_mapping_config(), 200])
 
 
 @app.route('/files', methods=['GET'])
@@ -74,9 +113,15 @@ def collect():
         return Resp.throw_error(400)
 
 
-@app.route('/logs', methods=['GET'])
-def get_logs():
-    return Resp.get_file_content(FileManager.get_log())
+@app.route('/public-api/<string:environment>/<string:feed>/<string:sport>/<string:date>', methods=['GET'])
+def get_public_api_data_daily(environment, feed, sport, date):
+    if environment in ["dev", "test", "preprod", "prod"] \
+            and sport in ["soccer", "basketball", "tennis", "hockey", "cricket"] \
+            and feed in ["event-list", "event"] \
+            and date:
+        return Resp.get_response(PublicApiHelper.get_public_api_data_daily(environment, sport, date))
+    else:
+        return Resp.throw_error(400)
 
 
 @app.route('/kafka/produce/<string:environment>/<string:topic>', methods=['POST'])

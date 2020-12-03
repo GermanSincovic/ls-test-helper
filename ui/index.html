@@ -7,8 +7,8 @@
 		<link rel="stylesheet" href="/ui/styles/bootstrap.min.css">
         <link rel="stylesheet" href="/ui/styles/main.css">
 		<script src="/ui/js/jquery.min.js"></script>
-        <script src="/ui/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="/ui/js/differ.js"></script>
+		<script src="/ui/js/popper.min.js"></script>
+		<script src="/ui/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 		<div class="container-fluid mt-3">
@@ -23,6 +23,15 @@
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="pills-kafka-tab" data-toggle="pill" href="#pills-kafka" role="tab" aria-controls="pills-kafka" aria-selected="false">Kafka</a>
                 </li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Public API</a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" target="_blank" href="/ui/public-api/dev/event-list?sport=soccer&date=20201126">DEV</a>
+						<a class="dropdown-item" target="_blank" href="/ui/public-api/test/event-list?sport=soccer&date=20201126">TEST</a>
+						<a class="dropdown-item" target="_blank" href="/ui/public-api/preprod/event-list?sport=soccer&date=20201126">PREPROD</a>
+						<a class="dropdown-item" target="_blank" href="/ui/public-api/prod/event-list?sport=soccer&date=20201126">PROD</a>
+					</div>
+				</li>
             </ul>
 
             <div class="tab-content" id="pills-tabContent">

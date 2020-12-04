@@ -42,10 +42,10 @@ export function PAPIDaily(data){
         for (var i = 0; i < t.length; i++){
             var badge_link = (t[i].Img) ? static_url + t[i].Img : "/ui/img/no_badge.png";
             if(side == "left"){
-                data += "<div>" + t[i].Nm + " <small class='text-muted'>(" + t[i].ID + ")<img width='30' height='30' src='" + badge_link + "'></small></div>";
+                data += "<div>" + t[i].Nm + " <small class='text-muted'>(" + t[i].ID + ")<img loading='lazy' width='30' height='30' src='" + badge_link + "'></small></div>";
             }
             if(side == "right"){
-                data += "<div><img width='30' height='30' src='" + badge_link + "'><small class='text-muted'>(" + t[i].ID +")</small> " + t[i].Nm + "</div>"
+                data += "<div><img loading='lazy' width='30' height='30' src='" + badge_link + "'><small class='text-muted'>(" + t[i].ID +")</small> " + t[i].Nm + "</div>"
             }
         }
         return "<td align='" + align + "' style='vertical-align: middle;'>" + data + "</td>";
@@ -54,7 +54,11 @@ export function PAPIDaily(data){
     this.getEventProviderIDs = function(pids){
         var data = '<td>';
         for(var k in pids) {
-           data += "<div><small>" + k + "-" + pids[k] + "</small></div>";
+            var composite_id = k + "-" + pids[k];
+            var link = api_config['public-api-base-url'] + api_config['public-api-test-ui-event'];
+                link = link.replace('{sport}', location.sport);
+                link = link.replace('{composite_id}', composite_id);
+           data += "<div><a target='_blank' href='" + link + "'><small>" + composite_id + "</small></a></div>";
         }
         data += '</td>';
         return data;

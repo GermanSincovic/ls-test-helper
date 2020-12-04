@@ -48,7 +48,16 @@ export function PAPIDaily(data){
                 data += "<div><img width='30' height='30' src='" + badge_link + "'><small class='text-muted'>(" + t[i].ID +")</small> " + t[i].Nm + "</div>"
             }
         }
-        return "<td align='" + align + "'>" + data + "</td>";
+        return "<td align='" + align + "' style='vertical-align: middle;'>" + data + "</td>";
+    }
+
+    this.getEventProviderIDs = function(pids){
+        var data = '<td>';
+        for(var k in pids) {
+           data += "<div><small>" + k + "-" + pids[k] + "</small></div>";
+        }
+        data += '</td>';
+        return data;
     }
 
     this.getEventScore = function(e){
@@ -64,18 +73,30 @@ export function PAPIDaily(data){
 
     data.forEach(stage => {
         var stage_live_count = 0;
+        var fp_tmp = [];
         stage.Events.forEach(event => {
             if(event.Epr == "1" || event.Epr == 1){
                 stage_live_count++;
             }
         });
+        for(var k in api_data.Stages[0]._FP) {
+           fp_tmp.push(k + " : " + api_data.Stages[0]._FP[k]);
+        }
+        var fp = fp_tmp.join("</br>");
         new_table_body.innerHTML +=
             "<tr data-type='stage' data-live-count='" + stage_live_count + "'>" +
-                "<td colspan='5'>" +
-                    "<b>" + stage.Cnm + "</b> " +
-                    "<small class='text-muted'>(" + stage.Cid + ")</small> " +
-                    "<b>/ " + stage.Snm + "</b> " +
-                    "<small class='text-muted'>(" + stage.Sid + ")</small> " +
+                "<td colspan='6'>" +
+                    "<div class='d-flex justify-content-between'>" +
+                        "<div>" +
+                            "<b>" + stage.Cnm + "</b> " +
+                            "<small class='text-muted'>(" + stage.Cid + ")</small> " +
+                            "<b>/ " + stage.Snm + "</b> " +
+                            "<small class='text-muted'>(" + stage.Sid + ")</small> " +
+                        "</div>" +
+                        "<div>" +
+                            "<button type='button' class='btn btn-secondary' data-toggle='tooltip' data-placement='left' data-html='true' title='" + fp + "'>FP</button>" +
+                        "</div>" +
+                    "</div>" +
                 "</td>" +
             "</tr>";
         stage.Events.forEach(event => {
@@ -83,6 +104,7 @@ export function PAPIDaily(data){
                 "<tr data-type='event' data-epr='" + event.Epr + "'>"
                     + this.getEventStartDateCol(event.Esd)
                     + this.getEventStatusText(event.Eps)
+                    + this.getEventProviderIDs(event.Pids)
                     + this.getEventParticipant(event.T1, "left")
                     + this.getEventScore(event)
                     + this.getEventParticipant(event.T2, "right")

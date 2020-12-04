@@ -46,3 +46,5 @@ const RM = new RequestManager();
         new Repeater( () => {RM.getPublicAPIEvent(data_link)}, 5000 );
     }
 
+new Repeater( () => {$('[data-toggle="tooltip"]').tooltip();}, 2000 );
+

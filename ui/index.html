@@ -26,10 +26,10 @@
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Public API</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" target="_blank" href="/ui/public-api/dev/event-list?sport=soccer&date=20201126">DEV</a>
-						<a class="dropdown-item" target="_blank" href="/ui/public-api/test/event-list?sport=soccer&date=20201126">TEST</a>
-						<a class="dropdown-item" target="_blank" href="/ui/public-api/preprod/event-list?sport=soccer&date=20201126">PREPROD</a>
-						<a class="dropdown-item" target="_blank" href="/ui/public-api/prod/event-list?sport=soccer&date=20201126">PROD</a>
+						<a data-type="public-api-daily-link" class="dropdown-item" target="_blank" href="/ui/public-api/dev/event-list?sport=soccer&date={date}">DEV</a>
+						<a data-type="public-api-daily-link" class="dropdown-item" target="_blank" href="/ui/public-api/test/event-list?sport=soccer&date={date}">TEST</a>
+						<a data-type="public-api-daily-link" class="dropdown-item" target="_blank" href="/ui/public-api/preprod/event-list?sport=soccer&date={date}">PREPROD</a>
+						<a data-type="public-api-daily-link" class="dropdown-item" target="_blank" href="/ui/public-api/prod/event-list?sport=soccer&date={date}">PROD</a>
 					</div>
 				</li>
             </ul>
@@ -159,5 +159,16 @@
 
 		<script src="/ui/js/differ.js"></script>
 		<script type="module" src="/ui/js/main.js"></script>
+		<script>
+			function ISODateToLSFormat(date){
+				var yyyy = date.getFullYear();
+				var mm = (date.getMonth() < 10) ? "0" + date.getMonth() + 1 : date.getMonth() + 1;
+				var dd = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
+				return yyyy.toString() + mm.toString() + dd.toString();
+			}
+			$("a[data-type='public-api-daily-link']").each((k,v) => {
+				v.href = v.href.replace('{date}', ISODateToLSFormat(new Date()))
+			})
+		</script>
 	</body>
 </html>

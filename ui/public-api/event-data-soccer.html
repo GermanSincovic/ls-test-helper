@@ -1,4 +1,4 @@
-<div class="row m-2 justify-content-center">
+<div class="row m-2 justify-content-center event-header">
     <div>
         <span title="Stg.Cnm" class="h3">{{data.Stg.Cnm}}</span>
         <span title="Stg.Cid"><small class="text-muted">({{data.Stg.Cid}})</small></span> /
@@ -6,7 +6,7 @@
         <span title="Stg.Sid"><small class="text-muted">({{data.Stg.Sid}})</small></span>
     </div>
 </div>
-<div class="row m-2 justify-content-center">
+<div class="row m-2 justify-content-center event-header">
     <div>
         <b>
             <span data-type='startdatetime' data-value="{{data.Esd}}"></span>,
@@ -14,3 +14,8 @@
         </b>
     </div>
 </div>
+
+<script>
+    window.api_data = {{data|tojson}};
+    window.api_config = {{url_config|tojson}};
+</script>

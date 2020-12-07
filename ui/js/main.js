@@ -28,3 +28,4 @@ $("#kafka-producer-form").on("submit", function(){
 new Repeater( () => {RM.getFiles()}, 5000 );
 
 new TabMemoriser("#pills-tab", "last-nav-tab");
+

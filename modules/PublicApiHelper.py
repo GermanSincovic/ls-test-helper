@@ -40,25 +40,36 @@ def get_public_api_data_daily(environment, sport, date):
     mapping_template = requests.get(config[environment]['mapping-template-base-url'] + mapping_template_entry).json()["featureProviders"]
     full_daily = {"Stages": []}
     for stage in daily["Stages"]:
+        stage["_LC"] = 0
+        for event in stage["Events"]:
+            if event["Epr"] == 1:
+                stage["_LC"] += 1
         stage["_FP"] = {}
         stage["_FP"].update(find_priority_rules(mapping_template, get_sport_id_by_name(sport), int(stage["Sid"])))
         full_daily["Stages"].append(stage)
     return full_daily
 
 
-def get_public_api_data_event(environment, sport, id):
+def get_public_api_live_count(environment):
     config = get_url_config()
-    public_api_event_pattern = config[environment]['public-api-base-url'] + config[environment]['public-api-event']
-    public_api_event_link = public_api_event_pattern.format(sport=sport, event_id=id)
+    public_api_live_count_link = config[environment]['public-api-base-url'] + config[environment]['public-api-live-counter']
+    live_count = requests.get(public_api_live_count_link).json()
+    return live_count, 200
+
+
+def get_public_api_data_event(environment, sport, id, pid):
+    config = get_url_config()
+    public_api_event_pattern = config[environment]['public-api-base-url'] + config[environment]['public-api-event'] + "?pid={pid}"
+    public_api_event_link = public_api_event_pattern.format(sport=sport, event_id=id, pid=pid)
 
     # v1/api/app/match/{sport}/{event_id}/2.0
     return requests.get(public_api_event_link).json()
 
 
-def get_public_api_data(environment, feed, sport, date=None, id=None):
+def get_public_api_data(environment, feed, sport, date=None, id=None, pid=None):
     if feed == 'event-list' and sport and date:
         return get_public_api_data_daily(environment, sport, date), 200
-    elif feed == 'event' and sport and id:
-        return get_public_api_data_event(environment, sport, id), 200
+    elif feed == 'event' and sport and id and pid:
+        return get_public_api_data_event(environment, sport, id, pid), 200
     else:
         return "Bad request", 400

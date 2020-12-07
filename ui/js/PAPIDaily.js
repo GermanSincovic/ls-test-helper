@@ -1,5 +1,3 @@
-import {ToggleSpinner} from './ToggleSpinner.js'
-
 export function PAPIDaily(data){
 
     this.LSDateGetYear = function(ls_date){
@@ -27,96 +25,36 @@ export function PAPIDaily(data){
     }
 
     this.getEventStartDateCol = function(esd){
-        return "<td style='vertical-align: middle;'>" + this.LSDateGetHours(esd) + ":" + this.LSDateGetMinutes(esd) + "</td>";
+        return this.LSDateGetHours(esd) + ":" + this.LSDateGetMinutes(esd);
     }
 
-    this.getEventStatusText = function(eps){
-        return "<td style='vertical-align: middle;'>" + eps + "</td>"
+    $("#event-list-table").html(data);
+    var tds = $("[data-type='startdatetime']");
+    for(var i = 0; i < tds.length; i++){
+        tds[i].innerText = this.getEventStartDateCol(tds[i].dataset.value)
     }
-
-    this.getEventParticipant = function(t, side){
-        var align = "";
-        var data = "";
-        if(side == "left"){ align = "right"; }
-        if(side == "right"){ align = "left"; }
-        for (var i = 0; i < t.length; i++){
-            var badge_link = (t[i].Img) ? static_url + t[i].Img : "/ui/img/no_badge.png";
-            if(side == "left"){
-                data += "<div>" + t[i].Nm + " <small class='text-muted'>(" + t[i].ID + ")<img loading='lazy' width='30' height='30' src='" + badge_link + "'></small></div>";
-            }
-            if(side == "right"){
-                data += "<div><img loading='lazy' width='30' height='30' src='" + badge_link + "'><small class='text-muted'>(" + t[i].ID +")</small> " + t[i].Nm + "</div>"
-            }
+    $("small[data-type='event-link']").each((k, v) => {
+        var composite_id = v.innerHTML;
+        var provider_id = composite_id.split('-')[0];
+        var event_id = composite_id.split('-')[1];
+//        http://10.5.106.105/ui/public-api/dev/event?sport=horses&id=334417
+//        https://livescore-dev-api.dev-i.net/ui/#/ice_hockey/match/8-273741
+        if(provider_id != "8"){
+            v.innerHTML = '<a target="_blank" href="' + api_config['public-api-base-url']
+            + api_config['public-api-test-ui-event']
+                .replace('{sport}', (location.sport=="hockey")?"ice_hockey":location.sport)
+                .replace('{composite_id}', composite_id)
+            + '">' + composite_id + '</a>'
+        } else{
+            v.innerHTML = '<a target="_blank" href="' + location.origin
+            + '/ui/public-api/' + location.environment + '/event'
+            + '?sport=' + location.sport
+            + '&pid=' + provider_id
+            + '&id=' + event_id
+            + '">' + composite_id + '</a>'
         }
-        return "<td align='" + align + "' style='vertical-align: middle;'>" + data + "</td>";
-    }
+    });
 
-    this.getEventProviderIDs = function(pids){
-        var data = '<td>';
-        for(var k in pids) {
-            var composite_id = k + "-" + pids[k];
-            var link = api_config['public-api-base-url'] + api_config['public-api-test-ui-event'];
-                link = link.replace('{sport}', location.sport);
-                link = link.replace('{composite_id}', composite_id);
-           data += "<div><a target='_blank' href='" + link + "'><small>" + composite_id + "</small></a></div>";
-        }
-        data += '</td>';
-        return data;
-    }
-
-    this.getEventScore = function(e){
-        return "<td align='center' style='vertical-align: middle;'>" + (e.Tr1OR || "?") + " - " + (e.Tr2OR || "?") + "</td>";
-    }
-
-    data = data.Stages;
-    var table = $("#event-list-table");
-    var cur_table_body = $("#event-list-table")[0].firstElementChild;
-    var new_table_body = document.createElement("tbody");
-
-    var static_url = window.api_config["static-data-base-url"] + "/low/";
-
-    data.forEach(stage => {
-        var stage_live_count = 0;
-        var fp_tmp = [];
-        stage.Events.forEach(event => {
-            if(event.Epr == "1" || event.Epr == 1){
-                stage_live_count++;
-            }
-        });
-        for(var k in api_data.Stages[0]._FP) {
-           fp_tmp.push(k + " : " + api_data.Stages[0]._FP[k]);
-        }
-        var fp = fp_tmp.join("</br>");
-        new_table_body.innerHTML +=
-            "<tr data-type='stage' data-live-count='" + stage_live_count + "'>" +
-                "<td colspan='6'>" +
-                    "<div class='d-flex justify-content-between'>" +
-                        "<div>" +
-                            "<b>" + stage.Cnm + "</b> " +
-                            "<small class='text-muted'>(" + stage.Cid + ")</small> " +
-                            "<b>/ " + stage.Snm + "</b> " +
-                            "<small class='text-muted'>(" + stage.Sid + ")</small> " +
-                        "</div>" +
-                        "<div>" +
-                            "<button type='button' class='btn btn-secondary' data-toggle='tooltip' data-placement='left' data-html='true' title='" + fp + "'>FP</button>" +
-                        "</div>" +
-                    "</div>" +
-                "</td>" +
-            "</tr>";
-        stage.Events.forEach(event => {
-            new_table_body.innerHTML +=
-                "<tr data-type='event' data-epr='" + event.Epr + "'>"
-                    + this.getEventStartDateCol(event.Esd)
-                    + this.getEventStatusText(event.Eps)
-                    + this.getEventProviderIDs(event.Pids)
-                    + this.getEventParticipant(event.T1, "left")
-                    + this.getEventScore(event)
-                    + this.getEventParticipant(event.T2, "right")
-                + "</tr>";
-        })
-    })
-    cur_table_body.remove();
-    table.append(new_table_body);
     if($("#live-only button")[0].attributes['aria-pressed'].value == "true"){
         toggleLiveEvents();
     }

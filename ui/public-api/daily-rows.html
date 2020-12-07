@@ -1,0 +1,83 @@
+<tbody>
+    {% for stage in data.Stages %}
+        <tr data-type='stage' data-live-count='{{stage._LC}}'>
+            <td colspan='99'>
+                <div class='d-flex justify-content-between'>
+                    <div>
+                        <b>{{stage.Cnm}}</b>
+                        <small class='text-muted'>({{stage.Cid}})</small> /
+                        <b>{{stage.Snm}}</b>
+                        <small class='text-muted'>({{stage.Sid}})</small>
+                    </div>
+                    <div class="btn-group dropleft">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">FP</button>
+                        <div class="dropdown-menu">
+                            {% for k, v in stage._FP.items() %}<small class="dropdown-item">{{k}} : {{v}}</small>{% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% for event in stage.Events %}
+            <tr data-type='event' data-epr='{{event.Epr}}'>
+                <td data-type='startdatetime' data-value="{{event.Esd}}" style='vertical-align: middle;'></td>
+                <td style='vertical-align: middle;'>{{event.Eps}}</td>
+                <td style='vertical-align: middle;'>{% for k,v in event.Pids.items() %}<div><small data-type="event-link">{{k}}-{{v}}</small></div>{% endfor %}</td>
+                {% if event.Spid != 31%}
+                    <td align='right' style='vertical-align: middle;'>
+                        {% for t in event.T1 %}
+                            <div>
+                                <span>{{t.Nm}}</span>
+                                <span>
+                                    <small class='text-muted'> ({{t.ID}})</small>
+                                </span>
+                                {% if t.Img %}
+                                    <img loading='lazy' width='30' height='30' src='{{url_config["static-data-base-url"]}}/low/{{t.Img}}'>
+                                {% else %}
+                                    <img loading='lazy' width='30' height='30' src='/ui/img/no_badge.png'>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </td>
+                    <td align='center' style='vertical-align: middle;'>
+                        <span>{% if event.Tr1OR %} {{event.Tr1OR}} {% else %}?{% endif %}</span>
+                        <span> - </span>
+                        <span>{% if event.Tr2OR %}{{event.Tr2OR}}{% else %}?{% endif %}</span>
+                    </td>
+                    <td align='left' style='vertical-align: middle;'>
+                        {% for t in event.T2 %}
+                            <div>
+                                {% if t.Img %}
+                                    <img loading='lazy' width='30' height='30' src='{{url_config["static-data-base-url"]}}/low/{{t.Img}}'>
+                                {% else %}
+                                    <img loading='lazy' width='30' height='30' src='/ui/img/no_badge.png'>
+                                {% endif %}
+                                <span>
+                                    <small class='text-muted'> ({{t.ID}})</small>
+                                </span>
+                                <span>{{t.Nm}}</span>
+                            </div>
+                        {% endfor %}
+                    </td>
+                {% else %}
+                    <td style='vertical-align: middle;'>
+                        {% if event.Ps[0].FiPos %}
+                            <div><b>{{event.Ps[0].FiPos}}st - {{event.Ps[0].Nm}}</b></div>
+                            <div>{{event.Ps[1].FiPos}}nd - {{event.Ps[1].Nm}}</div>
+                            <div>{{event.Ps[2].FiPos}}rd - {{event.Ps[2].Nm}}</div>
+                        {% else %}
+                            <div>?</div>
+                        {% endif %}
+                    </td>
+                    <td style='vertical-align: middle;'>Runners: {{event.Ps|length}}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    {% endfor %}
+</tbody>
+
+<script>
+    window.api_data = {{data|tojson}};
+    window.api_config = {{url_config|tojson}};
+</script>

@@ -113,3 +113,7 @@ button[aria-pressed="false"]{
 img{
     background-color: transparent;
 }
+
+.event-header{
+    background: linear-gradient(0.25turn, #fff, #ccc, #fff);
+}

@@ -4,6 +4,7 @@ import {LoggerPanel} from './LoggerPanel.js'
 import {Comparator} from './Comparator.js'
 import {MessageHandler} from './MessageHandler.js'
 import {ToggleSpinner} from './ToggleSpinner.js'
+import {PAPILiveCount} from './PAPILiveCount.js'
 import {PAPIDaily} from './PAPIDaily.js'
 import {PAPIEvent} from './PAPIEvent.js'
 
@@ -158,17 +159,20 @@ export function RequestManager(){
 
     }
 
+    this.getPublicAPILiveCount = function(link){
+        $.ajax({
+            url: link,
+            success: function(res){
+                new PAPILiveCount(res.message);
+            }
+        })
+    }
+
     this.getPublicAPIDaily = function(link){
         $.ajax({
             url: link,
             success: function(res){
-                if(JSON.stringify(window.api_data) != JSON.stringify(res.message)){
-                    window.api_data = res.message;
-                    new PAPIDaily(res.message);
-                    console.log(new Date() + ". 'api_data' has been changed. Rendering...");
-                } else {
-                    window.api_data = res.message;
-                }
+                new PAPIDaily(res);
             },
             error: function(res){
                 MessageHandler("<b>ERROR</b>: Can't get API data");
@@ -180,12 +184,7 @@ export function RequestManager(){
         $.ajax({
             url: link,
             success: function(res){
-                if(window.api_data != res.message.stringify()){
-                    window.api_data = res.message;
-                    new PAPIEvent(res.message);
-                } else {
-                    window.api_data = res.message;
-                }
+                new PAPIEvent(res);
             },
             error: function(){
                 MessageHandler("<b>ERROR</b>: Can't get API data");

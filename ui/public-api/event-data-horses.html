@@ -1,0 +1,56 @@
+<div class="row m-2 justify-content-center event-header">
+    <div>
+        <span title="Stg.Cnm" class="h3">{{data.Stg.Cnm}}</span>
+        <span title="Stg.Cid"><small class="text-muted">({{data.Stg.Cid}})</small></span> /
+        <span title="Stg.Snm" class="h3">{{data.Stg.Snm}}</span>
+        <span title="Stg.Sid"><small class="text-muted">({{data.Stg.Sid}})</small></span>
+    </div>
+</div>
+<div class="row m-2 justify-content-center event-header">
+    <div>
+        <b>
+            <span data-type='startdatetime' data-value="{{data.Esd}}"></span>,
+            <span title="Eps">{{data.Eps}}</span>
+        </b>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col">
+        <div>
+            <div title="RaDis"><b>Distance:</b> {{data.RaDis}}</div>
+            <div title="RaGa"><b>Gait:</b> {{data.RaGa}}</div>
+            <div title="TrCon"><b>Track cond.:</b> {{data.TrCon}}</div>
+            <div title="Eps"><b>Runners:</b> {{data.Ps|length}}</div>
+        </div>
+    </div>
+    <div class="col">
+        <ul class="list-group">
+            {% for el in data.Ps %}
+                <li class="list-group-item">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-1">
+                                <div title="FiPos"><b>#{{el.FiPos}}</b></div>
+                            </div>
+                            <div class="col-7">
+                                <div>
+                                    <span title="Nm">{{el.Nm}}</span>
+                                    <span class="text-muted" title="ID">({{el.ID}})</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div title="Jo">J: {{el.Jo}}</div>
+                                <div title="Tr">T: {{el.Tr}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+    window.api_data = {{data|tojson}};
+    window.api_config = {{url_config|tojson}};
+</script>

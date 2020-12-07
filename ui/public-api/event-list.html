@@ -15,11 +15,8 @@
             <div class="row">
                 <div class="col-9">
                     <h3 data-type="header"></h3>
-                    </br>
+                    <br>
                     <table id="event-list-table" class="table table-bordered table-sm">
-                        <tbody>
-
-                        </tbody>
                     </table>
                 </div>
                 <div class="col-3 sticky">
@@ -28,37 +25,37 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="sport" id="soccer" value="soccer" onclick="chooseSport(this.value)">
                                 <label class="form-check-label" for="soccer">
-                                Soccer
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="sport" id="basketball" value="basketball" onclick="chooseSport(this.value)">
-                                <label class="form-check-label" for="basketball">
-                                Basketball
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="sport" id="tennis" value="tennis" onclick="chooseSport(this.value)">
-                                <label class="form-check-label" for="tennis">
-                                Tennis
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="sport" id="hockey" value="hockey" onclick="chooseSport(this.value)">
-                                <label class="form-check-label" for="hockey">
-                                Ice hockey
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="sport" id="cricket" value="cricket" onclick="chooseSport(this.value)">
-                                <label class="form-check-label" for="cricket">
-                                Cricket
+                                    Soccer <span data-sport-id="1" data-type="live-counter" class="badge badge-warning"></span>
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="sport" id="horses" value="horses" onclick="chooseSport(this.value)">
                                 <label class="form-check-label" for="horses">
-                                Horse racing
+                                    Horse racing <span data-sport-id="31" data-type="live-counter" class="badge badge-warning"></span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sport" id="hockey" value="hockey" onclick="chooseSport(this.value)">
+                                <label class="form-check-label" for="hockey">
+                                    Hockey <span data-sport-id="5" data-type="live-counter" class="badge badge-warning"></span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sport" id="basketball" value="basketball" onclick="chooseSport(this.value)">
+                                <label class="form-check-label" for="basketball">
+                                Basketball <span data-sport-id="23" data-type="live-counter" class="badge badge-warning"></span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sport" id="tennis" value="tennis" onclick="chooseSport(this.value)">
+                                <label class="form-check-label" for="tennis">
+                                Tennis <span data-sport-id="2" data-type="live-counter" class="badge badge-warning"></span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="sport" id="cricket" value="cricket" onclick="chooseSport(this.value)">
+                                <label class="form-check-label" for="cricket">
+                                Cricket <span data-sport-id="73" data-type="live-counter" class="badge badge-warning"></span>
                                 </label>
                             </div>
                         </div>
@@ -72,6 +69,15 @@
                 </div>
             </div>
         </div>
+
+        <!-- MESSAGE CONTAINER -->
+		<div id="message_wrapper">
+			<div class="container">
+				<div id="message_container" class="col">
+				</div>
+			</div>
+		</div>
+
         <script type="application/javascript">
             $( document ).ready(function() {
                 $("[data-type='header']").text(location.environment.toUpperCase() + " / " + location.sport.toUpperCase() + " / " + location.date);

@@ -1,4 +1,3 @@
-import json
 import os
 
 from flask import Flask, request, Response, render_template
@@ -36,7 +35,32 @@ def get_public_api_ui_env_feed(environment, feed):
     if MAINTENANCE:
         return render_template('maintenance.html')
     else:
-        return render_template('public-api/' + feed + '.html')
+        if feed == 'event-list':
+            if not request.args.get("update"):
+                return render_template('public-api/event-list.html')
+            else:
+                return render_template('public-api/daily-rows.html',
+                                       data=PublicApiHelper.get_public_api_data(
+                                           environment=environment,
+                                           feed=feed,
+                                           sport=request.args.get("sport"),
+                                           date=request.args.get("date"),
+                                           pid=request.args.get("pid"),
+                                           id=request.args.get("id")
+                                       )[0], url_config=FileManager.get_url_mapping_config()[environment])
+        if feed == 'event':
+            if not request.args.get("update"):
+                return render_template('public-api/event.html')
+            else:
+                return render_template('public-api/event-data-' + request.args.get("sport") + '.html',
+                                       data=PublicApiHelper.get_public_api_data(
+                                           environment=environment,
+                                           feed=feed,
+                                           sport=request.args.get("sport"),
+                                           date=request.args.get("date"),
+                                           pid=request.args.get("pid"),
+                                           id=request.args.get("id")
+                                       )[0], url_config=FileManager.get_url_mapping_config()[environment])
 
 
 @app.route('/public-api/<string:environment>/<string:feed>', methods=['GET'])
@@ -49,9 +73,17 @@ def get_public_api_env_feed(environment, feed):
             feed=feed,
             sport=request.args.get("sport"),
             date=request.args.get("date"),
+            pid=request.args.get("pid"),
             id=request.args.get("id")
         )
     )
+
+
+@app.route('/public-api/<string:environment>/live/count', methods=['GET'])
+def get_public_api_env_live_count(environment):
+    if environment not in ['dev', 'test', 'preprod', 'prod']:
+        return Resp.throw_error(400)
+    return Resp.get_response(PublicApiHelper.get_public_api_live_count(environment))
 
 
 @app.route('/health-page', methods=['GET'])

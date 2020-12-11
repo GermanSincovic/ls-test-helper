@@ -117,3 +117,12 @@ img{
 .event-header{
     background: linear-gradient(0.25turn, #fff, #ccc, #fff);
 }
+
+.event-element-header{
+    background: linear-gradient(0.25turn, #fff, #ccc, #fff);
+    text-align: center;
+}
+
+*[data-type="commentary"][data-highlighted="true"]{
+    font-weight: bold;
+}

@@ -1,5 +1,6 @@
 import {RequestManager} from './RequestManager.js'
 import {Repeater} from './Repeater.js'
+import {CalendarInit} from './CalendarInit.js'
 
 var urlPathParameters = location.pathname.split("/");
 var urlGetParameters = new URLSearchParams(window.location.search);
@@ -54,7 +55,7 @@ const RM = new RequestManager();
         RM.getPublicAPIDaily(data_update_link);
         RM.getPublicAPILiveCount(live_count_link);
         $("#" + location.sport).prop('checked', true);
-        $("#calendar-picker").val(location.date);
+        CalendarInit();
         new Repeater( () => {
             RM.getPublicAPIDaily(data_update_link);
             RM.getPublicAPILiveCount(live_count_link);

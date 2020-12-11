@@ -16,40 +16,55 @@
 </div>
 <div class="row mt-5">
     <div class="col">
-        <div>
-            <div title="RaDis"><b>Distance:</b> {{data.RaDis}}</div>
-            <div title="RaGa"><b>Gait:</b> {{data.RaGa}}</div>
-            <div title="TrCon"><b>Track cond.:</b> {{data.TrCon}}</div>
-            <div title="Eps"><b>Runners:</b> {{data.Ps|length}}</div>
+        <div class="shadow rounded my-2">
+            <div class="row">
+                <div class="col h4 mx-3 p-2 event-element-header"><h3>Race options</h3></div>
+            </div>
+            <div title="RaDis" class="row mx-5 justify-content-between">
+                <span class="col-6 text-right">Distance:</span>
+                <span class="col-6 text-left">{{data.RaDis}}</span>
+            </div>
+            <div title="RaGa" class="row mx-5 justify-content-between">
+                <span class="col-6 text-right">Gait:</span>
+                <span class="col-6 text-left">{{data.RaGa}}</span>
+            </div>
+            <div title="TrCon" class="row mx-5 justify-content-between">
+                <span class="col-6 text-right">Track condition:</span>
+                <span class="col-6 text-left">{{data.TrCon}}</span>
+            </div>
+            <div class="row mx-5 justify-content-between">
+                <span class="col-6 text-right">Runners:</span>
+                <span class="col-6 text-left">{{data.Ps|length}}</span>
+            </div>
         </div>
     </div>
     <div class="col">
-        <ul class="list-group">
+        <div class="shadow rounded my-2">
+            <div class="row">
+                <div class="col h4 mx-3 p-2 event-element-header"><h3>Race participants</h3></div>
+            </div>
             {% for el in data.Ps %}
-                <li class="list-group-item">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-1">
-                                <div title="FiPos"><b>#{{el.FiPos}}</b></div>
-                            </div>
-                            <div class="col-7">
-                                <div>
-                                    <span title="Nm">{{el.Nm}}</span>
-                                    <span class="text-muted" title="ID">({{el.ID}})</span>
-                                </div>
-                                <div>
-                                    Horse status: {{el.HoSt}}
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div title="Jo">J: {{el.Jo}}</div>
-                                <div title="Tr">T: {{el.Tr}}</div>
-                            </div>
+                <div class="row p-2">
+                    <div class="col-1 d-flex justify-content-center" title="Ps[].FiPos">
+                        <b>#{{el.FiPos}}</b>
+                    </div>
+                    <div class="col-6">
+                        <div>
+                            <span title="Ps[].Nm">{{el.Nm}}</span>
+                            <span class="text-muted" title="Ps[].ID">({{el.ID}})</span>
+                        </div>
+                        <div title="Ps[].HoSt">
+                            Horse status: {{el.HoSt}}
                         </div>
                     </div>
-                </li>
+                    <div class="col-5">
+                        <div title="Ps[].Jo">J: {{el.Jo}}</div>
+                        <div title="Ps[].Tr">T: {{el.Tr}}</div>
+                    </div>
+                </div>
+                <div class="dropdown-divider"></div>
             {% endfor %}
-        </ul>
+        </div>
     </div>
 </div>
 

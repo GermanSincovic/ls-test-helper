@@ -1,0 +1,86 @@
+<div class="shadow rounded py-2">
+<!--            <span>Scores / Venue / Incidents</span>-->
+    <div class="row">
+        <div class="col h4 mx-3 p-2 event-element-header"><h3>Scores</h3></div>
+    </div>
+    {% if data.Trh1 and data.Trh2 %}
+        <div title="Trh1, Trh2" class="row mx-5 justify-content-between">
+            <span class="col-6 text-center">Half-time:</span>
+            <span class="col-6 text-center">{{data.Trh1}} - {{data.Trh2}}</span>
+        </div>
+    {% endif %}
+    {% for n in [1,2,3] %}
+        {% if data['Tr1Pe' + n|string] and data['Tr2Pe' + n|string] %}
+            <div title="Tr1Pe{{n}}, Tr2Pe{{n}}" class="row mx-5 justify-content-between">
+                <span class="col-6 text-center">Period {{n}} score:</span>
+                <span class="col-6 text-center">{{data['Tr1Pe' + n|string]}} - {{data['Tr2Pe' + n|string]}}</span>
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% for n in [1,2,3,4] %}
+        {% if data['Tr1Q' + n|string] and data['Tr2Q' + n|string] %}
+            <div title="Tr1Q{{n}}, Tr2Q{{n}}" class="row mx-5 justify-content-between">
+                <span class="col-6 text-center">Quarter {{n}} score:</span>
+                <span class="col-6 text-center">{{data['Tr1Q' + n|string]}} - {{data['Tr2Q' + n|string]}}</span>
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if data.Tr1OR and data.Tr2OR %}
+        <div title="Tr1OR, Tr2OR" class="row mx-5 justify-content-between">
+            <span class="col-6 text-center">Ordinary time:</span>
+            <span class="col-6 text-center">{{data.Tr1OR}} - {{data.Tr2OR}}</span>
+        </div>
+    {% endif %}
+    {% for n in [1,2,3,4,5] %}
+        {% if data['Tr1S' + n|string] and data['Tr2S' + n|string] %}
+            <div title="Tr1S{{n}}, Tr2S{{n}}" class="row mx-5 justify-content-between">
+                <span class="col-6 text-center">Set {{n}} score:</span>
+                <span class="col-6 text-center">{{data['Tr1S' + n|string]}}<sup>{{data['Tr1S' + n|string + 'T']}}</sup> - {{data['Tr2S' + n|string]}}<sup>{{data['Tr2S' + n|string + 'T']}}</sup></span>
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if data.Tr1ET and data.Tr2ET %}
+        <div title="Tr1ET, Tr2ET" class="row mx-5 justify-content-between">
+            <span class="col-6 text-center">Extra-time:</span>
+            <span class="col-6 text-center">{{data.Tr1ET}} - {{data.Tr2ET}}</span>
+        </div>
+    {% endif %}
+    {% if data.Tr1OT and data.Tr2OT %}
+        <div title="Tr1OT, Tr2OT" class="row mx-5 justify-content-between">
+            <span class="col-6 text-center">Overtime:</span>
+            <span class="col-6 text-center">{{data.Tr1OT}} - {{data.Tr2OT}}</span>
+        </div>
+    {% endif %}
+    {% if data.Trp1 and data.Trp2 %}
+        <div title="Trp1, Trp2" class="row mx-5 justify-content-between">
+            <span class="col-6 text-center">Penalty shoot-out:</span>
+            <span class="col-6 text-center">{{data.Trp1}} - {{data.Trp2}}</span>
+        </div>
+    {% endif %}
+    {% if data.Tr1 and data.Tr2 %}
+        <div title="Tr1, Tr2" class="row mx-5 justify-content-between">
+            <span class="col-6 text-center">Main score:</span>
+            <span class="col-6 text-center">{{data.Tr1}} - {{data.Tr2}}</span>
+        </div>
+    {% endif %}
+    {% if data.seriesInfo %}
+        {% if data.seriesInfo.aggScoreTeam1 and data.seriesInfo.aggScoreTeam2 %}
+            <div title="seriesInfo.aggScoreTeam1, seriesInfo.aggScoreTeam2" class="row mx-5 justify-content-between">
+                <span class="col-6 text-center">Aggregate score:</span>
+                <span class="col-6 text-center">{{data.seriesInfo.aggScoreTeam1}} - {{data.seriesInfo.aggScoreTeam2}}</span>
+            </div>
+        {% endif %}
+        {% if data.seriesInfo.currentLeg %}
+            <div title="seriesInfo.currentLeg" class="row mx-5 justify-content-between">
+                <span class="col-6 text-center">Current leg:</span>
+                <span class="col-6 text-center">{{data.seriesInfo.currentLeg}}</span>
+            </div>
+        {% endif %}
+        {% if data.seriesInfo.totalLegs %}
+            <div title="seriesInfo.totalLegs" class="row mx-5 justify-content-between">
+                <span class="col-6 text-center">Total legs:</span>
+                <span class="col-6 text-center">{{data.seriesInfo.totalLegs}}</span>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>

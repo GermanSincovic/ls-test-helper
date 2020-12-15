@@ -1,0 +1,31 @@
+<div class="row mx-5 justify-content-center event-header text-center">
+    <div class="col-1">
+        {% if data.T1[0].Img %}
+            <img title="T1[0].Img" src="{{url_config['static-data-base-url']}}/low/{{data.T1[0].Img}}">
+        {% else %}
+            <img title="T1[0].Img" src="/ui/img/no_badge.png">
+        {% endif %}
+    </div>
+    <div class="col-2">
+        <span>
+            <span title="T1[0].ID"><small class="text-muted">({{data.T1[0].ID}})</small></span><br>
+            <strong><span title="T1[0].Nm">{{data.T1[0].Nm}}</span></strong>
+        </span>
+    </div>
+    <div class="col-1 d-flex py-4 justify-content-around align-middle">
+        <span title="Tr1">{{data.Tr1}}</span>
+        <span> - </span>
+        <span title="Tr2">{{data.Tr2}}</span>
+    </div>
+    <div class="col-2">
+        <span title="T2[0].ID"><small class="text-muted">({{data.T2[0].ID}})</small></span><br>
+        <strong><span title="T2[0].Nm"> {{data.T2[0].Nm}}</span></strong>
+    </div>
+    <div class="col-1">
+        {% if data.T2[0].Img %}
+            <img title="T2[0].Img" src="{{url_config['static-data-base-url']}}/low/{{data.T2[0].Img}}">
+        {% else %}
+            <img title="T2[0].Img" src="/ui/img/no_badge.png">
+        {% endif %}
+    </div>
+</div>

@@ -1,42 +1,6 @@
-<div class="row m-2 justify-content-center event-header text-center">
-    <div class="col-4">
-        <span title="Stg.Cnm" class="h3">{{data.Stg.Cnm}}</span>
-        <span title="Stg.Cid"><small class="text-muted">({{data.Stg.Cid}})</small></span> /
-        <span title="Stg.Snm" class="h3">{{data.Stg.Snm}}</span>
-        <span title="Stg.Sid"><small class="text-muted">({{data.Stg.Sid}})</small></span>
-    </div>
-</div>
-<div class="row mx-5 justify-content-center event-header text-center">
-    <div class="col-1">
-        <img title="T1[0].Img" src="{{url_config['static-data-base-url']}}/low/{{data.T1[0].Img}}">
-    </div>
-    <div class="col-2">
-        <span>
-            <span title="T1[0].ID"><small class="text-muted">({{data.T1[0].ID}})</small></span><br>
-            <strong><span title="T1[0].Nm">{{data.T1[0].Nm}}</span></strong>
-        </span>
-    </div>
-    <div class="col-1 d-flex py-4 justify-content-around align-middle">
-        <span title="Tr1OR">{{data.Tr1OR}}</span>
-        <span> - </span>
-        <span title="Tr2OR">{{data.Tr2OR}}</span>
-    </div>
-    <div class="col-2">
-        <span title="T2[0].ID"><small class="text-muted">({{data.T2[0].ID}})</small></span><br>
-        <strong><span title="T2[0].Nm"> {{data.T2[0].Nm}}</span></strong>
-    </div>
-    <div class="col-1">
-        <img title="T2[0].Img" src="{{url_config['static-data-base-url']}}/low/{{data.T2[0].Img}}">
-    </div>
-</div>
-<div class="row m-2 justify-content-center event-header text-center">
-    <div class="col-4 justify-content-between">
-        <b>
-            <span title="Esd" data-type='startdatetime' data-value="{{data.Esd}}"></span>,
-            <span title="Eps">{{data.Eps}}</span>
-        </b>
-    </div>
-</div>
+{% include '/public-api/event-data-tpl-header-stage.html' %}
+{% include '/public-api/event-data-tpl-header-main-data.html' %}
+{% include '/public-api/event-data-tpl-header-status.html' %}
 
 <div class="row mt-3 mx-2">
     <div class="col">

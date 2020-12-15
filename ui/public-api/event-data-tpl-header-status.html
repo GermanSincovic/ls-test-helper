@@ -1,0 +1,12 @@
+<div class="row m-2 justify-content-center event-header text-center">
+    <div class="col-4 justify-content-between">
+        <b>
+            <span title="Esd" data-type='startdatetime' data-value="{{data.Esd}}"></span>,
+            {% if data.Eps %}
+                <span title="Eps">{{data.Eps}}</span>
+            {% else %}
+                <span title="EpsL">{{data.EpsL}}</span>
+            {% endif %}
+        </b>
+    </div>
+</div>

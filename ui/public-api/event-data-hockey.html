@@ -15,21 +15,7 @@
         {% include '/public-api/event-data-tpl-scores.html' %}
     </div>
     <div class="col">
-        <div class="shadow rounded py-2">
-            {% if data.Com %}
-                <div class="row">
-                    <div class="col h4 mx-3 p-2 event-element-header"><h3>Commentaries</h3></div>
-                </div>
-                {% for com in data.Com %}
-                    <div class="row p-2" data-type="commentary" data-highlighted="{% if com.IT %}true{% else %}false{% endif %}">
-                        <div class="col-1">{{com.Min}}{% if com.MinEx %}+{{com.MinEx}}{% endif %}</div>
-                        <div class="col-11">{{com.Txt}}</div>
-                    </div>
-                    <div class="dropdown-divider"></div>
-                {% endfor %}
-            {% endif %}
-        </div>
-
+        {% include '/public-api/event-data-tpl-commentaries.html' %}
     </div>
 </div>
 

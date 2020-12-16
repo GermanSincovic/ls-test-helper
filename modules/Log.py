@@ -9,7 +9,7 @@ filepath = os.path.join(BASE_FOLDER, "logs")
 
 
 class LiveScoreRotatingFileHandler(logging.handlers.RotatingFileHandler):
-    def __init__(self, basedir, log_file_name, max_bytes=500 * 1024, backup_count=10):
+    def __init__(self, basedir, log_file_name, max_bytes=100 * 1024 * 1024, backup_count=10):
         self.current_part_ = 'current'
         self.extension_ = 'log'
 

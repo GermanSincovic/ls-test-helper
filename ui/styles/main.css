@@ -128,6 +128,17 @@ img{
 }
 
 .incident-icon{
-    width: 0.75em;
-    height: 0.75em;
+    width: 14px;
+    height: 14px;
+    margin: 5px;
+    float: left;
+    background: url(/ui/img/incidents/sprite_v2.1.png) no-repeat;
 }
+
+.incident-icon[data-incident-type="4"]{
+    background-position: 0 -497px;
+}
+.incident-icon[data-incident-type="5"]{
+    background-position: 0 -515px;
+}
+

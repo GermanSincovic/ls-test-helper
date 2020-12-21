@@ -9,8 +9,9 @@
                     {% for h in data.Subs %}
                         {% for SUBS in data.Subs[h] %}
                             <div title="Subs[][].Min" class="col-2">{{ SUBS.Min }}'</div>
-                            <div title="Subs[][].IT" class="col-1" data-incident-type="{{ SUBS.IT }}"><img class="incident-icon" src="/ui/img/incidents/{{ SUBS.IT }}.png"></div>
-                            <div title="Subs[][].Pn" class="col-9">{{ SUBS.Pn }}<small class="text-muted" title="Subs[][].ID"> ({{ SUBS.ID }})</small></div>
+                            <div title="Subs[][].Pn" class="col-10">
+                                <div title="Subs[][].IT" class="incident-icon" data-incident-type="{{ SUBS.IT }}"></div>{{ SUBS.Pn }}<small class="text-muted" title="Subs[][].ID"> ({{ SUBS.ID }})</small>
+                            </div>
                         {% endfor %}
                     {% endfor %}
                 </div>

@@ -1,0 +1,30 @@
+{% if data.Lu %}
+    <div class="shadow rounded py-2">
+        <div class="row">
+            <div class="col h4 mx-3 p-2 event-element-header"><h3>Lineups</h3></div>
+        </div>
+        <div class="row p-2">
+            <div class="col-12 justify-content-between">
+                <div class="row">
+                    {% for LU in data.Lu %}
+                        <div title="Lu[].Fo" class="col-6 text-center">
+                            {{ LU.Fo|join(' - ') }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    {% for LU in data.Lu %}
+                        <div class="col-6">
+                            {% for player in LU.Ps %}
+                                <div class="row">
+                                    <div title="Lu[].Ps[].Pon" class="col-2"><small class="text-muted">{{ player.Pon[:3] }}</small></div>
+                                    <div title="Lu[].Ps[].Snm" class="col-10">{{ player.Snm }}<small class="text-muted" title="Lu[].Ps[].Pid"> ({{ player.Pid }})</small></div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

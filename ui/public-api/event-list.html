@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>LS Test Helper | Daily</title>
+        <title>LS Test Helper | [environment] | Daily</title>
         <meta charset="UTF-8">
         <link rel="shortcut icon" href="/ui/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" href="/ui/styles/bootstrap.min.css">
@@ -96,20 +96,25 @@
 		</div>
 
         <script type="application/javascript">
-            $( document ).ready(function() {
-                $("[data-type='header']").html(`
-                    <div class="btn-group dropup">
-                      <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="h4">` + location.environment.toLocaleUpperCase() + `</span>
-                      </button>
-                      <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/ui/public-api/dev/event-list`+ location.search + `">DEV</a>
-                        <a class="dropdown-item" href="/ui/public-api/test/event-list`+ location.search + `">TEST</a>
-                        <a class="dropdown-item" href="/ui/public-api/preprod/event-list`+ location.search + `">PREPROD</a>
-                        <a class="dropdown-item" href="/ui/public-api/prod/event-list`+ location.search + `">PROD</a>
-                      </div>
-                    </div><span class="h4 align-middle"> / ` + location.sport.toUpperCase() + ` / ` + location.date + `</span>`);
-            });
+            $( document ).ready(
+                function() {
+                    document.title = document.title.replace('[environment]', location.environment.toLocaleUpperCase());
+                    $("[data-type='header']").html(`
+                        <div class="btn-group dropup">
+                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="h4">` + location.environment.toLocaleUpperCase() + `</span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/ui/public-api/dev/event-list`+ location.search + `">DEV</a>
+                                <a class="dropdown-item" href="/ui/public-api/test/event-list`+ location.search + `">TEST</a>
+                                <a class="dropdown-item" href="/ui/public-api/preprod/event-list`+ location.search + `">PREPROD</a>
+                                <a class="dropdown-item" href="/ui/public-api/prod/event-list`+ location.search + `">PROD</a>
+                            </div>
+                        </div>
+                        <span class="h4 align-middle"> / ` + location.sport.toUpperCase() + ` / ` + location.date + `</span>`);
+                }
+            );
+            {{environment}}
             function toggleLiveEvents(){
                 $("[data-type='event'][data-epr!='1']").toggleClass("d-none");
                 $("[data-type='stage'][data-live-count='0']").toggleClass("d-none");

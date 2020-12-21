@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <title>LS Test Helper | [environment] | [event_id]</title>
         <meta charset="UTF-8">
         <link rel="shortcut icon" href="/ui/favicon.ico" type="image/x-icon">
         <link rel="stylesheet" href="/ui/styles/bootstrap.min.css">
@@ -16,5 +17,13 @@
             </div>
         </div>
         <script type="module" src="/ui/js/public_api.js"></script>
+        <script>
+            $( document ).ready(
+                function() {
+                    document.title = document.title.replace('[environment]', location.environment.toLocaleUpperCase());
+                    document.title = document.title.replace('[event_id]', location.pid + "-" + location.id);
+                }
+            );
+        </script>
     </body>
 </html>

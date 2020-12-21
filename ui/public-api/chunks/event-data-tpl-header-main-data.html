@@ -6,20 +6,22 @@
             <img title="T1[0].Img" src="/ui/img/no_badge.png">
         {% endif %}
     </div>
-    <div class="col-2">
-        <span>
-            <span title="T1[0].ID"><small class="text-muted">({{data.T1[0].ID}})</small></span><br>
-            <strong><span title="T1[0].Nm">{{data.T1[0].Nm}}</span></strong>
-        </span>
+    <div class="col-3 d-flex py-4 justify-content-around align-middle">
+        {% for T in data.T1 %}
+            <span title="T1[].ID"><small class="text-muted">({{T.ID}})</small></span>
+            <strong><span class="h4" title="T1[].Nm"> {{T.Nm}}</span></strong></br>
+        {% endfor %}
     </div>
     <div class="col-1 d-flex py-4 justify-content-around align-middle">
-        <span title="Tr1">{{data.Tr1}}</span>
+        <span class="h3" title="Tr1">{{data.Tr1}}</span>
         <span> - </span>
-        <span title="Tr2">{{data.Tr2}}</span>
+        <span class="h3" title="Tr2">{{data.Tr2}}</span>
     </div>
-    <div class="col-2">
-        <span title="T2[0].ID"><small class="text-muted">({{data.T2[0].ID}})</small></span><br>
-        <strong><span title="T2[0].Nm"> {{data.T2[0].Nm}}</span></strong>
+    <div class="col-3 d-flex py-4 justify-content-around align-middle">
+        {% for T in data.T2 %}
+            <strong><span class="h4" title="T2[].Nm"> {{T.Nm}}</span></strong>
+            <span title="T2[].ID"><small class="text-muted">({{T.ID}})</small></span></br>
+        {% endfor %}
     </div>
     <div class="col-1">
         {% if data.T2[0].Img %}

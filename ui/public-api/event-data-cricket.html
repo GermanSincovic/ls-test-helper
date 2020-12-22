@@ -4,15 +4,13 @@
 
 <div class="row mt-3 mx-2">
     <div class="col">
-        <div class="shadow rounded py-2">
-<!--            <span>League Table / LineUps / Substitutions</span>-->
-            <div class="row">
-                <div class="col h4 mx-3 p-2 event-element-header"><h3>Tmp</h3></div>
-            </div>
-        </div>
+        {% include '/public-api/chunks/event-data-tpl-lineups.html' %}
+        {% include '/public-api/chunks/event-data-tpl-substitutions.html' %}
     </div>
     <div class="col">
+        {% include '/public-api/chunks/event-data-tpl-venue.html' %}
         {% include '/public-api/chunks/event-data-tpl-scores.html' %}
+        {% include '/public-api/chunks/event-data-tpl-incidents.html' %}
     </div>
     <div class="col">
         {% include '/public-api/chunks/event-data-tpl-commentaries.html' %}

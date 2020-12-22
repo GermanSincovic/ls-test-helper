@@ -17,7 +17,18 @@
                         <div class="col-6">
                             {% for player in LU.Ps %}
                                 <div class="row">
-                                    <div title="Lu[].Ps[].Pon" class="col-2"><small class="text-muted">{{ player.Pon[:3] }}</small></div>
+                                    {% if player.Pon %}
+                                        <div title="Lu[].Ps[].Pon" class="col-2"><small class="text-muted">{{ player.Pon[:3] }}</small></div>
+                                    {% elif player.Pos %}
+                                        <div title="Lu[].Ps[].Pos" class="col-2">
+                                            <small class="text-muted">
+                                                {% if player.Pos == 125 %}CW{% endif %}
+                                                {% if player.Pos == 124 %}W{% endif %}
+                                                {% if player.Pos == 124 %}C{% endif %}
+                                                {% if player.Pos == 14 %}ST{% endif %}
+                                            </small>
+                                        </div>
+                                    {% endif %}
                                     <div title="Lu[].Ps[].Snm" class="col-10">{{ player.Snm }}<small class="text-muted" title="Lu[].Ps[].Pid"> ({{ player.Pid }})</small></div>
                                 </div>
                             {% endfor %}

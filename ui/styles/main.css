@@ -127,8 +127,22 @@ img{
     font-weight: bold;
 }
 
-.incident-icon{
+.incident-icon img, *[data-incident-type]::before{
     width: 20px;
     height: 20px;
     margin: 2px;
+}
+
+*[data-incident-type]{
+    text-align: center;
+}
+
+*[data-incident-type="50"]::before{
+    content: 'PP';
+}
+*[data-incident-type="51"]::before{
+    content: 'SH';
+}
+*[data-incident-type="41"]::before{
+    content: 'P';
 }

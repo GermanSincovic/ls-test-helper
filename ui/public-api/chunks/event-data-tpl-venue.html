@@ -1,6 +1,6 @@
 <div class="shadow rounded py-2">
     <div class="row">
-        <div class="col h4 mx-3 p-2 event-element-header"><h3>Venue</h3></div>
+        <div class="col h4 mx-3 p-2 event-element-header"><h3>Venue & Referees</h3></div>
     </div>
         {% if data.VCity %}
             <div title="VCity" class="row mx-5 justify-content-between">
@@ -25,5 +25,26 @@
                 <span class="col-6 text-center">Venue spectators:</span>
                 <span class="col-6 text-center">{{ data.Vsp }}</span>
             </div>
+        {% endif %}
+        <div class="dropdown-divider"></div>
+        {% if data.Refs %}
+            {% for R in data.Refs %}
+                <div class="row mx-5 justify-content-between">
+                    <span title="Refs[].Kn" class="col-6 text-center">
+                        {% if R.Kn == 0 %} Main referee {% endif %}
+                        {% if R.Kn == 1 %} Linesman 1 {% endif %}
+                        {% if R.Kn == 2 %} Linesman 2 {% endif %}
+                        {% if R.Kn == 4 %} 4th official {% endif %}
+                        {% if R.Kn == 5 %} TV umpire {% endif %}
+                        {% if R.Kn == 6 %} Umpire 1 {% endif %}
+                        {% if R.Kn == 7 %} Umpire 1 {% endif %}
+                    </span>
+                    <span title="Refs[].Nm" class="col-6 text-center">{{ R.Nm }}
+                        {% if R.Cn %}
+                            <span class="text-muted" title="Refs[].Cn">({{ R.Cn }})</span>
+                        {% endif %}
+                    </span>
+                </div>
+            {% endfor %}
         {% endif %}
 </div>

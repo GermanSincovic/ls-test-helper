@@ -186,7 +186,7 @@ export function RequestManager(){
             success: function(res){
                 new PAPIEvent(res);
             },
-            error: function(){
+            error: function(res){
                 MessageHandler("<b>ERROR</b>: Can't get API data");
             }
         })

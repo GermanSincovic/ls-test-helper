@@ -11,7 +11,9 @@
                             <div class="row">
                                 <div class="col-1" title="Subs[][].Min">{{ SUBS.Min }}'</div>
                                 <div class="col-1">
-                                    <img class="incident-icon" src="/ui/img/incidents/{{ data.Spid }}/{{ SUBS.IT }}.png">
+                                    <div class="incident-icon" data-incident-type="{{ SUBS.IT }}">
+                                        <img src="/ui/img/incidents/{{ data.Spid }}/{{ SUBS.IT }}.png">
+                                    </div>
                                 </div>
                                 <div class="col-10" title="Subs[][].Pn">
                                     {{ SUBS.Pn }}<small class="text-muted" title="Subs[][].ID"> ({{ SUBS.ID }})</small>
@@ -22,7 +24,9 @@
                                     <div class="row">
                                         <div class="col-1" title="Subs[][].Min">{{ SUBSinner.Min }}'</div>
                                         <div class="col-1">
-                                            <img class="incident-icon" src="/ui/img/incidents/{{ data.Spid }}/{{ SUBSinner.IT }}.png">
+                                            <div class="incident-icon" data-incident-type="{{ SUBSinner.IT }}">
+                                                <img src="/ui/img/incidents/{{ data.Spid }}/{{ SUBSinner.IT }}.png">
+                                            </div>
                                         </div>
                                         <div class="col-10" title="Subs[][].Pn">
                                             {{ SUBSinner.Pn }}<small class="text-muted" title="Subs[][].ID"> ({{ SUBSinner.ID }})</small>

@@ -1,0 +1,215 @@
+{% if data.Stat %}
+    <div class="shadow rounded py-2">
+        <div class="row">
+            <div class="col h4 mx-3 p-2 event-element-header"><h3>Statistic</h3></div>
+        </div>
+        {% if data.Stat[0].Att or data.Stat[1].Att %}
+            <div class="row p-2 text-center" title="Stat[].Att">
+                <div class="col-3">{{ data.Stat[0].Att }}</div>
+                <div class="col-6">Counter attacks</div>
+                <div class="col-3">{{ data.Stat[1].Att }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Cos or data.Stat[1].Cos %}
+            <div class="row p-2 text-center" title="Stat[].Cos">
+                <div class="col-3">{{ data.Stat[0].Cos }}</div>
+                <div class="col-6">Corner kicks</div>
+                <div class="col-3">{{ data.Stat[1].Cos }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Crs or data.Stat[1].Crs %}
+            <div class="row p-2 text-center" title="Stat[].Crs">
+                <div class="col-3">{{ data.Stat[0].Crs }}</div>
+                <div class="col-6">Crosses</div>
+                <div class="col-3">{{ data.Stat[1].Crs }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Fls or data.Stat[1].Fls %}
+            <div class="row p-2 text-center" title="Stat[].Fls">
+                <div class="col-3">{{ data.Stat[0].Fls }}</div>
+                <div class="col-6">Fouls</div>
+                <div class="col-3">{{ data.Stat[1].Fls }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Gks or data.Stat[1].Gks %}
+            <div class="row p-2 text-center" title="Stat[].Gks">
+                <div class="col-3">{{ data.Stat[0].Gks }}</div>
+                <div class="col-6">Goalkeeper saves</div>
+                <div class="col-3">{{ data.Stat[1].Gks }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Goa or data.Stat[1].Goa %}
+            <div class="row p-2 text-center" title="Stat[].Goa">
+                <div class="col-3">{{ data.Stat[0].Goa }}</div>
+                <div class="col-6">Goal kicks</div>
+                <div class="col-3">{{ data.Stat[1].Goa }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Ofs or data.Stat[1].Ofs %}
+            <div class="row p-2 text-center" title="Stat[].Ofs">
+                <div class="col-3">{{ data.Stat[0].Ofs }}</div>
+                <div class="col-6">Offsides</div>
+                <div class="col-3">{{ data.Stat[1].Ofs }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Pss or data.Stat[1].Pss %}
+            <div class="row p-2 text-center" title="Stat[].Pss">
+                <div class="col-3">{{ data.Stat[0].Pss }}</div>
+                <div class="col-6">Ball possession</div>
+                <div class="col-3">{{ data.Stat[1].Pss }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Rcs or data.Stat[1].Rcs %}
+            <div class="row p-2 text-center" title="Stat[].Rcs">
+                <div class="col-3">{{ data.Stat[0].Rcs }}</div>
+                <div class="col-6">Red cards</div>
+                <div class="col-3">{{ data.Stat[1].Rcs }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Shbl or data.Stat[1].Shbl %}
+            <div class="row p-2 text-center" title="Stat[].Shbl">
+                <div class="col-3">{{ data.Stat[0].Shbl }}</div>
+                <div class="col-6">Blocked shots</div>
+                <div class="col-3">{{ data.Stat[1].Shbl }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Shof or data.Stat[1].Shof %}
+            <div class="row p-2 text-center" title="Stat[].Shof">
+                <div class="col-3">{{ data.Stat[0].Shof }}</div>
+                <div class="col-6">Shots off target</div>
+                <div class="col-3">{{ data.Stat[1].Shof }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Shon or data.Stat[1].Shon %}
+            <div class="row p-2 text-center" title="Stat[].Shon">
+                <div class="col-3">{{ data.Stat[0].Shon }}</div>
+                <div class="col-6">Shots on target</div>
+                <div class="col-3">{{ data.Stat[1].Shon }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Shwd or data.Stat[1].Shwd %}
+            <div class="row p-2 text-center" title="Stat[].Shwd">
+                <div class="col-3">{{ data.Stat[0].Shwd }}</div>
+                <div class="col-6">Shots against woodwork</div>
+                <div class="col-3">{{ data.Stat[1].Shwd }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Ths or data.Stat[1].Ths %}
+            <div class="row p-2 text-center" title="Stat[].Ths">
+                <div class="col-3">{{ data.Stat[0].Ths }}</div>
+                <div class="col-6">Throw-ins</div>
+                <div class="col-3">{{ data.Stat[1].Ths }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Trt or data.Stat[1].Trt %}
+            <div class="row p-2 text-center" title="Stat[].Trt">
+                <div class="col-3">{{ data.Stat[0].Trt }}</div>
+                <div class="col-6">Treatments</div>
+                <div class="col-3">{{ data.Stat[1].Trt }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].YRcs or data.Stat[1].YRcs %}
+            <div class="row p-2 text-center" title="Stat[].YRcs">
+                <div class="col-3">{{ data.Stat[0].YRcs }}</div>
+                <div class="col-6">Second yellow cards</div>
+                <div class="col-3">{{ data.Stat[1].YRcs }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Ycs or data.Stat[1].Ycs %}
+            <div class="row p-2 text-center" title="Stat[].Ycs">
+                <div class="col-3">{{ data.Stat[0].Ycs }}</div>
+                <div class="col-6">Yellow cards</div>
+                <div class="col-3">{{ data.Stat[1].Ycs }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].A or data.Stat[1].A %}
+            <div class="row p-2 text-center" title="Stat[].A">
+                <div class="col-3">{{ data.Stat[0].A }}</div>
+                <div class="col-6">Aces</div>
+                <div class="col-3">{{ data.Stat[1].A }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Df or data.Stat[1].Df %}
+            <div class="row p-2 text-center" title="Stat[].Df">
+                <div class="col-3">{{ data.Stat[0].Df }}</div>
+                <div class="col-6">Double faults</div>
+                <div class="col-3">{{ data.Stat[1].Df }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].B or data.Stat[1].B %}
+            <div class="row p-2 text-center" title="Stat[].B">
+                <div class="col-3">{{ data.Stat[0].B }}</div>
+                <div class="col-6">Breaks</div>
+                <div class="col-3">{{ data.Stat[1].B }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].Bp or data.Stat[1].Bp %}
+            <div class="row p-2 text-center" title="Stat[].Bp">
+                <div class="col-3">{{ data.Stat[0].Bp }}</div>
+                <div class="col-6">Break points</div>
+                <div class="col-3">{{ data.Stat[1].Bp }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].MpR or data.Stat[1].MpR %}
+            <div class="row p-2 text-center" title="Stat[].MpR">
+                <div class="col-3">{{ data.Stat[0].MpR }}</div>
+                <div class="col-6">Max points in row</div>
+                <div class="col-3">{{ data.Stat[1].MpR }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].MgR or data.Stat[1].MgR %}
+            <div class="row p-2 text-center" title="Stat[].MgR">
+                <div class="col-3">{{ data.Stat[0].MgR }}</div>
+                <div class="col-6">Max games in row</div>
+                <div class="col-3">{{ data.Stat[1].MgR }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].SpW or data.Stat[1].SpW %}
+            <div class="row p-2 text-center" title="Stat[].SpW">
+                <div class="col-3">{{ data.Stat[0].SpW }}</div>
+                <div class="col-6">Service points won</div>
+                <div class="col-3">{{ data.Stat[1].SpW }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].SpL or data.Stat[1].SpL %}
+            <div class="row p-2 text-center" title="Stat[].SpL">
+                <div class="col-3">{{ data.Stat[0].SpL }}</div>
+                <div class="col-6">Service points lost</div>
+                <div class="col-3">{{ data.Stat[1].SpL }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+        {% if data.Stat[0].SpL or data.Stat[1].SpL %}
+            <div class="row p-2 text-center" title="Stat[].SpL">
+                <div class="col-3">{{ data.Stat[0].SpL }}</div>
+                <div class="col-6">Service points lost</div>
+                <div class="col-3">{{ data.Stat[1].SpL }}</div>
+            </div>
+            <div class="dropdown-divider"></div>
+        {% endif %}
+    </div>
+{% endif %}

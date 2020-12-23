@@ -24,9 +24,13 @@
                     </div>
                     <div class="col-1">
                         {% if i.Incs %}
-                            <img class="incident-icon" title="Incs[][].Incs[].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.Incs[0].IT }}.png">
+                            <div class="incident-icon" data-incident-type="{{ i.Incs[0].IT }}">
+                                <img title="Incs[][].Incs[].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.Incs[0].IT }}.png">
+                            </div>
                         {% else %}
-                            <img class="incident-icon" title="Incs[][].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.IT }}.png">
+                            <div class="incident-icon" data-incident-type="{{ i.IT }}">
+                                <img title="Incs[][].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.IT }}.png">
+                            </div>
                         {% endif %}
                     </div>
                     <div class="col-1 p-0 text-center">{% if i.Sc %}{{ i.Sc|join(' - ') }}{% endif %}</div>
@@ -38,9 +42,13 @@
                     <div class="col-1 p-0 text-center">{% if i.Sc %}{{ i.Sc|join(' - ') }}{% endif %}</div>
                     <div class="col-1">
                         {% if i.Incs %}
-                            <img class="incident-icon" title="Incs[][].Incs[].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.Incs[0].IT }}.png">
+                            <div class="incident-icon" data-incident-type="{{ i.Incs[0].IT }}">
+                                <img title="Incs[][].Incs[].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.Incs[0].IT }}.png">
+                            </div>
                         {% else %}
-                            <img class="incident-icon" title="Incs[][].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.IT }}.png">
+                            <div class="incident-icon" data-incident-type="{{ i.IT }}">
+                                <img title="Incs[][].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.IT }}.png">
+                            </div>
                         {% endif %}
                     </div>
                     <div class="col-4 text-left">

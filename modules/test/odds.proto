@@ -1,0 +1,245 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package com.livescore.rpc_core;
+
+
+// Type of market for the odds
+enum OddsGroup {
+    UNKNOWN_ODDS_GROUP = 0;
+
+    // Regular bookmakers
+    REGULAR = 1;
+
+    // Exchange markets such as BetFair
+    EXCHANGE = 2;
+}
+
+
+enum OddsTypeProto {
+    UNKNOWN_ODDS_TYPE = 0;
+
+    THREE_WAY = 1;
+    TWO_WAY = 2;
+    OVER_UNDER = 3;  // called 'total' for SR
+    SPREAD = 4;
+    HANDICAP = 5;
+    ASIAN_HANDICAP = 6;
+    PUCK_LINE = 7;
+    RUN_LINE = 8;
+    ODD_EVEN = 9;
+    CORRECT_SCORE = 10;
+    DOUBLE_CHANCE = 11;
+    GOALSCORER = 12;     // btw currently not provided in either API or SP or Enet impl ... it's here just because it requires more fields to specify odds data ... so as an example
+    HALF_TIME_FULL_TIME = 13;
+    NUMBER_OF_GOALS = 14;
+    TIME_OF_NEXT_GOAL = 15;
+}
+
+
+// Different OddsSubtypes that can denote specific match outcomes
+// they are different for different OddsType values
+enum OddsSubtype {
+
+    UNKNOWN_ODDS_SUBTYPE = 0;
+
+    // relates to THREE_WAY, TWO_WAY, SPREAD, HANDICAP, ASIAN_HANDICAP, PUCK_LINE, RUN_LINE
+    HOME_ODDS = 1;
+    DRAW_ODDS = 2;
+    AWAY_ODDS = 3;
+
+    // relates to OVER_UNDER
+    OVER_ODDS = 4;
+    UNDER_ODDS = 5;
+
+    // relates to ODD_EVEN
+    ODD_ODDS = 6;
+    EVEN_ODDS = 7;
+
+    // relates to NUMBER_OF_GOALS
+    FROM_ODDS = 8;       // e.g. fot odds that mean mean that 'more than 4 goals will be scored'
+    FROM_TO_ODDS = 9;    // e.g. fot odds that mean mean that 'that between 4 and 7 goals will be scored'
+
+    // relates to GOALSCORER
+    FIRST_ODDS = 10;
+    LAST_ODDS = 11;
+    ANY_TIME_ODDS = 12;
+
+    // all values relate to HALF_TIME_FUL_TIME and some to DOUBLE_CHANCE
+    HOME_HOME_ODDS = 13;
+    HOME_DRAW_ODDS = 14; // DOUBLE_CHANCE
+    HOME_AWAY_ODDS = 15; // DOUBLE_CHANCE
+    DRAW_HOME_ODDS = 16;
+    DRAW_DRAW_ODDS = 17;
+    DRAW_AWAY_ODDS = 18;
+    AWAY_AWAY_ODDS = 19;
+    AWAY_DRAW_ODDS = 20; // DOUBLE_CHANCE
+    AWAY_HOME_ODDS = 21;
+
+    // relates to CORRECT_SCORE
+    SCORE_ODDS = 22;
+}
+
+
+// Gives the time scope to which the odds applies
+enum OddsScope {
+
+    UNKNOWN_ODDS_SCOPE = 0;
+
+    ORDINARY_TIME = 1;
+    ORDINARY_TIME_WITH_EXTRA_TIME = 2;
+    FULL_EVENT = 3;
+
+    HALF_1 = 4;
+    HALF_2 = 5;
+
+    QUARTER_1 = 6;
+    QUARTER_2 = 7;
+    QUARTER_3 = 8;
+    QUARTER_4 = 9;
+
+    SET_1 = 10;
+    SET_2 = 11;
+    SET_3 = 12;
+    SET_4 = 13;
+    SET_5 = 14;
+
+    ROUND_1 = 15;
+    ROUND_2 = 16;
+    ROUND_3 = 17;
+    ROUND_4 = 18;
+    ROUND_5 = 19;
+    ROUND_6 = 20;
+
+    INNING_1 = 21;
+    INNING_2 = 22;
+    INNING_3 = 23;
+    INNING_4 = 24;
+    INNING_5 = 25;
+    INNING_6 = 26;
+    INNING_7 = 27;
+    INNING_8 = 28;
+    INNING_9 = 29;
+    FIRST_5_INNINGS = 30;
+
+    MAP_1 = 31;
+    MAP_2 = 32;
+    MAP_3 = 33;
+    MAP_4 = 34;
+    MAP_5 = 35;
+    MAP_6 = 36;
+    MAP_7 = 37;
+
+    PERIOD_1 = 38;
+    PERIOD_2 = 39;
+    PERIOD_3 = 40;
+}
+
+
+enum BookScope {
+    UNKNOWN_ODDS_BOOK_SCOPE = 0;
+
+    // bookmakers that only have global services with no country specific operations
+    GLOBAL = 1;
+
+    // bookmaker dedicated to specific coutry/region (can be one that also has global services)
+    LOCAL = 2;
+}
+
+
+message BookmakerMessage {
+
+    string book_name_internal = 1;
+
+    int32 book_id_internal = 2;
+
+    // provider specific bookmaker name in format:
+    // 'bookmaker_name:bookmaker_id'
+    string book_name_provider = 3;
+
+    BookScope book_scope = 4;
+
+    // country to which this the operations is dedicated
+    // IMPORTANT - if no specific country is given then default value MUST be given as "WORLD" - message processing depends on it.
+    string book_country_internal = 5;
+
+    string book_country_provider = 6;
+
+}
+
+
+// wraps a list of odds values
+message OddsDataMessage {
+
+    repeated OddsMessage oddsMessage= 1;
+
+}
+
+
+
+message OddsMessage {
+
+    bool is_live = 1;
+    OddsGroup odds_group = 2;
+    OddsTypeProto odds_type_proto = 3;   // e.g. ThreWay, Handicap ....
+    OddsScope odds_scope = 4;
+
+    BookmakerMessage bookmaker_message = 5;
+
+    // holds odds specific data such as:
+    // 1. handicap value for handicap odds
+    // 2. spread value for spread odds
+    // 3. score value for over under odds
+    // 4. lower limit of total goals scored for NUMBER_OF_GOALS
+    string type_param1 = 6;
+
+    // hold other oddstype specific data:
+    // 1. upper limit of total goals scored for NUMBER_OF_GOALS (if given)
+    string type_param2 = 7;
+
+    // holds:
+    // 1. can hold name of player if the bet is on goalscorer
+    // 2. score of HOME participant when the bet type is correct score
+    string participant_param1 = 8;
+
+    // holds:
+    // 1. score of AWAY participant when the bet type is correct score
+    string participant_param2 = 9;
+
+    // can hold other odds type specific data
+    string special_param = 10;
+
+    // indicates wheater is back or lay ... atm all should be back
+    bool is_back = 11;
+
+    repeated OddsValueMessage odds_value_message = 12;
+
+}
+
+
+
+message OddsValueMessage {
+
+    OddsSubtype oddsSubtype = 1;        // HOME, AWAY ...
+
+    // some providers might have missing values for speicific outcomes when a bookmaker does not offer any value for the outcome (as it would be too low = 1.00).
+    // in that case this needs to be = false otherwise = true;
+    bool has_odds_value = 2;
+
+    double odds_decimal = 3;
+    string odds_fractional = 4;
+    string odds_american = 5;
+
+    string odds_url_decimal = 6;
+    string odds_url_fractional = 7;
+    string odds_url_american = 8;
+
+    int64 provider_last_updated_date_time = 9;
+
+    // = false when a bookmaker withdraws offer for example.
+    bool is_active = 10;
+
+    double odds_percentage_change = 11;
+}
+

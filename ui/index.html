@@ -162,7 +162,7 @@
 		<script>
 			function ISODateToLSFormat(date){
 				var yyyy = date.getFullYear();
-				var mm = (date.getMonth() < 10) ? "0" + date.getMonth() + 1 : date.getMonth() + 1;
+				var mm = (date.getMonth() < 10) ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
 				var dd = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
 				return yyyy.toString() + mm.toString() + dd.toString();
 			}

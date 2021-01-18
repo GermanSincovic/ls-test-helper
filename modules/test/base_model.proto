@@ -1,0 +1,1172 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package com.livescore.rpc_core;
+
+import "event_type.proto";
+import "person_position.proto";
+import "providers.proto";
+import "media.proto";
+import "languages.proto";
+import "google/protobuf/wrappers.proto";
+
+
+enum Coverage {
+    LIVE = 0;
+    TV = 1;
+    RESULT_ONLY = 2;
+}
+
+enum ScoutConnection {
+    CONNECTED = 0;
+    DISCONNECTED = 1;
+}
+
+enum ParticipantPosition {
+    UNKNOWN_POSITION = 0;
+    HOME = 1;
+    AWAY = 2;
+    NA = 3;
+}
+
+enum MatchStatus {
+    UNKNOWN = 0;
+    NOT_STARTED = 1;
+    FIRST_HALF = 2;
+    SECOND_HALF = 3;
+    PENALTY_SHOOTOUT = 4;
+    POSTPONED = 5;
+    FINISHED = 6;
+    GOLDEN_GOAL_FIRST_HALF = 7;
+    EXTRA_TIME_FIRST_HALF = 8;
+    EXTRA_TIME_SECOND_HALF = 9;
+    HALF_TIME = 10;
+    FINISHED_AFTER_EXTRA_TIME = 11;
+    INTERRUPTED = 12;
+    FINISHED_AFTER_PENALTIES = 13;
+    WAITING_FOR_EXTRA_TIME = 14;
+    WAITING_FOR_GOLDEN_GOAL = 15;
+    FINISHED_AFTER_GOLDEN_GOAL = 16;
+    ABANDONED = 17;
+    NO_INFO_YET = 18;
+    GOLDEN_GOAL_SECOND_HALF = 19;
+    WAITING_FOR_PENALTY_SHOOTOUT = 20;
+    WAITING_FOR_SILVER_GOAL = 21;
+    SILVER_GOAL_FIRST_HALF = 22;
+    SILVER_GOAL_SECOND_HALF = 23;
+    FINISHED_AFTER_SILVER_GOAL = 24;
+    KICK_OFF_DELAYED = 25;
+    SUDDEN_DEATH = 26;
+    OVERTIME_FIRST_HALF = 27;
+    OVERTIME_SECOND_HALF = 28;
+    STARTED = 33;
+    DELETED = 60;
+    CANCELED = 56;
+    EXTRA_TIME_FIRST_HALF_ENDED = 80;
+    EXTRA_TIME_HALF_TIME = 212;
+    FINISHED_AFTER_AWARDED_WIN = 91;
+    LIVE_INFO_AWAITING = 211;
+
+    //next sports
+    PERIOD_1ST = 29;
+    PERIOD_2ND = 30;
+    PERIOD_3RD = 31;
+    PERIOD_4TH = 104;
+    PERIOD_5TH = 105;
+    PAUSE = 32;
+    QUARTER_1ST = 35;
+    QUARTER_2ND = 41;
+    QUARTER_3RD = 42;
+    QUARTER_4TH = 43;
+    TO_FINISH = 44;
+    SET_1ST = 92;
+    SET_2ND = 93;
+    SET_3RD = 94;
+    SET_4TH = 95;
+    SET_5TH = 96;
+    SET_6TH = 97;
+    SET_7TH = 98;
+    FINISHED_WALKOVER = 120;
+    FINISHED_DISQUALIFIED = 199;
+    FINISHED_RETIRED = 200;
+    FINISHED_AFTER_OVERTIME = 36;
+    FINISHED_OVERTIME = 39;
+    QUARTER_1ST_FINISHED = 67;
+    QUARTER_3RD_FINISHED = 69;
+
+    // for cricket
+    STUMPS_DAY_1 = 132;
+    STUMPS_DAY_2 = 133;
+    STUMPS_DAY_3 = 134;
+    STUMPS_DAY_4 = 135;
+    STUMPS_DAY_5 = 136;
+    INNING_BREAK = 157;
+    LUNCH_BREAK = 170;
+    LUNCH_BREAK_DAY_2 = 171;
+    LUNCH_BREAK_DAY_3 = 172;
+    LUNCH_BREAK_DAY_4 = 173;
+    LUNCH_BREAK_DAY_5 = 174;
+    TEA_BREAK = 180;
+    TEA_BREAK_DAY_2 = 181;
+    TEA_BREAK_DAY_3 = 182;
+    TEA_BREAK_DAY_4 = 183;
+    TEA_BREAK_DAY_5 = 184;
+    DINNER_BREAK = 190;
+    DINNER_BREAK_DAY_2 = 191;
+    DINNER_BREAK_DAY_3 = 192;
+    DINNER_BREAK_DAY_4 = 193;
+    DINNER_BREAK_DAY_5 = 194;
+    SUPER_OVER_INNING = 204;
+    // for cricket (from opta provider)
+    RAIN_DELAY = 213;
+    BAD_LIGHT = 214;
+    CROWD_TROUBLE = 215;
+    PITCH_CONDITION = 216;
+    FLOODLIGHT_FAILURE = 217;
+    PLAY_SUSPENDED_UNKNOWN = 218;
+    START_DELAYED = 219;
+    DRINKS = 220;
+    STRATEGICTIMEOUT = 224;
+    // for horses
+    IN_PROGRESS = 221;
+    PROTEST = 222;
+    PASTPOST = 223;
+    INTERIM = 225;
+}
+
+enum ParticipantKind {
+    UNKNOWN_KIND = 0;
+    TEAM = 1;
+    ATHLETE = 2;
+    ORGANISATION = 3;
+    PARTICIPANT_COACH = 4;
+}
+
+enum ParticipantAgeGroup {
+    UNKNOWN_AGE_GROUP = 0;
+    U4 = 4;
+    U5 = 5;
+    U6 = 6;
+    U7 = 7;
+    U8 = 8;
+    U9 = 9;
+    U10 = 10;
+    U11 = 11;
+    U12 = 12;
+    U13 = 13;
+    U14 = 14;
+    U15 = 15;
+    U16 = 16;
+    U17 = 17;
+    U18 = 18;
+    U19 = 19;
+    U20 = 20;
+    U21 = 21;
+    U22 = 22;
+    U23 = 23;
+}
+
+enum ProviderConnection {
+    PROVIDER_CONNECTED = 0;
+    PROVIDER_DISCONNECTED = 1;
+}
+
+enum Gender {
+    UNKNOWN_GENDER = 0;
+    MALE = 1;
+    FEMALE = 2;
+    MIXED = 3;
+}
+
+message VenueMessage {
+    string venue_id = 2;
+    string name = 3;
+    bool is_neutral = 4;
+    int32 spectators = 5;
+    string city = 6;
+    string country = 7;
+}
+
+// Updates the coverage of a match
+message MatchCoverageMessage {
+    Coverage coverage = 2;
+}
+
+// Updates the scout connection info
+message MatchScoutStatusMessage {
+    ScoutConnection status = 3;
+}
+
+message ProviderConnectionStatusMessage {
+    ProviderConnection status = 1;
+}
+
+// Updates the status of a soccer match
+message MatchStatusMessage {
+
+    enum MatchOverallStatus {
+        NOT_STARTED = 0;
+        IN_PROGRESS = 1;
+        FINISHED = 2;
+        CANCELED = 3;
+        POSTPONED = 4;
+        UNKNOWN = 5;
+        INTERRUPTED = 6;
+        DELETED = 7; // deleted (if it is deleted, the object does not appear in "list of matches" feed);
+        ABANDONED = 8;
+        SUSPENDED = 9;
+    }
+
+    MatchStatus status = 1;
+    MatchOverallStatus overall_status = 2;
+    int32 minute = 3;
+
+    // the provider specific info about when a match should end (see cricket for instance, where matches last days).
+    int64 scheduled_end_time = 4;
+
+    // when the match finished, according to the provider.
+    int64 actual_end_time = 5;
+
+    // System current milliseconds of when the match ended and therefore when the message was received.
+    int64 calculated_end_time = 6;
+
+    //next sports
+    //TENNIS - who is currently serving...value (1/2=home/away)
+    int32 who_is_currently_serving = 7;
+
+    string current_match_status = 8;
+
+    string injuryTime = 9;
+}
+
+message ConfirmIncidentMessage {
+    int64 id = 1;
+}
+
+message DeleteIncidentMessage {
+    int64 id = 1;
+}
+
+message IncidentMessage {
+
+    enum IncidentType {
+        UNKNOWN_INCIDENT = 0;
+        SUBSTITUTION = 3;
+        SUBSTITUTION_OUT = 4;
+        SUBSTITUTION_IN = 5;
+
+        TIME_PERIOD_1ST_HALF = 10;
+        TIME_PERIOD_HALF_TIME = 11;
+        TIME_PERIOD_2ND_HALF = 12;
+        TIME_PERIOD_1ST_ET = 15;
+        TIME_PERIOD_1ST_ET_ENDED = 16;
+        TIME_PERIOD_2ND_ET = 17;
+        TIME_PERIOD_PENALTY_SHOOTOUT = 19;
+        TIME_PERIOD_FINISHED = 22;
+        TIME_PERIOD_FINISHED_AET = 23;
+        TIME_PERIOD_FINISHED_AP = 24;
+
+        REGULAR_GOAL = 36;
+        PENALTY = 37;
+        MISSED_PENALTY = 38;
+        OWN_GOAL = 39;
+        SHOOTOUT_MISSED_PENALTY = 40;
+        SHOOTOUT_PENALTY = 41;
+        YELLOW_CARD = 43;
+        SECOND_YELLOW_CARD = 44;
+        RED_CARD = 45;
+        EXTRA_TIME_GOAL = 47;
+        POWER_PLAY_GOAL = 50; // ice hockey
+        EXTRA_TIME_MISSED_PENALTY = 48;
+        SHORT_HANDED_GOAL = 51; // ice hockey
+        SUSPENSION_2_MINUTES = 52; // ice hockey
+        SUSPENSION_5_MINUTES = 53; // ice hockey
+        SUSPENSION_10_MINUTES = 54; // ice hockey
+        MATCH_PENALTY = 55; // ice hockey
+        GAME_MISCONDUCT = 56; // ice hockey
+        EXTRA_TIME_PENALTY = 57;
+        DISQUALIFICATION = 58; // ice hockey
+        EXCLUSION = 59; // ice hockey
+        EXTRA_TIME_OWN_GOAL = 70;
+        CANCELED_GOAL = 62;
+        ASSIST = 63;
+        SECOND_ASSIST = 64;
+        CANCELED_PENALTY = 111;
+        CANCELED_RED_CARD = 112;
+        CANCELED_YELLOW_CARD = 113;
+        CANCELED_SECOND_YELLOW_CARD = 114;
+        SCORING_STATISTICS = 115;
+        TWO_POINT_CONVERSION = 116;
+        FIELD_GOAL = 117;
+        SAFETY = 118;
+        TOUCHDOWN = 119;
+        EXTRA_POINT = 120;
+        TRY = 121;
+        CONVERSION = 122;
+        DROPKICK = 123;
+        PENALTY_TRY = 124;
+        PENALTY_TRY_CONVERSION = 125;
+        GOLDEN_POINT_TRY = 126;
+        GOLDEN_POINT_PENALTY = 127;
+        GOLDEN_POINT_DROPKICK = 128;
+        EXTRA_TIME_TRY = 129;
+        EXTRA_TIME_CONVERSION = 131;
+        EXTRA_TIME_PENALTY_TRY = 132;
+        EXTRA_TIME_DROPKICK = 133;
+        DEFENSIVE_TWO_POINT_CONVERSION = 134;
+        CANCELLED_CARD = 135;
+        CANCELLED_MISSED_PENALTY = 136;
+        CANCELLED_PENALTY = 137;
+        SINGLE_POINT = 138;
+
+        INCIDENT_UPDATE = 1024;
+
+        CORNER_KICK = 1025;
+        PENALTY_AWARDED = 1031;
+
+        // it is not clear how to assign IDs for incidents which are not
+        // supported by old Delphi system so as a temporary solution
+        // I start to give them IDs starting from 2000
+        SUSPENSION_20_MINUTES = 2000; // ice hockey
+        SUSPENSION_25_MINUTES = 2001; // ice hockey
+        SUSPENSION_2_MINUTES_BENCH = 2002; // ice hockey
+    }
+
+    enum Period {
+        UNKNOWN_PERIOD = 0;
+        FIRST_HALF = 1;
+        SECOND_HALF = 2;
+        EXTRA_TIME = 3;
+        PENALTY_SHOOTOUT = 4;
+        HALF_TIME = 5;
+        EXTRA_TIME_HALF_TIME = 6;
+        PERIOD_1ST = 10; // ice hockey
+        PERIOD_2ND = 11; // ice hockey
+        PERIOD_3RD = 12; // ice hockey
+        OVERTIME = 13; // ice hockey
+    }
+
+    int64 id = 1;
+
+    // which team is the incident is about
+    int32 teamNumber = 2;
+
+    // Player ID
+    string playerId = 3;
+    // the playerIdOut is filled in only in case of a substitution
+    string playerIdOut = 4;
+
+    // Player Number
+    int32 playerNum = 5;
+    // the playerIdOut is filled in only in case of a substitution
+    int32 playerNumOut = 6;
+
+    // Player name
+    string playerName = 7;
+    string playerNameOut = 8;
+
+    // Player short name
+    string playerShortName = 9;
+    string playerShortNameOut = 10;
+
+    // Incident type
+    IncidentType incidentType = 11;
+
+    repeated int32 score = 12 [packed = true];
+
+    // Reason of the incident
+    string reason = 13;
+
+    // the minute of the incident
+    int32 minute = 14;
+
+    // the second of the incident
+    int32 second = 15;
+
+    Period period = 16;
+
+    int64 sort_order = 17;
+
+    bool is_shootout_with_total_score = 18;
+
+    int32 minute_extend = 19;
+}
+
+message Participant {
+    string participant_id = 1;
+    string name = 2;
+    ParticipantKind kind = 3;
+
+    // Unknown fields at the moment
+    // Find out the meaning in the current pull system
+    int32 opt = 4;
+
+    string country_id = 5;
+
+    // Overwrite the provider specific meta data (static data)
+    // in case this field is set
+    bool overwrite_meta_data = 6;
+
+    // Home or away
+    int32 position = 7;
+
+    // Means ordering like for instance:
+    // In tennis we have a double and the index decides which player should be listed first
+    // and which one as second
+    // Formula one is another example
+    int32 index = 8;
+
+    string country_name = 9;
+
+    Gender gender = 10;
+
+    ParticipantAgeGroup ageGroup = 11;
+
+    Jersey jersey = 12;
+
+    int32 virtual = 13;
+
+    string image_url = 14;
+}
+
+message ParticipantDataMessage {
+    string participant_id = 1;
+    string name = 2;
+    ParticipantKind kind = 3;
+
+    string country_id = 5;
+
+    string country_name = 9;
+
+    Gender gender = 10;
+
+    ParticipantAgeGroup ageGroup = 11;
+
+    repeated Jersey jersey = 12;
+
+    int32 virtual = 13;
+
+    string image_url = 14;
+}
+
+message Jersey {
+    enum JerseyType {
+        UNKNOWN_JERSEY_TYPE = 0;
+        HOME = 1;
+        AWAY = 2;
+        GOALKEEPER = 3;
+        THIRD = 4;
+    }
+
+    enum ShirtType {
+        UNKNOWN_SHIRT_TYPE = 0;
+        SHORT_SLEEVES = 1;
+        LONG_SLEEVES = 2;
+    }
+
+    JerseyType type = 1;
+    ShirtType shirt_type = 2;
+
+    //COLORs are in HEXA strings
+    string base_color = 3;
+    string sleeve_color = 4;
+    string number_color = 5;
+    string sleeve_detail_color = 6;
+
+    //optional
+    bool horizontal_stripes = 7;
+    string horizontal_stripes_color = 8;
+    bool split = 9;
+    string split_color = 10;
+    bool squares = 11;
+    string squares_color = 12;
+    bool stripes = 13;
+    string stripes_color = 14;
+}
+
+message MatchParticipantUpdateMessage {
+    repeated Participant participant = 1;
+}
+
+message MatchWinnerMessage {
+    int32 winner = 1;
+}
+
+message MatchActualStartDateTimeMessage {
+    int64 actual_start_date_time = 1;
+}
+
+message MatchActualEndDateTimeMessage {
+    int64 actual_end_date_time = 1;
+}
+
+message MatchRoundMessage {
+    int32 round = 1;
+    int32 order_in_round = 2;
+    string roundTx = 3;
+}
+
+message MatchTypeMessage {
+    EventType type = 1;
+    string typeTx = 2;
+}
+
+message LineupMessage {
+    // single list, which contains players for all teams at all positions (starting line-ups, substitute players, etc.)
+    // the list needs to be split into groups in the apply method
+    // for example:
+    // if a starting line-up is detected at team position 1, build and replace home team's starting line-ups
+    // if a substitute or injured player is detected at team position 2, build and replace away team's list of substitutes and injured players
+    repeated LineupPerson persons = 1;
+    bool lineups_confirmed = 2;
+    bool is_full_lineup_update = 3;
+}
+
+message LineupPerson {
+    int32 team_position = 1;
+    string person_id = 2;
+    string first_name = 3;
+    string last_name = 4;
+    string short_name = 5;
+    PersonPosition position_id = 6;
+    PersonPosition actual_position_id = 7;
+    string position_name = 8;
+    int32 jersey_number = 9;
+    string jersey_name = 10;
+    int32 minute_out = 11;
+    int32 second_out = 12;
+    int32 minute_in = 13;
+    int32 second_in = 14;
+    string field_position = 15; // split into int[] in the apply method
+}
+
+message RefereeMessage {
+    repeated Referee referees = 1;
+}
+
+message Referee {
+    string name = 1;
+    int32 kind = 2;
+    string country_id = 3;
+    string country_name = 4;
+}
+
+message TennisStatistics {
+    int32 breaks = 1;
+    int32 servicePointsLost = 2;
+    int32 serviceGameLost = 3;
+    int32 doubleFaults = 4;
+    int32 servicePointsWon = 5;
+    int32 maxPointsInRow = 6;
+    int32 breakPoints = 7;
+    int32 maxGamesInRow = 8;
+    int32 serviceGamesWon = 9;
+    int32 aces = 10;
+}
+
+message MatchStatistic {
+    int32 team_position = 1;
+    int32 fouls = 2;
+    int32 throw_ins = 3;
+    int32 blocked_shots = 4;
+    int32 corners = 5;
+    int32 counter_attacks = 6;
+    int32 crosses = 7;
+    int32 goal_keeper_saves = 8;
+    int32 offsides = 9;
+    int32 red_cards = 10;
+    int32 yellow_cards = 11;
+    int32 ball_possession = 12;
+    int32 goal_kicks = 13;
+    int32 shots_on = 14;
+    int32 shots_off = 15;
+    int32 shots_wood = 16;
+    int32 treatments = 17;
+    int32 free_kicks = 18;
+    int32 yellow_red_cards = 19;
+
+    TennisStatistics tennisStat = 20;
+}
+
+message MatchStatisticMessage {
+    repeated MatchStatistic statistics = 1;
+}
+
+message MatchCommentaryInfoValue {
+
+    enum MatchCommentaryInfoType {
+        UNKNOWN_COMMENTARY_TYPE = 0;
+        TIME = 1;
+        INJURY_TIME = 2;
+        INCIDENT_TYPE = 3;
+        TIMESTAMP = 4;
+        SCORE = 5;
+    }
+
+    MatchCommentaryInfoType infoType = 1;
+    oneof value {
+        string string_value = 2;
+        int32 number_value = 3;
+    }
+
+}
+
+message MatchCommentary {
+    repeated MatchCommentaryInfoValue info = 1;
+    string comment = 2;
+    Language language = 3;
+}
+
+message MatchCommentariesMessage {
+    repeated MatchCommentary commentaries = 1;
+}
+
+message AddMatchCommentariesMessage {
+    repeated MatchCommentary commentaries = 1;
+}
+
+message MatchConditionsMessage {
+    string pitch = 1;
+    string attendance = 2;
+    string weather = 3;
+}
+
+// === Messages definitions for updating the internal match id
+message MappedMatch {
+    Provider provider = 1;
+    string matchId = 2;
+    string internalMatchId = 3;
+}
+
+// This message contains the list of mapped match ids between internal and provider specific
+message MappedMatchMessage {
+    repeated MappedMatch mappedMatch = 1;
+}
+
+message FullMatchDataMessage {
+    bytes data = 1;
+    string command_id = 2;
+}
+
+message CommandFailureMessage {
+    string command_id = 1;
+}
+
+// This is the message to be sent when a match is deleted
+message MatchDeletedMessage {
+}
+
+message MatchCoverageCancellationMessage {
+    int32 reasonId = 1;
+}
+
+message MatchReminderMessage {
+}
+
+message StageEventDeletedMessage {
+    string event_id = 1;
+    string stage_id = 2;
+    string season_id = 3;
+}
+
+message StageEventUpdateMessage {
+    bytes data = 1;
+    string event_id = 2;
+    string stage_id = 3;
+    string season_id = 4;
+}
+
+message FullStageUpdateMessage {
+    bytes data = 1;
+    string stage_id = 2;
+    string season_id = 3;
+}
+
+message FullLeagueTableDataMessage {
+    bytes data = 1;
+    string stage_id = 2;
+    string season_id = 3;
+    string category_id = 4;
+}
+
+message ParticipantEntityMessage {
+    bytes data = 1;
+    string participant_id = 2;
+}
+
+message HeadToHeadMessage {
+    repeated SummaryEventMessage events = 1;
+}
+
+message LastEventsMessage {
+    repeated TeamLastEventsMessage teamLastEventsMessage = 1;
+}
+
+message TeamLastEventsMessage {
+    SummaryEventsListMessage lastEventsListMessage = 1;
+    int32 teamPosition = 2;
+    string participant_id = 3;
+}
+
+message SummaryEventsListMessage {
+    repeated SummaryEventMessage lastEvents = 1;
+}
+
+message SummaryEventScoreMessage {
+    int32 home_team_score = 1;
+    int32 away_team_score = 2;
+}
+
+message SummaryEventMessage {
+    string event_id = 1;
+
+    int64 start_date_time = 2;
+
+    repeated Participant teams = 3;
+
+    string stage_id = 4;
+
+    string stage_name = 5;
+
+    string category_id = 6;
+
+    string category_name = 7;
+
+    string season_id = 8;
+
+    string special_season_id = 9;
+
+    string countryId = 10;
+
+    string countryName = 11;
+
+    string seasonName = 12;
+
+    ScoreMessage score = 13;
+
+    MatchStatusMessage matchStatus = 14;
+
+    MatchWinnerMessage winner = 15;
+
+    EventType matchType = 16;
+}
+
+// Updates the start date time of a soccer match
+message MatchStartDateTimeMessage {
+    int64 start_date_time = 1;
+
+    int32 offset_in_minutes = 2;
+}
+
+message MediaMessage {
+    Provider provider = 1;
+    repeated MediaDataMessage mediaData = 2;
+}
+
+message MediaDataMessage {
+    map<string, WrapObject> attributes = 1;
+}
+
+message WrapObject{
+    oneof any {
+        MediaDataMessage map = 1;
+        ListString list = 2;
+        string string = 3;
+    }
+}
+
+message ListString{
+    repeated string string = 1;
+}
+
+// Provider specific match info
+message MatchInfoMessage {
+
+    // The start date and time of the match
+    int64 start_date_time = 1;
+
+    // Full team info needed, for both home and avay team include these fields:
+    // - name
+    // - id
+    // - kind
+    // - opt
+    // - country id
+    // - position (index) in case there are multiple teams at the same position in the match (e.g 2 home teams and 2 away teams in tennis doubles)
+    // - should add to Team static data (boolean)
+    // home team id
+    //int64 home_team_id = 2;
+    repeated Participant teams = 2;
+
+    // home team name
+    //string home_team = 3;
+
+    // Away team id
+    //int64 away_team_id = 4;
+
+    // Away team name
+    //string away_team = 5;
+    //repeated Participant away_teams = 3;
+
+    // Stage/League id
+    string stage_id = 4;
+
+    // Stage/League name
+    string stage_name = 5;
+
+    // Country/Category id
+    string category_id = 6;
+
+    // Country/Category name
+    string category_name = 7;
+
+    // Season ID
+    string season_id = 8;
+
+    // Special season ID - e.g. TennisSeasonId from BetRadar
+    string special_season_id = 9;
+
+    // Current match status
+    MatchStatus status = 10;
+
+    // Minute of the match
+    int32 minute = 11;
+
+    // Game series
+    repeated GameSeries game_series = 12;
+
+    // The coverage of the match
+    Coverage coverage = 13;
+
+    EventType eventType = 14;
+
+    bool ignoreStatus = 15;
+
+    string seasonName = 16;
+
+    string country_name = 17;
+
+    string country_id = 18;
+
+    // Days of the match
+    int32 days_match = 19;
+
+    // Toss to cricket
+    int32 tossTeamId = 20;
+
+    int32 tossDecision = 21;
+
+    string injureTime = 22;
+
+    string matchName = 23;
+}
+
+//TODO: define score for next sports
+message PeriodScore {
+    enum PeriodScoreType {
+        UNKNOWN_TYPE = 0;
+        PERIOD = 1;
+        SET = 2;
+        TIE_BREAK = 3;
+        QUARTER = 4;
+        CURRENT = 5;
+        OVERTIME = 6;
+        TIME = 7;
+        WHO_SERVE = 8;
+        GAME_SCORE = 9;
+    }
+
+    //type of period score (period, set, quarter,...)
+    PeriodScoreType period_score_type = 1;
+
+    //number of period, set, tie_break, quarter, ... (1 = 1st, 2 = 2nd, ...)
+    int32 period_score_type_num = 2;
+
+    //period score for home/away team
+    int32 home_team_period_score = 3;
+    int32 away_team_period_score = 4;
+
+    //tennis game score (0, 15, 30, 40, A)
+    string home_team_game_score = 5;
+    string away_team_game_score = 6;
+
+    //tennis: num of team which is serving now
+    int32 team_serving = 7;
+    //tennis: num of team which was scoring
+    int32 team_scoring = 8;
+
+    bool del = 24;
+    //TODO: next sport specific score
+}
+
+// Updates the
+message ScoreMessage {
+
+    int32 home_team_score = 1;
+    int32 away_team_score = 2;
+
+    int32 home_penalty_score = 3;
+    int32 away_penalty_score = 4;
+
+    // whether the score was made by the home team or not
+    bool is_home_team_score = 5;
+
+    // this flag indicates whether the penalty scores are a total.
+    // A total means that it is the sum of the regular scores plus the penalty shootout
+    bool is_penalty_score_total = 6;
+
+    //next is for other sports (tennis, ice_hockey)
+    PeriodScore period_score = 7;
+
+    // for cricket
+    float home_team_overs1 = 8;
+    float away_team_overs1 = 9;
+
+    int32 home_team_runs_scored1 = 10;
+    int32 away_team_runs_scored1 = 11;
+
+    int32 home_team_wickets1 = 12;
+    int32 away_team_wickets1 = 13;
+
+    int32 home_team_declared1 = 14;
+    int32 away_team_declared1 = 15;
+
+    float home_team_overs2 = 16;
+    float away_team_overs2 = 17;
+
+    int32 home_team_runs_scored2 = 18;
+    int32 away_team_runs_scored2 = 19;
+
+    int32 home_team_wickets2 = 20;
+    int32 away_team_wickets2 = 21;
+
+    int32 home_team_declared2 = 22;
+    int32 away_team_declared2 = 23;
+}
+
+message GameSeriesMessage {
+    repeated GameSeries game_series = 1;
+}
+
+// TODO: TBD - sport-specific ro general formations?
+message FormationMessage {
+    string home_team_formation = 1;
+    string away_team_formation = 2;
+}
+
+message GameSeries {
+    // the totoal amount of matches
+    int32 number_of_matches = 1;
+
+    // team 1 id
+    string team1_id = 2;
+
+    // team 2 id
+    string team2_id = 3;
+
+    // score of team 1
+    int32 score_team_1 = 4;
+
+    // score of team 2
+    int32 score_team_2 = 5;
+
+    // the id of the team who won this leg
+    string winner_team_id = 6;
+
+    // the current leg
+    int32 current_leg = 7;
+
+    // the other sport event id
+    string other_event_id = 8;
+}
+
+message Inning {
+
+    int32 id = 1;
+
+    int32 runs_scored = 2;
+
+    int32 wickets = 3;
+
+    float overs = 4;
+
+    int32 team_id = 5;
+
+    string team_name = 6;
+
+    int32 inning_number = 7;
+
+    int32 run_rate = 8;
+
+    int32 total_extras = 9;
+
+    int32 byes = 10;
+
+    int32 leg_byes = 11;
+
+    int32 no_balls = 12;
+
+    int32 wides = 13;
+
+    int32 penalties = 14;
+
+    repeated Batsman batsmen = 15;
+
+    repeated Bowler bowlers = 16;
+
+    repeated FallofWicket fallofWickets = 17;
+
+    repeated CricketCommentary commentaries = 18;
+
+}
+
+message Batsman {
+
+    int32 player_id = 1;
+
+    FallofWicket.WicketStatuses dismissal_id = 2;
+
+    int32 runs_scored = 3;
+
+    int32 fours_scored = 4;
+
+    int32 sixes_scored = 5;
+
+    int32 balls_faced = 6;
+
+    int32 bowler_id = 7;
+
+    int32 caught_id = 8;
+
+    string dismissal = 9;
+
+    int32 onStrike = 10;
+
+}
+
+message Bowler {
+
+    int32 player_id = 1;
+
+    int32 overs_bowled = 2;
+
+    int32 maidens_bowled = 3;
+
+    int32 runs_conceded = 4;
+
+    int32 wickets_taken = 5;
+
+    int32 no_balls = 6;
+
+    int32 wides = 7;
+
+    int32 onStrike = 8;
+
+}
+
+message FallofWicket {
+
+    enum WicketStatuses {
+        UNKNOWN = 0;
+        YET_TO_BAT = 1;
+        DID_NOT_BAT = 2;
+        ABSENT_HURT = 4;
+        ABSENT = 5;
+        RETIRED = 6;
+        RETIRED_OUT = 7;
+        RETIRED_NOT_OUT = 8;
+        RETIRED_HURT = 9;
+        OBSTRUCTING_FIELD = 10;
+        HANDLED_BALL = 12;
+        HIT_WICKET = 15;
+        HIT_BALL_TWICE = 16;
+        LBW = 20;
+        BAT_AND_PAD = 21;
+        BOWLED = 23;
+        CAUGHT = 25;
+        CAUGHT_SUB = 26;
+        RUN_OUT = 30;
+        RUN_OUT_SUB = 31;
+        STUMPED_OUT = 35;
+        STUMPED_OUT_SUB = 36;
+        NOT_OUT = 40;
+        TIMED_OUT = 45;
+    }
+
+    int32 player_id = 1;
+
+    int32 runs = 2;
+
+    float over_ball = 3;
+
+    int32 order = 4;
+
+}
+
+message CricketCommentary {
+
+    float overs = 1;
+
+    int32 batsman_id = 2;
+
+    int32 bowler_id = 3;
+
+    string text = 4;
+
+    string score_text = 5;
+
+    string score_value = 6;
+
+}
+
+message InningMessage {
+
+    repeated Inning innings = 1;
+
+}
+
+message HorseRacing {
+
+    map<string, string> finish_positions = 1;
+
+    map<string, string> jockeys = 2;
+
+    map<string, string> trainers = 3;
+
+    string track_condition = 4;
+
+    string weather = 5;
+
+    string race_distance = 6;
+
+    string race_gait = 7;
+
+    map<string, string> starting_prices = 8;
+
+    map<string, string> horse_statuses = 9;
+
+    string race_name = 10;
+
+    map<string, string> favourites = 11;
+
+    map<string, string> tabNos = 12;
+
+    map<string, bool> failedToFinish = 13;
+
+    map<string, bool> disqualified = 14;
+
+    string number_places = 15;
+}
+
+message HorseRacingMessage {
+
+    HorseRacing horse_racing = 1;
+
+}
+
+enum StorageType {
+    EVENTS = 0;
+    PARTICIPANTS = 1;
+    STAGE_LEAGUE_TABLE = 2;
+    STAGE_INFO = 3;
+}

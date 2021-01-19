@@ -1,19 +1,13 @@
-# import json
-from google.protobuf.json_format import MessageToDict
 from kafka import KafkaConsumer
-# from google.protobuf.descriptor_pool import DescriptorPool
 
-bootstrap_servers = ["dev-kafka-0.ls.seo:9092", "dev-kafka-1.ls.seo:9092"]
-consumer = KafkaConsumer("envelope", bootstrap_servers=bootstrap_servers)
 
-with open("test/base_model.proto", "r") as proto:
+def consume(environment, topic):
+    bootstrap_servers = ["{}-kafka-0.ls.seo:9092".format(environment), "{}-kafka-1.ls.seo:9092".format(environment)]
+    topic = topic
+    consumer = KafkaConsumer(topic, bootstrap_servers=bootstrap_servers, auto_offset_reset="latest")
     for message in consumer:
-        print(MessageToDict(message.value, descriptor_pool=proto))
+        print(message.value)
 
 
-
-# pool = DescriptorPool()
-# print(pool)
-# pool.Add('C:\\Users\\IDidyk\\Desktop\\base_model.proto')
-
-# print(MessageToDict(message))
+if __name__ == '__main__':
+    consume("dev", "export-mapping-template")

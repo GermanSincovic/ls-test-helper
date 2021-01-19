@@ -1,5 +1,7 @@
 import json
-from kafka import KafkaProducer
+from kafka import KafkaProducer, KafkaConsumer
+
+from modules import Log
 
 
 def produce(environment, topic, key, message):
@@ -14,3 +16,13 @@ def produce(environment, topic, key, message):
     else:
         return "Something went wrong", 500
 
+
+def consume(environment, topic):
+    bootstrap_servers = ["{}-kafka-0.ls.seo:9092".format(environment), "{}-kafka-1.ls.seo:9092".format(environment)]
+    topic = topic
+    consumer = KafkaConsumer(topic, bootstrap_servers=bootstrap_servers, auto_offset_reset="latest")
+    for message in consumer:
+        print(message.value)
+        return message.value, 200
+    Log.warning("No message gotten from '{}' topic ({})".format(topic, environment))
+    return "Something went wrong", 500

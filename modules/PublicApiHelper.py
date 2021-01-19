@@ -1,6 +1,6 @@
 import requests
 
-from modules import FileManager
+from modules import FileManager, Kafka, Log
 from modules.Constants import FEATURE_NAMES, SPORT_NAMES
 
 
@@ -31,13 +31,29 @@ def find_priority_rules(mt, sport, stage):
     return rules
 
 
+def get_public_api_live_count(environment):
+    config = get_url_config()
+    public_api_live_count_link = config[environment]['public-api-base-url'] + config[environment]['public-api-live-counter']
+    live_count = requests.get(public_api_live_count_link).json()
+    return live_count, 200
+
+
 def get_public_api_data_daily(environment, sport, date):
+    mapping_template = {}
     config = get_url_config()
     public_api_daily_pattern = config[environment]['public-api-base-url'] + config[environment]['public-api-event-list']
     public_api_daily_link = public_api_daily_pattern.format(sport=sport, ls_date=date)
     daily = requests.get(public_api_daily_link).json()
-    mapping_template_entry = requests.get(config[environment]['mapping-template-base-url'] + "/manifest.json").json()["entries"][0]
-    mapping_template = requests.get(config[environment]['mapping-template-base-url'] + mapping_template_entry).json()["featureProviders"]
+    # try:
+    mapping_template_entry = requests.get(config[environment]['mapping-template-base-url'] + "/manifest.json")
+    if mapping_template_entry.status_code == 200:
+        mapping_template_entry = mapping_template_entry.json()["entries"][0]
+        mapping_template = requests.get(config[environment]['mapping-template-base-url'] + mapping_template_entry).json()["featureProviders"]
+    # except FileNotFoundError as e:
+    #     Log.warning("No mapping templates in Bucket Storage. {}".format(e))
+    # else:
+    #     mapping_template = Kafka.consume(environment, "export-mapping-template")
+
     full_daily = {"Stages": []}
     for stage in daily["Stages"]:
         stage["_LC"] = 0
@@ -48,13 +64,6 @@ def get_public_api_data_daily(environment, sport, date):
         stage["_FP"].update(find_priority_rules(mapping_template, get_sport_id_by_name(sport), int(stage["Sid"])))
         full_daily["Stages"].append(stage)
     return full_daily
-
-
-def get_public_api_live_count(environment):
-    config = get_url_config()
-    public_api_live_count_link = config[environment]['public-api-base-url'] + config[environment]['public-api-live-counter']
-    live_count = requests.get(public_api_live_count_link).json()
-    return live_count, 200
 
 
 def get_public_api_data_event(environment, sport, id, pid):

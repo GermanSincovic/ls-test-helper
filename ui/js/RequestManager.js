@@ -164,6 +164,9 @@ export function RequestManager(){
             url: link,
             success: function(res){
                 new PAPILiveCount(res.message);
+            },
+            error: function(res){
+                MessageHandler("<b>Can't get API data:</b><br>" + link, "danger");
             }
         })
     }
@@ -175,7 +178,7 @@ export function RequestManager(){
                 new PAPIDaily(res);
             },
             error: function(res){
-                MessageHandler("<b>ERROR</b>: Can't get API data");
+                MessageHandler("<b>Can't get API data:</b><br>" + link, "danger");
             }
         })
     }
@@ -187,7 +190,7 @@ export function RequestManager(){
                 new PAPIEvent(res);
             },
             error: function(res){
-                MessageHandler("<b>ERROR</b>: Can't get API data");
+                MessageHandler("<b>Can't get API data:</b><br>" + link, "danger");
             }
         })
     }

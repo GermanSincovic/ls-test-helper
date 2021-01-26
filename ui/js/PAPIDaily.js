@@ -37,8 +37,6 @@ export function PAPIDaily(data){
         var composite_id = v.innerHTML;
         var provider_id = composite_id.split('-')[0];
         var event_id = composite_id.split('-')[1];
-//        http://10.5.106.105/ui/public-api/dev/event?sport=horses&id=334417
-//        https://livescore-dev-api.dev-i.net/ui/#/ice_hockey/match/8-273741
         if(provider_id != "8"){
             v.innerHTML = '<a target="_blank" href="' + api_config['public-api-base-url']
             + api_config['public-api-test-ui-event']

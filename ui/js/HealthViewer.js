@@ -22,7 +22,7 @@ export function HealthViewer(data){
 		return tr;
 	}
 
-	function getTableLines(json){
+	function getTableLines(json, env=null){
 		var tr = document.createElement("tr");
 		if(json.status){
 			tr.className = json.status.toLowerCase();
@@ -30,7 +30,11 @@ export function HealthViewer(data){
 		Object.keys(json).forEach(key => {
 			if(key != "status" && key != "updated"){
 				var td = document.createElement("td");
-					td.innerText = json[key];
+				    if((env=="dev" || env=="test") && key == "version"){
+				        td.innerHTML = "<a target='_blank' href='https://ls-bp-ls-g.dev-i.net/view/newVersionBuild/job/" + json['component'] + "-build/'>" + json['version'] + "</a>";
+				    } else {
+					    td.innerText = json[key];
+				    }
 				tr.append(td);
 			}
 		})
@@ -45,7 +49,7 @@ export function HealthViewer(data){
 	header_container = document.getElementById(header_container);
 	body_container = document.getElementById(body_container);
 
-	// crear health page
+	// clear health page
 	header_container.innerHTML = "";
 	body_container.innerHTML = "";
 
@@ -104,7 +108,7 @@ export function HealthViewer(data){
 			thead.append(getTableHeaders(components[0]));
 
 			components.forEach(component => {
-				tbody.append(getTableLines(component));
+				tbody.append(getTableLines(component, Object.keys(el)[0]));
 			});
 
 			table.append(thead);

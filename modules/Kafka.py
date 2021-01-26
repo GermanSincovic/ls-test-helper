@@ -20,9 +20,9 @@ def produce(environment, topic, key, message):
 def consume(environment, topic):
     bootstrap_servers = ["{}-kafka-0.ls.seo:9092".format(environment), "{}-kafka-1.ls.seo:9092".format(environment)]
     topic = topic
-    consumer = KafkaConsumer(topic, bootstrap_servers=bootstrap_servers, auto_offset_reset="latest")
+    consumer = KafkaConsumer(topic, bootstrap_servers=bootstrap_servers, auto_offset_reset="earliest")
     for message in consumer:
-        print(message.value)
-        return message.value, 200
+        message_str = message.value.decode('utf-8')
+        return message_str, 200
     Log.warning("No message gotten from '{}' topic ({})".format(topic, environment))
     return "Something went wrong", 500

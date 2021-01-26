@@ -1,3 +1,5 @@
+import json
+
 import requests
 
 from modules import FileManager, Kafka, Log
@@ -33,26 +35,36 @@ def find_priority_rules(mt, sport, stage):
 
 def get_public_api_live_count(environment):
     config = get_url_config()
-    public_api_live_count_link = config[environment]['public-api-base-url'] + config[environment]['public-api-live-counter']
-    live_count = requests.get(public_api_live_count_link).json()
+    public_api_live_count_link = config[environment]['public-api-base-url'] + config[environment][
+        'public-api-live-counter']
+    try:
+        live_count = requests.get(public_api_live_count_link).json()
+    except Exception as e:
+        return "Internal Server Error", 500
     return live_count, 200
 
 
 def get_public_api_data_daily(environment, sport, date):
+    daily = {}
     mapping_template = {}
     config = get_url_config()
     public_api_daily_pattern = config[environment]['public-api-base-url'] + config[environment]['public-api-event-list']
     public_api_daily_link = public_api_daily_pattern.format(sport=sport, ls_date=date)
-    daily = requests.get(public_api_daily_link).json()
-    # try:
+    try:
+        daily = requests.get(public_api_daily_link).json()
+    except Exception as e:
+        return "Internal Server Error", 500
     mapping_template_entry = requests.get(config[environment]['mapping-template-base-url'] + "/manifest.json")
     if mapping_template_entry.status_code == 200:
         mapping_template_entry = mapping_template_entry.json()["entries"][0]
-        mapping_template = requests.get(config[environment]['mapping-template-base-url'] + mapping_template_entry).json()["featureProviders"]
-    # except FileNotFoundError as e:
-    #     Log.warning("No mapping templates in Bucket Storage. {}".format(e))
-    # else:
-    #     mapping_template = Kafka.consume(environment, "export-mapping-template")
+        mapping_template = \
+            requests.get(config[environment]['mapping-template-base-url'] + mapping_template_entry).json()[
+                "featureProviders"]
+    else:
+        Log.warning("No mapping templates in Bucket Storage. Consuming from Kafka ({})".format(environment))
+        mapping_template = Kafka.consume(environment, "export-mapping-template")
+        mapping_template = json.loads(mapping_template[0])
+        mapping_template = mapping_template["featureProviders"]
 
     full_daily = {"Stages": []}
     for stage in daily["Stages"]:
@@ -68,7 +80,8 @@ def get_public_api_data_daily(environment, sport, date):
 
 def get_public_api_data_event(environment, sport, id, pid):
     config = get_url_config()
-    public_api_event_pattern = config[environment]['public-api-base-url'] + config[environment]['public-api-event'] + "?pid={pid}"
+    public_api_event_pattern = config[environment]['public-api-base-url'] + config[environment][
+        'public-api-event'] + "?pid={pid}"
     public_api_event_link = public_api_event_pattern.format(sport=sport, event_id=id, pid=pid)
 
     # v1/api/app/match/{sport}/{event_id}/2.0

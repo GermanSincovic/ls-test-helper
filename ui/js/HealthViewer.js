@@ -41,6 +41,19 @@ export function HealthViewer(data){
 		return tr;
 	}
 
+	function filterLines(string){
+	    $("tr:not(:contains('" + string + "'))").addClass("d-none");
+	    $("tr:contains('" + string + "')").removeClass("d-none");
+	}
+
+	function getLastFilterValue(){
+        return localStorage.getItem('health-filter');
+	}
+
+	function saveFilterValue(val){
+        localStorage.setItem('health-filter', val);
+	}
+
 	var environment_list = [];
 	var crash_count_list = [];
 
@@ -117,6 +130,18 @@ export function HealthViewer(data){
 				body_container.append(body_item);
 
 	}, body_container);
+
+    setTimeout(function(){
+        $("#health-filter").val(getLastFilterValue());
+        filterLines(getLastFilterValue());
+    }, 100);
+
+    $("#health-filter").on("keyup", function(){
+        var string = $("#health-filter").val();
+            saveFilterValue(string);
+            filterLines(string);
+    });
+
 
 	new TabMemoriser("#pills-tab-monitoring-nav", "last-env-monitoring-nav-tab");
 

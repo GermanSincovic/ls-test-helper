@@ -56,8 +56,10 @@ export function FileManager(data){
 					p.style.margin = 0;
 
 				var main_link = document.createElement("a");
-					main_link.href = "#";
-					main_link.onclick = function (){ ToggleSpinner(); RM.readFile(el.folder, file.name); }
+//					main_link.href = "#";
+//					main_link.onclick = function (){ ToggleSpinner(); RM.readFile(el.folder, file.name); }
+					main_link.href = "/ui/collector/" + el.folder + "/" + file.name;
+					main_link.target = "_blank";
 					main_link.innerText = file.name;
 				p.append(main_link);
 

@@ -28,6 +28,14 @@ def get_public_api_ui():
         return render_template('public-api/index.html')
 
 
+@app.route('/ui/collector/<string:folder>/<string:file>', methods=['GET'])
+def get_file_to_compare(folder, file):
+    if not folder or not file:
+        return Resp.throw_error(400)
+    else:
+        return render_template('collector/result.html', data=FileManager.get_file(folder, file), folder=folder, filename=file)
+
+
 @app.route('/ui/public-api/<string:environment>/<string:feed>', methods=['GET'])
 def get_public_api_ui_env_feed(environment, feed):
     if environment not in ['dev', 'test', 'preprod', 'prod'] or feed not in ['event-list', 'event']:

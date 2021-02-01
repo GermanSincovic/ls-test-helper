@@ -25,7 +25,7 @@ export function RequestManager(){
 	    $.ajax({
 			url: this.BASE_API_URL + "files/" + folder + "/" + file_name,
 			success: function(response){
-				new Comparator(response.message, file_name);
+			    new Comparator(response.message, file_name);
 			}
 		})
 	}

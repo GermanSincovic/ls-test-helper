@@ -17,7 +17,7 @@ export function Comparator(file_data, file_name){
                     + b.timestamp
                 + "</div>"
                 + "<div class='col-3 d-flex justify-content-end'>"
-                    + "<a class='btn btn-light' download='" + filename + "' href='data:text/plane;base64," + window.btoa(unescape(encodeURIComponent("//" + list[0].timestamp + "\n" + JSON.stringify(JSON.parse(b.body), null, "\t")))) + "'>"
+                    + "<a class='btn btn-light' download='" + filename + "' href='data:text/plane;base64," + window.btoa(unescape(encodeURIComponent("//" + b.timestamp + "\n" + JSON.stringify(JSON.parse(b.body), null, "\t")))) + "'>"
                         + "<img src='/ui/img/download_icon.png' width='20'>"
                     + "</a>"
                 + "</div>"

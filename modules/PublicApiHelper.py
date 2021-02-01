@@ -80,9 +80,10 @@ def get_public_api_data_daily(environment, sport, date):
 
 def get_public_api_data_event(environment, sport, id, pid):
     config = get_url_config()
+    composite_id = pid + "-" + id
     public_api_event_pattern = config[environment]['public-api-base-url'] + config[environment][
-        'public-api-event'] + "?pid={pid}"
-    public_api_event_link = public_api_event_pattern.format(sport=sport, event_id=id, pid=pid)
+        'public-api-test-ui-event']
+    public_api_event_link = public_api_event_pattern.format(sport=sport, composite_id=composite_id)
     try:
         event = requests.get(public_api_event_link).json()
     except ConnectionError as e:

@@ -37,20 +37,20 @@ export function PAPIDaily(data){
         var composite_id = v.innerHTML;
         var provider_id = composite_id.split('-')[0];
         var event_id = composite_id.split('-')[1];
-        if(provider_id != "8"){
-            v.innerHTML = '<a target="_blank" href="' + api_config['public-api-base-url']
-            + api_config['public-api-test-ui-event']
-                .replace('{sport}', (location.sport=="hockey")?"ice_hockey":location.sport)
-                .replace('{composite_id}', composite_id)
-            + '">' + composite_id + '</a>'
-        } else{
+//        if(provider_id != "8"){
+//            v.innerHTML = '<a target="_blank" href="' + api_config['public-api-base-url']
+//            + api_config['public-api-test-ui-event']
+//                .replace('{sport}', (location.sport=="hockey")?"ice_hockey":location.sport)
+//                .replace('{composite_id}', composite_id)
+//            + '">' + composite_id + '</a>'
+//        } else{
             v.innerHTML = '<a target="_blank" href="' + location.origin
             + '/ui/public-api/' + location.environment + '/event'
             + '?sport=' + location.sport
             + '&pid=' + provider_id
             + '&id=' + event_id
             + '">' + composite_id + '</a>'
-        }
+//        }
     });
 
     if($("#live-only button")[0].attributes['aria-pressed'].value == "true"){

@@ -25,11 +25,18 @@
                 <span class="col-6 text-right">Track condition:</span>
                 <span class="col-6 text-left">{{data.TrCon}}</span>
             </div>
+            <div title="TrCon" class="row mx-5 justify-content-between">
+                <span class="col-6 text-right">Weather:</span>
+                <span class="col-6 text-left">{{data.TrWea}}</span>
+            </div>
             <div class="row mx-5 justify-content-between">
                 <span class="col-6 text-right">Runners:</span>
                 <span class="col-6 text-left">{{data.Ps|length}}</span>
             </div>
         </div>
+    </div>
+    <div class="col">
+        {% include '/public-api/chunks/event-data-tpl-venue.html' %}
     </div>
     <div class="col">
         <div class="shadow rounded my-2">

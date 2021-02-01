@@ -83,9 +83,11 @@ def get_public_api_data_event(environment, sport, id, pid):
     public_api_event_pattern = config[environment]['public-api-base-url'] + config[environment][
         'public-api-event'] + "?pid={pid}"
     public_api_event_link = public_api_event_pattern.format(sport=sport, event_id=id, pid=pid)
-
-    # v1/api/app/match/{sport}/{event_id}/2.0
-    return requests.get(public_api_event_link).json()
+    try:
+        event = requests.get(public_api_event_link).json()
+    except ConnectionError as e:
+        return "Internal Server Error", 500
+    return event
 
 
 def get_public_api_data(environment, feed, sport, date=None, id=None, pid=None):

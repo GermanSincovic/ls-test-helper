@@ -40,9 +40,9 @@
                         {% endfor %}
                     </td>
                     <td align='center' style='vertical-align: middle;'>
-                        <span>{% if event.Tr1OR %} {{event.Tr1OR}} {% else %}?{% endif %}</span>
+                        <span>{% if event.Tr1OR %} {{event.Tr1OR}} {% elif event.Tr1 %} {{ event.Tr1 }} {% else %} ? {% endif %}</span>
                         <span> - </span>
-                        <span>{% if event.Tr2OR %}{{event.Tr2OR}}{% else %}?{% endif %}</span>
+                        <span>{% if event.Tr2OR %} {{event.Tr2OR}} {% elif event.Tr2 %} {{ event.Tr2 }} {% else %} ? {% endif %}</span>
                     </td>
                     <td align='left' style='vertical-align: middle;'>
                         {% for t in event.T2 %}

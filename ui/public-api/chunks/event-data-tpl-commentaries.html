@@ -1,8 +1,8 @@
-{% if data.Com %}
-    <div class="shadow rounded py-2">
-        <div class="row">
-            <div class="col h4 mx-3 p-2 event-element-header"><h3>Commentaries</h3></div>
-        </div>
+<div class="shadow rounded py-2">
+    <div class="row">
+        <div class="col h4 mx-3 p-2 event-element-header"><h3>Commentaries</h3></div>
+    </div>
+    {% if data.Com %}
         {% for com in data.Com %}
             <div class="row p-2" data-type="commentary" data-highlighted="{% if com.IT %}true{% else %}false{% endif %}">
                 <div class="col-1">{{com.Min}}{% if com.MinEx %}+{{com.MinEx}}{% endif %}</div>
@@ -10,5 +10,5 @@
             </div>
             <div class="dropdown-divider"></div>
         {% endfor %}
-    </div>
-{% endif %}
+    {% endif %}
+</div>

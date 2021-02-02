@@ -1,44 +1,44 @@
-{% if data.Subs %}
-    <div class="shadow rounded py-2">
-        <div class="row">
-            <div class="col h4 mx-3 p-2 event-element-header"><h3>Substitutions</h3></div>
-        </div>
+<div class="shadow rounded py-2">
+    <div class="row">
+        <div class="col h4 mx-3 p-2 event-element-header"><h3>Substitutions</h3></div>
+    </div>
+    {% if data.Subs %}
         <div class="row p-2">
-            <div class="col-12 justify-content-between">
-                {% for h in data.Subs %}
-                    {% for SUBS in data.Subs[h] %}
-                        {% if SUBS.IT == 4 %}
-                            <div class="row">
-                                <div class="col-1" title="Subs[][].Min">{{ SUBS.Min }}'</div>
-                                <div class="col-1">
-                                    <div class="incident-icon" data-incident-type="{{ SUBS.IT }}">
-                                        <img src="/ui/img/incidents/{{ data.Spid }}/{{ SUBS.IT }}.png">
-                                    </div>
-                                </div>
-                                <div class="col-10" title="Subs[][].Pn">
-                                    {{ SUBS.Pn }}<small class="text-muted" title="Subs[][].ID"> ({{ SUBS.ID }})</small>
+        <div class="col-12 justify-content-between">
+            {% for h in data.Subs %}
+                {% for SUBS in data.Subs[h] %}
+                    {% if SUBS.IT == 4 %}
+                        <div class="row">
+                            <div class="col-1" title="Subs[][].Min">{{ SUBS.Min }}'</div>
+                            <div class="col-1">
+                                <div class="incident-icon" data-incident-type="{{ SUBS.IT }}">
+                                    <img src="/ui/img/incidents/{{ data.Spid }}/{{ SUBS.IT }}.png">
                                 </div>
                             </div>
-                            {% for SUBSinner in data.Subs[h] %}
-                                {% if SUBS.IDo == SUBSinner.ID %}
-                                    <div class="row">
-                                        <div class="col-1" title="Subs[][].Min">{{ SUBSinner.Min }}'</div>
-                                        <div class="col-1">
-                                            <div class="incident-icon" data-incident-type="{{ SUBSinner.IT }}">
-                                                <img src="/ui/img/incidents/{{ data.Spid }}/{{ SUBSinner.IT }}.png">
-                                            </div>
-                                        </div>
-                                        <div class="col-10" title="Subs[][].Pn">
-                                            {{ SUBSinner.Pn }}<small class="text-muted" title="Subs[][].ID"> ({{ SUBSinner.ID }})</small>
+                            <div class="col-10" title="Subs[][].Pn">
+                                {{ SUBS.Pn }}<small class="text-muted" title="Subs[][].ID"> ({{ SUBS.ID }})</small>
+                            </div>
+                        </div>
+                        {% for SUBSinner in data.Subs[h] %}
+                            {% if SUBS.IDo == SUBSinner.ID %}
+                                <div class="row">
+                                    <div class="col-1" title="Subs[][].Min">{{ SUBSinner.Min }}'</div>
+                                    <div class="col-1">
+                                        <div class="incident-icon" data-incident-type="{{ SUBSinner.IT }}">
+                                            <img src="/ui/img/incidents/{{ data.Spid }}/{{ SUBSinner.IT }}.png">
                                         </div>
                                     </div>
-                                    <div class="dropdown-divider"></div>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
+                                    <div class="col-10" title="Subs[][].Pn">
+                                        {{ SUBSinner.Pn }}<small class="text-muted" title="Subs[][].ID"> ({{ SUBSinner.ID }})</small>
+                                    </div>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 {% endfor %}
-            </div>
+            {% endfor %}
         </div>
     </div>
-{% endif %}
+    {% endif %}
+</div>

@@ -1,8 +1,8 @@
-{% if data.Stat %}
-    <div class="shadow rounded py-2">
-        <div class="row">
-            <div class="col h4 mx-3 p-2 event-element-header"><h3>Statistic</h3></div>
-        </div>
+<div class="shadow rounded py-2">
+    <div class="row">
+        <div class="col h4 mx-3 p-2 event-element-header"><h3>Statistic</h3></div>
+    </div>
+    {% if data.Stat %}
         {% if data.Stat[0].Att or data.Stat[1].Att %}
             <div class="row p-2 text-center" title="Stat[].Att">
                 <div class="col-3">{{ data.Stat[0].Att }}</div>
@@ -211,5 +211,5 @@
             </div>
             <div class="dropdown-divider"></div>
         {% endif %}
-    </div>
-{% endif %}
+    {% endif %}
+</div>

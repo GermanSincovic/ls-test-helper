@@ -8,10 +8,14 @@
         <br>
         {% else %}
             <a class="btn btn-light border mx-3" href="{{ url_config['feed-monitor-base-url'] }}ui/event/{{ data.Pid }}-{{ data.Eid }}">Feed monitor</a>
-            <a class="btn btn-light border mx-3" href="{{ url_config['public-api-base-url'] }}scores/soccer/~~id/{{ data.Pid }}-{{ data.Eid }}/reprocess">Reprocess</a>
+            <a class="btn btn-light border mx-3" onclick="reprocess(); return false;">Reprocess</a>
         {% endif %}
     </div>
     <script>
-
+        function reprocess(){
+            $.ajax({
+                url: "{{ url_config['public-api-base-url'] }}scores/soccer/~~id/{{ data.Pid }}-{{ data.Eid }}/reprocess"
+            })
+        }
     </script>
 </div>

@@ -2,72 +2,68 @@
     <div class="row">
         <div class="col h4 mx-3 p-2 event-element-header"><h3>Incidents</h3></div>
     </div>
-    {% for IncsI in ["1", "2", "3", "10", "11", "12", "13", "4", "0"] %}
-        {% for i in data.Incs[IncsI] %}
-            <div class="row p-2">
-                <div class="col-1" title="Incs[][].Min">
-                    {% if i.Min %}
-                        {{i.Min}}{% if i.MinEx %}+{{ i.MinEx }}{% endif %}'
-                    {% endif %}
-                    {% if i.Sec %}
-                        {{ i.Sec // 60 }}:{{ i.Sec % 60 }}
+    {% if data.Incs %}
+        {% for IncsI in ["1", "2", "3", "10", "11", "12", "13", "4", "0"] %}
+            {% for i in data.Incs[IncsI] %}
+                <div class="row p-2">
+                    <div class="col-1" title="Incs[][].Min">
+                        {% if i.Min %}
+                            {{i.Min}}{% if i.MinEx %}+{{ i.MinEx }}{% endif %}'
+                        {% endif %}
+                        {% if i.Sec %}
+                            {{ i.Sec // 60 }}:{{ i.Sec % 60 }}
+                        {% endif %}
+                    </div>
+                    {% if i.Nm == 1 %}
+                        <div class="col-4 text-right">
+                            {% if i.Incs %}
+                                {% if i.Incs[0] %}<div>{{i.Incs[0].Pn}}</div>{% endif %}
+                                {% if i.Incs[1] %}<div><small class="text-muted">{{i.Incs[1].Pn}}</small></div>{% endif %}
+                            {% else %}
+                                <div>{{i.Pn}}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-1">
+                            {% if i.Incs %}
+                                <div class="incident-icon" data-incident-type="{{ i.Incs[0].IT }}">
+                                    <img title="Incs[][].Incs[].IT" src="/ui/img/incidents/{{ data.Spid or sport_id }}/{{ i.Incs[0].IT }}.png">
+                                </div>
+                            {% else %}
+                                <div class="incident-icon" data-incident-type="{{ i.IT }}">
+                                    <img title="Incs[][].IT" src="/ui/img/incidents/{{ data.Spid or sport_id}}/{{ i.IT }}.png">
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-1 p-0 text-center">{% if i.Sc %}{{ i.Sc|join(' - ') }}{% endif %}</div>
+                        <div class="col-1"></div>
+                        <div class="col-4"></div>
+                    {% else %}
+                        <div class="col-4"></div>
+                        <div class="col-1"></div>
+                        <div class="col-1 p-0 text-center">{% if i.Sc %}{{ i.Sc|join(' - ') }}{% endif %}</div>
+                        <div class="col-1">
+                            {% if i.Incs %}
+                                <div class="incident-icon" data-incident-type="{{ i.Incs[0].IT }}">
+                                    <img title="Incs[][].Incs[].IT" src="/ui/img/incidents/{{ data.Spid or sport_id }}/{{ i.Incs[0].IT }}.png">
+                                </div>
+                            {% else %}
+                                <div class="incident-icon" data-incident-type="{{ i.IT }}">
+                                    <img title="Incs[][].IT" src="/ui/img/incidents/{{ data.Spid or sport_id }}/{{ i.IT }}.png">
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-4 text-left">
+                            {% if i.Incs %}
+                                {% if i.Incs[0] %}<div>{{i.Incs[0].Pn}}</div>{% endif %}
+                                {% if i.Incs[1] %}<div><small class="text-muted">{{i.Incs[1].Pn}}</small></div>{% endif %}
+                            {% else %}
+                                <div>{{i.Pn}}</div>
+                            {% endif %}
+                        </div>
                     {% endif %}
                 </div>
-                {% if i.Nm == 1 %}
-                    <div class="col-4 text-right">
-                        {% if i.Incs %}
-                            {% if i.Incs[0] %}<div>{{i.Incs[0].Pn}}</div>{% endif %}
-                            {% if i.Incs[1] %}<div><small class="text-muted">{{i.Incs[1].Pn}}</small></div>{% endif %}
-                        {% else %}
-                            <div>{{i.Pn}}</div>
-                        {% endif %}
-                    </div>
-                    <div class="col-1">
-                        {% if i.Incs %}
-                            <div class="incident-icon" data-incident-type="{{ i.Incs[0].IT }}">
-                                <img title="Incs[][].Incs[].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.Incs[0].IT }}.png">
-                            </div>
-                        {% else %}
-                            <div class="incident-icon" data-incident-type="{{ i.IT }}">
-                                <img title="Incs[][].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.IT }}.png">
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="col-1 p-0 text-center">{% if i.Sc %}{{ i.Sc|join(' - ') }}{% endif %}</div>
-                    <div class="col-1"></div>
-                    <div class="col-4"></div>
-                {% else %}
-                    <div class="col-4"></div>
-                    <div class="col-1"></div>
-                    <div class="col-1 p-0 text-center">{% if i.Sc %}{{ i.Sc|join(' - ') }}{% endif %}</div>
-                    <div class="col-1">
-                        {% if i.Incs %}
-                            <div class="incident-icon" data-incident-type="{{ i.Incs[0].IT }}">
-                                <img title="Incs[][].Incs[].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.Incs[0].IT }}.png">
-                            </div>
-                        {% else %}
-                            <div class="incident-icon" data-incident-type="{{ i.IT }}">
-                                <img title="Incs[][].IT" src="/ui/img/incidents/{{ data.Spid }}/{{ i.IT }}.png">
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="col-4 text-left">
-                        {% if i.Incs %}
-                            {% if i.Incs[0] %}<div>{{i.Incs[0].Pn}}</div>{% endif %}
-                            {% if i.Incs[1] %}<div><small class="text-muted">{{i.Incs[1].Pn}}</small></div>{% endif %}
-                        {% else %}
-                            <div>{{i.Pn}}</div>
-                        {% endif %}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="dropdown-divider"></div>
+                <div class="dropdown-divider"></div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
-<!--    {% if data.Trh1 and data.Trh2 %}-->
-<!--        <div title="Trh1, Trh2" class="row mx-5 justify-content-between">-->
-<!--            <span class="col-6 text-center">Half-time:</span>-->
-<!--            <span class="col-6 text-center">{{data.Trh1}} - {{data.Trh2}}</span>-->
-<!--        </div>-->
-<!--    {% endif %}-->
+    {% endif %}
 </div>

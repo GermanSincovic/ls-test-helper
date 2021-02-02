@@ -1,9 +1,11 @@
 <div class="row mx-5 justify-content-center event-header text-center">
     <div class="col-1">
-        {% if data.T1[0].Img %}
-            <img title="T1[0].Img" src="{{url_config['static-data-base-url']}}/low/{{data.T1[0].Img}}">
-        {% else %}
-            <img title="T1[0].Img" src="/ui/img/no_badge.png">
+        {% if data.T1 %}
+            {% if data.T1[0].Img %}
+                <img title="T1[0].Img" src="{{url_config['static-data-base-url']}}/low/{{data.T1[0].Img}}">
+            {% else %}
+                <img title="T1[0].Img" src="/ui/img/no_badge.png">
+            {% endif %}
         {% endif %}
     </div>
     <div class="col-3 d-flex py-4 justify-content-around align-middle">
@@ -24,10 +26,12 @@
         {% endfor %}
     </div>
     <div class="col-1">
-        {% if data.T2[0].Img %}
-            <img title="T2[0].Img" src="{{url_config['static-data-base-url']}}/low/{{data.T2[0].Img}}">
-        {% else %}
-            <img title="T2[0].Img" src="/ui/img/no_badge.png">
+        {% if data.T1 %}
+            {% if data.T2[0].Img %}
+                <img title="T2[0].Img" src="{{url_config['static-data-base-url']}}/low/{{data.T2[0].Img}}">
+            {% else %}
+                <img title="T2[0].Img" src="/ui/img/no_badge.png">
+            {% endif %}
         {% endif %}
     </div>
 </div>

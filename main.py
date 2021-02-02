@@ -72,7 +72,8 @@ def get_public_api_ui_env_feed(environment, feed):
                                            id=request.args.get("id")
                                        )[0], url_config=FileManager.get_url_mapping_config()[environment],
                                        environment=environment,
-                                       sport=request.args.get("sport"))
+                                       sport=request.args.get("sport"),
+                                       sport_id=PublicApiHelper.get_sport_id_by_name(request.args.get("sport")))
 
 
 @app.route('/public-api/<string:environment>/<string:feed>', methods=['GET'])

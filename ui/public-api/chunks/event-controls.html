@@ -1,0 +1,17 @@
+<div class="row m-2 justify-content-center event-header text-center">
+    <div class="col-4 justify-content-between m-1">
+        {% if data.Pid == 8 %}
+            {% for pid in data.Pids%}
+                <a class="btn btn-secondary border m-1" href="/ui/public-api/{{ environment }}/event?sport={{ sport }}&pid={{ pid }}&id={{ data.Pids[pid] }}">{{ pid }}-{{ data.Pids[pid] }}</a>
+            {% endfor %}
+            <a class="btn btn-light border" href="{{ url_config['feed-monitor-base-url'] }}ui/event/{{ data.Pid }}-{{ data.Eid }}">Feed monitor</a>
+        <br>
+        {% else %}
+            <a class="btn btn-light border mx-3" href="{{ url_config['feed-monitor-base-url'] }}ui/event/{{ data.Pid }}-{{ data.Eid }}">Feed monitor</a>
+            <a class="btn btn-light border mx-3" href="{{ url_config['public-api-base-url'] }}scores/soccer/~~id/{{ data.Pid }}-{{ data.Eid }}/reprocess">Reprocess</a>
+        {% endif %}
+    </div>
+    <script>
+
+    </script>
+</div>

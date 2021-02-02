@@ -55,7 +55,9 @@ def get_public_api_ui_env_feed(environment, feed):
                                            date=request.args.get("date"),
                                            pid=request.args.get("pid"),
                                            id=request.args.get("id")
-                                       )[0], url_config=FileManager.get_url_mapping_config()[environment])
+                                       )[0], url_config=FileManager.get_url_mapping_config()[environment],
+                                       environment=environment,
+                                       sport=request.args.get("sport"))
         if feed == 'event':
             if not request.args.get("update"):
                 return render_template('public-api/event.html')
@@ -68,7 +70,9 @@ def get_public_api_ui_env_feed(environment, feed):
                                            date=request.args.get("date"),
                                            pid=request.args.get("pid"),
                                            id=request.args.get("id")
-                                       )[0], url_config=FileManager.get_url_mapping_config()[environment])
+                                       )[0], url_config=FileManager.get_url_mapping_config()[environment],
+                                       environment=environment,
+                                       sport=request.args.get("sport"))
 
 
 @app.route('/public-api/<string:environment>/<string:feed>', methods=['GET'])

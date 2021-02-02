@@ -79,6 +79,12 @@ def get_public_api_data_daily(environment, sport, date):
 
 
 def get_public_api_data_event(environment, sport, id, pid):
+
+    # for old API URL
+    if sport == "hockey":
+        sport = "ice_hockey"
+    # eof
+
     config = get_url_config()
     composite_id = pid + "-" + id
     public_api_event_pattern = config[environment]['public-api-base-url'] + config[environment][

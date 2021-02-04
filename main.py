@@ -5,11 +5,19 @@ from werkzeug.utils import secure_filename
 
 from modules import Health, FileManager, Resp, Collector, Log, Kafka, PublicApiHelper
 from modules.Constants import MAINTENANCE, UPLOAD_DIR, UI_DIR
+from flask_sslify import SSLify
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__, template_folder=UI_DIR, static_folder="ui")
 app.secret_key = 'SLKJdjD&s%1234!'
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 Response(headers={'Content-Type': 'application/json; charset=utf-8'})
+
+context = ('cert.pem', 'pkey.pem')
+
+# CORS(app)
+# Redirection from HTTP to HTTPS
+sslify = SSLify(app)
 
 
 @app.route('/ui', methods=['GET'])
@@ -190,4 +198,4 @@ FileManager.run_cleaner()
 
 if __name__ == '__main__':
     Log.info("Application starting...")
-    app.run(host="0.0.0.0", port=80, debug=False)
+    app.run(host="0.0.0.0", port=443, debug=False)

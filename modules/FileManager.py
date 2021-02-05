@@ -2,9 +2,8 @@ import json
 import os
 import subprocess
 import datetime
-from apscheduler.schedulers.background import BackgroundScheduler
 from modules import Log
-from modules.Constants import RESULTS_DIR, MAIN_REPOSITORY_PATH, MODULES_DIR, BASE_FOLDER, ARCHIVE_DIR, LOGS_DIR, \
+from modules.Constants import RESULTS_DIR, MAIN_REPOSITORY_PATH, MODULES_DIR, ARCHIVE_DIR, LOGS_DIR, \
     UPLOAD_DIR
 
 
@@ -33,6 +32,12 @@ def get_url_mapping_config():
 def get_file(folder, filename):
     with open(os.path.join(MAIN_REPOSITORY_PATH, folder, filename)) as file:
         data = file.read()
+    return data, 200
+
+
+def write_file(folder, filename, data):
+    with open(os.path.join(MAIN_REPOSITORY_PATH, folder, filename), "w") as file:
+        data = file.write(data)
     return data, 200
 
 
@@ -101,13 +106,6 @@ def remove_old_result_files():
             Log.info("File {} is older than 1 week. Deleting...".format(file['name']))
             delete_file(RESULTS_DIR, file['name'])
     return res, 200
-
-
-def run_cleaner():
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(func=remove_old_result_files, trigger="interval", hours=3)
-    scheduler.start()
-    Log.info("Cleaner running in background")
 
 
 def check_dirs_existing():

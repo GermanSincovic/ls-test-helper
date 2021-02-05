@@ -9,7 +9,7 @@ const RM = new RequestManager();
 	RM.getFiles();
 	RM.prepareLoggerControlPanel();
 
-new Repeater( () => {RM.getHealthPage()}, 60000 );
+new Repeater( () => {RM.getHealthPage()}, 30000 );
 
 $("#main_form_submit").on("click", function(){
     ToggleSpinner();

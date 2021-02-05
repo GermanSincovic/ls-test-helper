@@ -21,6 +21,15 @@ export function RequestManager(){
 		})
 	}
 
+	this.sendHealthDelta = function(data){
+	    $.ajax({
+			url: "/push",
+			method: "post",
+			headers: { "Content-Type": "application/json" },
+			data: JSON.stringify(data)
+		})
+	}
+
 	this.readFile = function(folder, file_name){
 	    $.ajax({
 			url: this.BASE_API_URL + "files/" + folder + "/" + file_name,

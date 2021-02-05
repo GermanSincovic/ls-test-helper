@@ -1,9 +1,11 @@
 import os
 
+import requests
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask, request, Response, render_template
 from werkzeug.utils import secure_filename
 
-from modules import Health, FileManager, Resp, Collector, Log, Kafka, PublicApiHelper
+from modules import Health, FileManager, Resp, Collector, Log, Kafka, PublicApiHelper, BotController
 from modules.Constants import MAINTENANCE, UPLOAD_DIR, UI_DIR
 
 app = Flask(__name__, template_folder=UI_DIR, static_folder="ui")
@@ -18,6 +20,15 @@ def get_ui():
         return render_template('maintenance.html')
     else:
         return render_template('index.html')
+
+
+@app.route('/push', methods=['POST'])
+def send_push_data():
+    if request.json:
+        BotController.send_message_to_all_chats(request.json)
+        return Resp.throw_error(200)
+    else:
+        return Resp.throw_error(400)
 
 
 @app.route('/ui/public-api', methods=['GET'])
@@ -185,8 +196,17 @@ def page_not_found(exception):
     return Resp.throw_error(exception.code)
 
 
+scheduler = BackgroundScheduler()
+
 FileManager.check_dirs_existing()
-FileManager.run_cleaner()
+scheduler.add_job(func=FileManager.remove_old_result_files, trigger="interval", hours=3)
+Log.info("Cleaner running in background")
+
+BotController.check_subscriptions_cache_file_existence()
+scheduler.add_job(func=BotController.update_subscriptions_list, trigger="interval", seconds=15)
+Log.info("Telegram Bot update reader is running")
+
+scheduler.start()
 
 if __name__ == '__main__':
     Log.info("Application starting...")

@@ -50,6 +50,8 @@ def get_public_api_data_daily(environment, sport, date):
     config = get_url_config()
     public_api_daily_pattern = config[environment]['public-api-base-url'] + config[environment]['public-api-event-list']
     public_api_daily_link = public_api_daily_pattern.format(sport=sport, ls_date=date)
+
+    # TODO: Kafka - first
     try:
         daily = requests.get(public_api_daily_link).json()
     except Exception as e:

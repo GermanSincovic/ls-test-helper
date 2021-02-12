@@ -22,13 +22,13 @@ def get_ui():
         return render_template('index.html')
 
 
-@app.route('/push', methods=['POST'])
-def send_push_data():
-    if request.json:
-        BotController.send_message_to_all_chats(request.json)
-        return Resp.throw_error(200)
-    else:
-        return Resp.throw_error(400)
+# @app.route('/push', methods=['POST'])
+# def send_push_data():
+#     if request.json:
+#         BotController.send_message_to_all_chats(request.json)
+#         return Resp.throw_error(200)
+#     else:
+#         return Resp.throw_error(400)
 
 
 @app.route('/ui/public-api', methods=['GET'])

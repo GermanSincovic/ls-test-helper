@@ -1,10 +1,17 @@
+import json
+import os
+
 import requests
 from lxml import html
 
-from modules import Log
+from modules import Log, FileManager, BotController
+from modules.Constants import MODULES_DIR
 
 
 def get_health_pages():
+    old_health_data = FileManager.get_file(MODULES_DIR, "health_page_cache.txt")[0]
+    old_health_data = json.loads(old_health_data)
+
     devtest_url = "http://ls-tools-ls-g.dev-i.net:8091/health-status/"
     preprod_url = "https://preprod-component-monitoring.livescore.com/health-status/"
     prod_url = "https://component-monitoring.livescore.com/health-status/"
@@ -65,5 +72,29 @@ def get_health_pages():
         health_data.append(sr_keys)
     except Exception as e:
         Log.warning("Can't get data from {}, {}".format(sr_keys_url, e))
+
+    if not os.path.exists(os.path.join(MODULES_DIR, "health_page_cache.txt")):
+        with open(os.path.join(MODULES_DIR, "health_page_cache.txt"), 'w'):
+            pass
+    else:
+        FileManager.write_file(MODULES_DIR, "health_page_cache.txt", json.dumps(health_data))
+
+    for elem in range(len(health_data)):
+        env = list(health_data[elem])[0]
+        for el in range(len(health_data[elem][env])):
+            try:
+                if health_data[elem][env][el]["version"] != old_health_data[elem][env][el]["version"]:
+                    print("Version changed!\n{} - {} - {}".format(
+                        str.upper(env),
+                        health_data[elem][env][el]["component"],
+                        health_data[elem][env][el]["version"]
+                    ))
+                    BotController.send_message_to_all_chats("Version changed!\n{} - {} - {}".format(
+                        str.upper(env),
+                        health_data[elem][env][el]["component"],
+                        health_data[elem][env][el]["version"]
+                    ))
+            except KeyError as e:
+                pass
 
     return health_data, 200

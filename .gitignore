@@ -6,3 +6,4 @@
 /venv/**
 /logs/**
 /modules/subscriptions.txt
+/modules/health_page_cache.txt

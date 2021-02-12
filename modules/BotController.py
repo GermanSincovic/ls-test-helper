@@ -7,7 +7,6 @@ from modules import FileManager
 from modules.Constants import MODULES_DIR
 
 
-# TODO: Batch sending has to be done on server side, not client!
 def get_chats_from_updates():
     chats = []
     url = "https://api.telegram.org/bot1555371617:AAGfvT8Bn_xpTSC2vqiz7BatuVuGiIQbWjo/getUpdates"
@@ -47,7 +46,6 @@ def send_message_to_single_chat(chat_id, text):
 
 
 def send_message_to_all_chats(text):
-    text = text["text"]
     subscriptions_cache = get_subscriptions_list()
     if subscriptions_cache:
         subscriptions_cache = json.loads(subscriptions_cache)

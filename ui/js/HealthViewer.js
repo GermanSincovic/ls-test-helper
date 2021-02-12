@@ -3,27 +3,7 @@ import {RequestManager} from './RequestManager.js'
 
 export function HealthViewer(data){
 
-    var RM = new RequestManager();
-
-    if(localStorage.getItem("health-history") != JSON.stringify(data)){
-        var delta = [];
-        var old_data = JSON.parse(localStorage.getItem("health-history"))[0];
-        var new_data = data[0];
-        for (var env in new_data){
-            for(var component in new_data[env]){
-                if(new_data[env][component].version != old_data[env][component].version){
-                    var text = "<b>Version changed!</b>\n"
-                        + env.toUpperCase() + " - "
-                        + old_data[env][component].component + " - "
-                        + new_data[env][component].version;
-                    RM.sendHealthDelta({"text": text});
-                }
-            }
-        }
-    }
-    localStorage.setItem("health-history", JSON.stringify(data));
-
-	function getEnvironmentCrashCount(env_data){
+    function getEnvironmentCrashCount(env_data){
 		var count = 0;
 		env_data.forEach(c => {
 			if(c.hasOwnProperty("status") && c.status == "CRASHED"){ count++; }

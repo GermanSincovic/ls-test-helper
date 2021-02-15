@@ -84,11 +84,6 @@ def get_health_pages():
         for el in range(len(health_data[elem][env])):
             try:
                 if health_data[elem][env][el]["version"] != old_health_data[elem][env][el]["version"]:
-                    print("Version changed!\n{} - {} - {}".format(
-                        str.upper(env),
-                        health_data[elem][env][el]["component"],
-                        health_data[elem][env][el]["version"]
-                    ))
                     BotController.send_message_to_all_chats("Version changed!\n{} - {} - {}".format(
                         str.upper(env),
                         health_data[elem][env][el]["component"],

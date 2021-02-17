@@ -79,17 +79,19 @@ def get_health_pages():
     else:
         FileManager.write_file(MODULES_DIR, "health_page_cache.txt", json.dumps(health_data))
 
+    msg_tpl = "Version changed!"
+    change_list = ""
+
     for elem in range(len(health_data)):
         env = list(health_data[elem])[0]
         for el in range(len(health_data[elem][env])):
             try:
                 if health_data[elem][env][el]["version"] != old_health_data[elem][env][el]["version"]:
-                    BotController.send_message_to_all_chats("Version changed!\n{} - {} - {}".format(
-                        str.upper(env),
-                        health_data[elem][env][el]["component"],
-                        health_data[elem][env][el]["version"]
-                    ))
-            except KeyError as e:
+                    change_list += "\n" + str.upper(env) + " - " + health_data[elem][env][el]["component"] + " - " + health_data[elem][env][el]["version"]
+            except KeyError:
                 pass
+
+    if change_list:
+        BotController.send_message_to_all_chats(msg_tpl + change_list)
 
     return health_data, 200

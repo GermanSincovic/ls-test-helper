@@ -43,7 +43,9 @@
 
 									<!-- COLLECTOR FORM -->
                                     <form id="main_form" onsubmit="return false;">
-									    <input class="form-control" type="datetime-local" name="dtl">
+									    <input class="form-control" type="date" id="dtl-date">
+									    <input class="form-control" type="time" id="dtl-time" disabled>
+									    <input class="form-control" type="hidden" id="dtl" name="dtl">
 									    <select class="form-control" id="component_selector" name="component" required><option value="" disabled selected></option></select>
 									    <select class="form-control" id="endpoint_selector" name="endpoint" required></select>
 									    <div id="dynamic_input"></div>
@@ -158,6 +160,16 @@
 			$("a[data-type='public-api-daily-link']").each((k,v) => {
 				v.href = v.href.replace('{date}', ISODateToLSFormat(new Date()))
 			})
+			$("#dtl-date").on('change', function(){
+				if(this.value){
+					$("#dtl-time").attr("disabled", false);
+				}
+			})
+			$("#dtl-time").on('change', function(){
+				$("#dtl").val($("#dtl-date").val() + "T" + $("#dtl-time").val())
+				console.log($("#dtl").val())
+			})
+
 		</script>
 	</body>
 </html>

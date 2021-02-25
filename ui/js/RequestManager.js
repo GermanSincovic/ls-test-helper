@@ -7,6 +7,8 @@ import {ToggleSpinner} from './ToggleSpinner.js'
 import {PAPILiveCount} from './PAPILiveCount.js'
 import {PAPIDaily} from './PAPIDaily.js'
 import {PAPIEvent} from './PAPIEvent.js'
+import {RegressionDataView} from './RegressionDataView.js'
+import {RegressionResultsView} from './RegressionResultsView.js'
 
 export function RequestManager(){
 
@@ -200,6 +202,43 @@ export function RequestManager(){
             },
             error: function(res){
                 MessageHandler("<b>Can't get API data:</b><br>" + link, "danger");
+            }
+        })
+    }
+
+    this.getRegressionData = function(){
+        $.ajax({
+            url: this.BASE_API_URL + "push-regression-data",
+            success: function(res){
+                new RegressionDataView(JSON.parse(res.message));
+            },
+            error: function(res){
+                MessageHandler("<b>Can't get Regression Data:</b><br>" + link, "danger");
+            }
+        })
+    }
+    this.getRegressionResults = function(){
+        $.ajax({
+            url: this.BASE_API_URL + "prd/report",
+            success: function(res){
+                new RegressionDataView(res.message.test_data);
+                new RegressionResultsView(res.message.response_data);
+            },
+            error: function(res){
+                MessageHandler("<b>" + res.message + "</b>", "danger");
+            }
+        })
+    }
+    this.runPushRegression = function(env, spid, eid){
+        var that = this;
+        $.ajax({
+            url: this.BASE_API_URL + "prd?env=" + env + "&spid=" + spid + "&eid=" + eid,
+            success: function(res){
+                MessageHandler("<b>" + res.message + "</b>", "success");
+                that.getRegressionResults();
+            },
+            error: function(res){
+                MessageHandler("<b>" + res.message + "</b>", "danger");
             }
         })
     }

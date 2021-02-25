@@ -5,16 +5,19 @@ from modules import Log
 
 
 def produce(environment, topic, key, message):
+    result = None
     bootstrap_servers = ["{}-kafka-0.ls.seo:9092".format(environment), "{}-kafka-1.ls.seo:9092".format(environment)]
     topic = topic
     key = bytes(key + "-collector", 'utf-8')
     message = bytes(json.dumps(message), 'utf-8')
 
     producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
-    if producer.send(topic, key=key, value=message):
-        return "OK", 200
-    else:
-        return "Something went wrong", 500
+    try:
+        result = producer.send(topic, key=key, value=message)
+        if result:
+            return "OK", 200
+    except result.exception as e:
+        return e.getMessage(), 500
 
 
 def consume(environment, topic):

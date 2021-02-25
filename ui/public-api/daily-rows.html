@@ -10,6 +10,9 @@
                         <small class='text-muted'>({{stage.Sid}})</small>
                     </div>
                     <div class="btn-group dropleft">
+                        {% for provider in stage._FP_unique %}
+                            <span class="mx-2 text-muted">{{provider}}</span>
+                        {% endfor %}
                         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">FP</button>
                         <div class="dropdown-menu">
                             {% for k, v in stage._FP.items() %}<small class="dropdown-item">{{k}} : {{v}}</small>{% endfor %}

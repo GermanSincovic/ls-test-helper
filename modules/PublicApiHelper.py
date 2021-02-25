@@ -18,18 +18,17 @@ def get_sport_id_by_name(sn):
 
 def find_priority_rules(mt, sport, stage):
     rules = {}
-    for f in mt:
-        if "sportId" in f \
-                and f["sportId"] == sport \
-                and "tournamentStageId" in f \
-                and f["tournamentStageId"] == stage:
-            rules.update({FEATURE_NAMES[str(f["featureId"])]: f["providers"][0]["name"]})
-    if len(rules) < len(FEATURE_NAMES):
-        for f in mt:
-            if "sportId" in f \
-                    and f["sportId"] == sport \
-                    and "tournamentStageId" not in f:
-                rules.update({FEATURE_NAMES[str(f["featureId"])]: f["providers"][0]["name"]})
+    for feature in mt:
+        if "sportId" in feature \
+                and feature["sportId"] == sport \
+                and "tournamentStageId" not in feature:
+            rules.update({FEATURE_NAMES[str(feature["featureId"])]: feature["providers"][0]["name"]})
+    for feature in mt:
+        if "sportId" in feature \
+                and feature["sportId"] == sport \
+                and "tournamentStageId" in feature \
+                and feature["tournamentStageId"] == stage:
+            rules.update({FEATURE_NAMES[str(feature["featureId"])]: feature["providers"][0]["name"]})
     return rules
 
 
@@ -45,8 +44,6 @@ def get_public_api_live_count(environment):
 
 
 def get_public_api_data_daily(environment, sport, date):
-    daily = {}
-    mapping_template = {}
     config = get_url_config()
     public_api_daily_pattern = config[environment]['public-api-base-url'] + config[environment]['public-api-event-list']
     public_api_daily_link = public_api_daily_pattern.format(sport=sport, ls_date=date)
@@ -76,6 +73,8 @@ def get_public_api_data_daily(environment, sport, date):
                 stage["_LC"] += 1
         stage["_FP"] = {}
         stage["_FP"].update(find_priority_rules(mapping_template, get_sport_id_by_name(sport), int(stage["Sid"])))
+        stage["_FP_unique"] = []
+        stage["_FP_unique"] = list(set(stage["_FP"].values()))
         full_daily["Stages"].append(stage)
     return full_daily
 

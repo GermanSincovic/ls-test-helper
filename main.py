@@ -1,17 +1,19 @@
 import os
 
-import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask, request, Response, render_template
 from werkzeug.utils import secure_filename
 
 from modules import Health, FileManager, Resp, Collector, Log, Kafka, PublicApiHelper, BotController
-from modules.Constants import MAINTENANCE, UPLOAD_DIR, UI_DIR
+from modules.Constants import MAINTENANCE, UPLOAD_DIR, UI_DIR, MODULES_DIR
+from modules.PushNotificationTesting.Dispatcher import PushRegressionDispatcher
 
 app = Flask(__name__, template_folder=UI_DIR, static_folder="ui")
 app.secret_key = 'SLKJdjD&s%1234!'
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 Response(headers={'Content-Type': 'application/json; charset=utf-8'})
+
+PRD = PushRegressionDispatcher()
 
 
 @app.route('/ui', methods=['GET'])
@@ -22,13 +24,33 @@ def get_ui():
         return render_template('index.html')
 
 
-# @app.route('/push', methods=['POST'])
-# def send_push_data():
-#     if request.json:
-#         BotController.send_message_to_all_chats(request.json)
-#         return Resp.throw_error(200)
-#     else:
-#         return Resp.throw_error(400)
+@app.route("/ui/push-regression", methods=['GET'])
+def get_push_regression_ui():
+    return render_template('push-regression-ui/panel.html')
+
+
+@app.route("/push-regression-data", methods=['GET'])
+def get_push_regression_data():
+    return Resp.get_response([FileManager.get_file(os.path.join(MODULES_DIR, "PushNotificationTesting"), "TestDataSet.json")[0], 200])
+
+
+@app.route('/prd', methods=['GET'])
+def run_prd():
+    PRD.clear_test_data_list()
+    PRD.clear_response_data_list()
+    return Resp.get_response(PRD.run_regression(request.args.get("env"), request.args.get("spid"), request.args.get("eid")))
+
+
+@app.route('/push', methods=['GET'])
+def retrieve_push_data():
+    PRD.retrieve_push(request.args.get("system_time"), request.args.get("not_app_name"), request.args.get("not_title"),
+                      request.args.get("notification"))
+    return Resp.get_response(["OK", 200])
+
+
+@app.route("/prd/report", methods=['GET'])
+def get_prd_results():
+    return Resp.get_response(PRD.get_results())
 
 
 @app.route('/ui/public-api', methods=['GET'])
@@ -44,7 +66,8 @@ def get_file_to_compare(folder, file):
     if not folder or not file:
         return Resp.throw_error(400)
     else:
-        return render_template('collector/result.html', data=FileManager.get_file(folder, file), folder=folder, filename=file)
+        return render_template('collector/result.html', data=FileManager.get_file(folder, file), folder=folder,
+                               filename=file)
 
 
 @app.route('/ui/public-api/<string:environment>/<string:feed>', methods=['GET'])

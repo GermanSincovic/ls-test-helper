@@ -3,7 +3,7 @@ import os
 
 import requests
 
-from modules import FileManager
+from modules import FileManager, Log
 from modules.Constants import MODULES_DIR
 
 
@@ -42,7 +42,8 @@ def send_message_to_single_chat(chat_id, text):
         "parse_mode": "HTML",
         "text": text
     }
-    requests.post(url=url, json=data)
+    result = requests.post(url=url, json=data)
+    Log.info("Telegram Bot Controller: Update message is sent to [{}]. Status: {}".format(chat_id, result.status_code))
 
 
 def send_message_to_all_chats(text):

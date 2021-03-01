@@ -25,7 +25,14 @@
             <tr data-type='event' data-epr='{{event.Epr}}'>
                 <td data-type='startdatetime' data-value="{{event.Esd}}" style='vertical-align: middle;'></td>
                 <td style='vertical-align: middle;'>{{event.Eps}}</td>
-                <td style='vertical-align: middle;'>{% for k,v in event.Pids.items() %}<div><small data-type="event-link">{{k}}-{{v}}</small></div>{% endfor %}</td>
+                <td style='vertical-align: middle;'>
+                    {% for k,v in event.Pids.items() %}
+                        <div>
+                            <small data-type="event-link">{{k}}-{{v}}</small>
+                            <div class="btn clipboard" data-text="{{v}}">&#128203;</div>
+                        </div>
+                    {% endfor %}
+                </td>
                 {% if event.Spid != 31%}
                     <td align='right' style='vertical-align: middle;'>
                         {% for t in event.T1 %}
@@ -79,8 +86,8 @@
         {% endfor %}
     {% endfor %}
 </tbody>
-
 <script>
     window.api_data = {{data|tojson}};
     window.api_config = {{url_config|tojson}};
 </script>
+<script src="/ui/js/Clipboard.js"></script>

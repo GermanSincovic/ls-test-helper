@@ -5,6 +5,8 @@ import {CalendarInit} from './CalendarInit.js'
 var urlPathParameters = location.pathname.split("/");
 var urlGetParameters = new URLSearchParams(window.location.search);
 
+
+
 var publicAPIRequestParams = {
     "environment": urlPathParameters[3],
     "feed": urlPathParameters[4],

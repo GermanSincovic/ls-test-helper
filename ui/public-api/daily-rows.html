@@ -89,5 +89,14 @@
 <script>
     window.api_data = {{data|tojson}};
     window.api_config = {{url_config|tojson}};
+
+    $(".clipboard").on("click", function(){
+        const el = document.createElement('textarea');
+        el.value = this.dataset.text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        console.log("Copied");
+    });
 </script>
-<script src="/ui/js/Clipboard.js"></script>

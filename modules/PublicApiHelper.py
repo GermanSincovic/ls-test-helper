@@ -1,4 +1,5 @@
 import json
+import re
 
 import requests
 
@@ -43,12 +44,25 @@ def get_public_api_live_count(environment):
     return live_count, 200
 
 
+def get_freeze_list(environment):
+    if environment in ["dev", "test"]:
+        ids = []
+        freezelistdata = requests.get("http://" + environment + "-crawler-enetapi-0-lsm.ls-g.net:8070/simulator/listfrozen").json()
+        for el in freezelistdata:
+            id_search = re.search(r"etails\D+(\d+)", el)
+            if id_search:
+                ids.append(id_search.group(1))
+        return ids
+    else:
+        return []
+
+
 def get_public_api_data_daily(environment, sport, date):
+    freeze_list = get_freeze_list(environment)
     config = get_url_config()
     public_api_daily_pattern = config[environment]['public-api-base-url'] + config[environment]['public-api-event-list']
     public_api_daily_link = public_api_daily_pattern.format(sport=sport, ls_date=date)
 
-    # TODO: Kafka - first
     try:
         daily = requests.get(public_api_daily_link).json()
     except Exception as e:
@@ -71,6 +85,8 @@ def get_public_api_data_daily(environment, sport, date):
         for event in stage["Events"]:
             if event["Epr"] == 1:
                 stage["_LC"] += 1
+            if True in (a in freeze_list for a in event["Pids"].values()):
+                event["_FR"] = "1"
         stage["_FP"] = {}
         stage["_FP"].update(find_priority_rules(mapping_template, get_sport_id_by_name(sport), int(stage["Sid"])))
         stage["_FP_unique"] = []

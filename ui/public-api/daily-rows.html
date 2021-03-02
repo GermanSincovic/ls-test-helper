@@ -22,14 +22,14 @@
             </td>
         </tr>
         {% for event in stage.Events %}
-            <tr data-type='event' data-epr='{{event.Epr}}'>
+            <tr data-type='event' data-epr='{{event.Epr}}' data-frozen='{{event._FR}}'>
                 <td data-type='startdatetime' data-value="{{event.Esd}}" style='vertical-align: middle;'></td>
                 <td style='vertical-align: middle;'>{{event.Eps}}</td>
                 <td style='vertical-align: middle;'>
                     {% for k,v in event.Pids.items() %}
                         <div>
                             <small data-type="event-link">{{k}}-{{v}}</small>
-                            <div class="btn clipboard" data-text="{{v}}">&#128203;</div>
+                            <img src="/ui/img/copy_icon.png" class="btn clipboard p-0" width="15" data-text="{{v}}">
                         </div>
                     {% endfor %}
                 </td>
@@ -97,6 +97,5 @@
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-        console.log("Copied");
     });
 </script>

@@ -99,8 +99,16 @@ tr[data-type='stage']{
     background-color: #dee2e6;
 }
 
+tr[data-type='event'][data-epr='1'][data-frozen='1']{
+    background: linear-gradient(90deg, #69f1ad, #69f1ad, #67abff);
+}
+
 tr[data-type='event'][data-epr='1']{
     background-color: #69f1ad;
+}
+
+tr[data-type='event'][data-frozen='1']{
+    background: linear-gradient(90deg, #fff, #fff, #67abff);
 }
 
 button[aria-pressed="true"]{
@@ -112,6 +120,10 @@ button[aria-pressed="false"]{
 }
 img{
     background-color: transparent;
+}
+
+.clipboard{
+
 }
 
 .event-header{

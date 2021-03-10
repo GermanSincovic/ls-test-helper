@@ -115,6 +115,10 @@ button[aria-pressed="true"]{
     background-color: #69f1ad;
 }
 
+#frozen-only > button[aria-pressed="true"]{
+    background-color: #67abff;
+}
+
 button[aria-pressed="false"]{
     background-color: #dae0e5;
 }

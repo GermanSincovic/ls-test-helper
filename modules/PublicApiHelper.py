@@ -47,8 +47,10 @@ def get_public_api_live_count(environment):
 def get_freeze_list(environment):
     if environment in ["dev", "test"]:
         ids = []
-        freezelistdata = requests.get("http://" + environment + "-crawler-enetapi-0-lsm.ls-g.net:8070/simulator/listfrozen").json()
-        for el in freezelistdata:
+        enet_freeze_list_data = requests.get("http://" + environment + "-crawler-enetapi-0-lsm.ls-g.net:8070/simulator/listfrozen").json()
+        sr_freeze_list_data = requests.get("http://" + environment + "-crawler-sportradar-0-lsm.ls-g.net:8070/simulator/listfrozen").json()
+        freeze_list_data = enet_freeze_list_data + sr_freeze_list_data
+        for el in freeze_list_data:
             id_search = re.search(r"etails\D+(\d+)", el)
             if id_search:
                 ids.append(id_search.group(1))
@@ -97,16 +99,18 @@ def get_public_api_data_daily(environment, sport, date):
 
 def get_public_api_data_event(environment, sport, id, pid):
 
-    # for old API URL
-    if sport == "hockey":
-        sport = "ice_hockey"
-    # eof
-
     config = get_url_config()
     composite_id = pid + "-" + id
-    public_api_event_pattern = config[environment]['public-api-base-url'] + config[environment][
-        'public-api-test-ui-event']
-    public_api_event_link = public_api_event_pattern.format(sport=sport, composite_id=composite_id)
+    if str(pid) == "8":
+        public_api_event_pattern = config[environment]['public-api-base-url'] + config[environment][
+            'public-api-event-extended']
+        public_api_event_link = public_api_event_pattern.format(sport=sport, event_id=id)
+    else:
+        if sport == "hockey":
+            sport = "ice_hockey"
+        public_api_event_pattern = config[environment]['public-api-base-url'] + config[environment][
+            'public-api-test-ui-event']
+        public_api_event_link = public_api_event_pattern.format(sport=sport, composite_id=composite_id)
     try:
         event = requests.get(public_api_event_link).json()
     except ConnectionError as e:

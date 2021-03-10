@@ -48,5 +48,8 @@ export function PAPIDaily(data){
     if($("#live-only button")[0].attributes['aria-pressed'].value == "true"){
         toggleLiveEvents();
     }
+    if($("#frozen-only button")[0].attributes['aria-pressed'].value == "true"){
+        toggleFrozenEvents();
+    }
 
 }

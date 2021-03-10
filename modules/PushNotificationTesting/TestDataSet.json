@@ -25,5 +25,20 @@
       "Tr1": 6,
       "Tr2": 5
     }
+  },
+  {
+    "expected_result": {
+      "title": "Goal: [6]-5",
+      "message": "{TEAM1}-{TEAM2}"
+    },
+    "action": "sc",
+    "extra_data": {
+      "Tn": [
+        -1
+      ],
+      "Tr1": 6,
+      "Tr2": 5,
+      "Rid": 1051
+    }
   }
 ]

@@ -84,7 +84,10 @@
                             <div id="live-only" class="col">
                                 <button type="button" class="btn" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="toggleLiveEvents();">Live only</button>
                             </div>
-                            <div>
+                            <div id="frozen-only" class="col">
+                                <button type="button" class="btn" data-toggle="button" aria-pressed="false" autocomplete="off" onclick="toggleFrozenEvents();">Frozen only</button>
+                            </div>
+                            <div class="col-1">
                                 <a id="calendar-today-link" href="">Today</a>
                             </div>
                         </div>
@@ -120,10 +123,13 @@
                         <span class="h4 align-middle"> / ` + location.sport.toUpperCase() + ` / ` + location.date + `</span>`);
                 }
             );
-            {{environment}}
             function toggleLiveEvents(){
                 $("[data-type='event'][data-epr!='1']").toggleClass("d-none");
                 $("[data-type='stage'][data-live-count='0']").toggleClass("d-none");
+            }
+            function toggleFrozenEvents(){
+                $("[data-type='event'][data-frozen!='1']").toggleClass("d-none");
+                $("[data-type='stage']").toggleClass("d-none");
             }
             function chooseSport(val){
                 location.href = location.pathname + "?sport=" + val + "&date=" + location.ls_date;

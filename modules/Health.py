@@ -91,7 +91,7 @@ def get_health_pages():
             except KeyError:
                 pass
 
-    if change_list:
-        BotController.send_message_to_all_chats(msg_tpl + change_list)
+    # if change_list:
+    #     BotController.send_message_to_all_chats(msg_tpl + change_list)
 
     return health_data, 200

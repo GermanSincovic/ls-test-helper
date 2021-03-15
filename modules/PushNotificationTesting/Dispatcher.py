@@ -52,13 +52,18 @@ class PushRegressionDispatcher(object):
                 TEAM1=current_payload["d"]["T1"][0]["Nm"],
                 TEAM2=current_payload["d"]["T2"][0]["Nm"]
             )
-            Kafka.produce(env, "notification_rs", "8-"+eid, KMM.make_test_model(test_item["action"], test_item["extra_data"]))
+            Kafka.produce(env, "notification_rs", "8-" + eid,
+                          KMM.make_test_model(test_item["action"], test_item["extra_data"]))
             time.sleep(1)
         Log.warning("Regression run is finished")
         return ["Regression run is finished", 200]
 
     def retrieve_push(self, timestamp, app_name, title, descr):
         self.response_data.append({"timestamp": timestamp, "app_name": app_name, "title": title, "descr": descr})
+
+    def save_push_data(self, timestamp, app_name, title, descr):
+        with open('night-push.log', 'a') as file:
+            file.write(json.dumps({"timestamp": timestamp, "app_name": app_name, "title": title, "descr": descr}) + "\n")
 
     def get_results(self):
         return {"test_data": self.test_data, "response_data": self.response_data}, 200

@@ -31,14 +31,23 @@ def get_push_regression_ui():
 
 @app.route("/push-regression-data", methods=['GET'])
 def get_push_regression_data():
-    return Resp.get_response([FileManager.get_file(os.path.join(MODULES_DIR, "PushNotificationTesting"), "TestDataSet.json")[0], 200])
+    return Resp.get_response(
+        [FileManager.get_file(os.path.join(MODULES_DIR, "PushNotificationTesting"), "TestDataSet.json")[0], 200])
 
 
 @app.route('/prd', methods=['GET'])
 def run_prd():
     PRD.clear_test_data_list()
     PRD.clear_response_data_list()
-    return Resp.get_response(PRD.run_regression(request.args.get("env"), request.args.get("spid"), request.args.get("eid")))
+    return Resp.get_response(
+        PRD.run_regression(request.args.get("env"), request.args.get("spid"), request.args.get("eid")))
+
+
+@app.route('/push-catcher', methods=['GET'])
+def save_push_data():
+    PRD.save_push_data(request.args.get("system_time"), request.args.get("not_app_name"), request.args.get("not_title"),
+                       request.args.get("notification"))
+    return Resp.get_response(["OK", 200])
 
 
 @app.route('/push', methods=['GET'])
@@ -225,9 +234,9 @@ FileManager.check_dirs_existing()
 scheduler.add_job(func=FileManager.remove_old_result_files, trigger="interval", hours=3)
 Log.info("Cleaner running in background")
 
-BotController.check_subscriptions_cache_file_existence()
-scheduler.add_job(func=BotController.update_subscriptions_list, trigger="interval", seconds=15)
-Log.info("Telegram Bot update reader is running")
+# BotController.check_subscriptions_cache_file_existence()
+# scheduler.add_job(func=BotController.update_subscriptions_list, trigger="interval", seconds=15)
+# Log.info("Telegram Bot update reader is running")
 
 scheduler.start()
 

@@ -112,7 +112,7 @@ export function HealthViewer(data){
 			body_item.setAttribute("aria-labelledby", "pills-" + Object.keys(el)[0] + "-tab");
 
 		var table = document.createElement("table");
-			table.className = "table table-sm small";
+			table.className = "table table-sm small table-hover";
 			table.dataset.env = Object.keys(el)[0];
 
 		var thead = document.createElement("thead");

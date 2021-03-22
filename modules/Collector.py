@@ -59,6 +59,8 @@ def get_result_file_name(data):
     for add in data['additional']:
         result_filename += "_" + add + "_" + data['additional'][add]
     result_filename += ".json"
+    result_filename = result_filename.replace('/', '').replace(':', '')
+    print(result_filename)
     return result_filename
 
 

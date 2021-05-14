@@ -82,20 +82,19 @@
             </div>
         {% endif %}
     {% endif %}
-    {% for n in [1,2,3,4,5,6] %}
-        {% if data['Tr1C' + n|string] or data['Tr2C' + n|string] %}
-            <div title="Tr1C{{n}}, Tr2C{{n}}" class="row mx-5 justify-content-between">
-                <span class="col-6 text-center">Inning {{n}} points:</span>
-                <span class="col-6 text-center">{{data['Tr1C' + n|string] or 0}} - {{data['Tr2C' + n|string] or 0}}</span>
-            </div>
-            <div title="Tr1CO{{n}}, Tr2CO{{n}}" class="row mx-5 justify-content-between">
-                <span class="col-6 text-center">Inning {{n}} overs:</span>
-                <span class="col-6 text-center">{{data['Tr1CO' + n|string] or 0}} - {{data['Tr2CO' + n|string] or 0}}</span>
-            </div>
-            <div title="Tr1CW{{n}}, Tr2CW{{n}}" class="row mx-5 justify-content-between">
-                <span class="col-6 text-center">Inning {{n}} wickets:</span>
-                <span class="col-6 text-center">{{data['Tr1CW' + n|string] or 0}} - {{data['Tr2CW' + n|string] or 0}}</span>
-            </div>
-        {% endif %}
+    {% for inn in data['SDInn'] %}
+        <div title="Tr{{inn.Tn}}C{{inn.Inn}}" class="row mx-5 justify-content-between">
+            <span class="col-6 text-center">Inning {{inn.Inn}} team {{inn.Tn}} points:</span>
+            <span class="col-6 text-center">{{data['Tr' + inn.Tn|string + 'C' + inn.Inn|string] or 0}}</span>
+        </div>
+        <div title="Tr{{inn.Tn}}CO{{inn.Inn}}" class="row mx-5 justify-content-between">
+            <span class="col-6 text-center">Inning {{inn.Inn}} team {{inn.Tn}} overs:</span>
+            <span class="col-6 text-center">{{data['Tr' + inn.Tn|string + 'CO' + inn.Inn|string] or 0}}</span>
+        </div>
+        <div title="Tr{{inn.Tn}}CW{{inn.Inn}}" class="row mx-5 justify-content-between">
+            <span class="col-6 text-center">Inning {{inn.Inn}} team {{inn.Tn}} wickets:</span>
+            <span class="col-6 text-center">{{data['Tr' + inn.Tn|string + 'CW' + inn.Inn|string] or 0}}</span>
+        </div>
+        <hr>
     {% endfor %}
 </div>

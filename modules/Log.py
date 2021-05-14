@@ -60,7 +60,7 @@ class LiveScoreRotatingFileHandler(logging.handlers.RotatingFileHandler):
 def create_rotating_log():
     logging.basicConfig(
         handlers=[LiveScoreRotatingFileHandler(filepath, "app")],
-        level=logging.INFO,
+        level=logging.DEBUG,
         format="[%(asctime)s] %(levelname)s %(message)s",
         datefmt='%Y-%m-%dT%H:%M:%S')
 

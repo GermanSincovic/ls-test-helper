@@ -2,11 +2,12 @@ import json
 import os
 import re
 import time
-import paramiko
 from datetime import datetime
 
+import paramiko
+
 from modules import Log
-from modules.Constants import RESULTS_DIR, MODULES_DIR
+from modules.Constants import RESULTS_DIR
 
 
 def get_config():
@@ -20,7 +21,6 @@ def connect(dns):
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(dns, username='ivan.didyk', key_filename='C:\\Users\\IDidyk\\.ssh\\id_rsa.ppk')
-        # ssh.connect(dns, username='ivan.didyk', key_filename=os.path.join(MODULES_DIR, 'id_rsa.ppk'))
     except TimeoutError as error:
         Log.error(error)
         return str(error), 410
@@ -60,7 +60,6 @@ def get_result_file_name(data):
         result_filename += "_" + add + "_" + data['additional'][add]
     result_filename += ".json"
     result_filename = result_filename.replace('/', '').replace(':', '')
-    print(result_filename)
     return result_filename
 
 

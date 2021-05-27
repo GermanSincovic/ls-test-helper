@@ -4,13 +4,11 @@ import os
 import requests
 from lxml import html
 
-from modules import Log, FileManager, BotController
+from modules import Log, FileManager
 from modules.Constants import MODULES_DIR
 
 
 def get_health_pages():
-    old_health_data = FileManager.get_file(MODULES_DIR, "health_page_cache.txt")[0]
-    old_health_data = json.loads(old_health_data)
 
     devtest_url = "http://ls-tools-ls-g.dev-i.net:8091/health-status/"
     preprod_url = "https://preprod-component-monitoring.livescore.com/health-status/"
@@ -78,20 +76,5 @@ def get_health_pages():
             pass
     else:
         FileManager.write_file(MODULES_DIR, "health_page_cache.txt", json.dumps(health_data))
-
-    msg_tpl = "Version changed!"
-    change_list = ""
-
-    for elem in range(len(health_data)-1):
-        env = list(health_data[elem])[0]
-        for el in range(len(health_data[elem][env])-1):
-            try:
-                if health_data[elem][env][el]["version"] != old_health_data[elem][env][el]["version"]:
-                    change_list += "\n" + str.upper(env) + " - " + health_data[elem][env][el]["component"] + " - " + health_data[elem][env][el]["version"]
-            except KeyError:
-                pass
-
-    # if change_list:
-    #     BotController.send_message_to_all_chats(msg_tpl + change_list)
 
     return health_data, 200

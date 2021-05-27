@@ -39,7 +39,7 @@ def get_public_api_live_count(environment):
         'public-api-live-counter']
     try:
         live_count = requests.get(public_api_live_count_link).json()
-    except Exception as e:
+    except Exception:
         return "Internal Server Error", 500
     return live_count, 200
 
@@ -47,15 +47,20 @@ def get_public_api_live_count(environment):
 def get_freeze_list(environment):
     if environment in ["dev", "test"]:
         ids = []
+        enet_freeze_list_data = {}
+        sr_freeze_list_data = {}
         freeze_list_data = {}
         try:
-            freeze_list_data += requests.get("http://" + environment + "-crawler-enetapi-0-lsm.ls-g.net:8070/simulator/listfrozen").json()
-        except Exception as e:
+            enet_freeze_list_data = requests.get("http://" + environment + "-crawler-enetapi-0-lsm.ls-g.net:8070/simulator/listfrozen").json()
+            freeze_list_data += enet_freeze_list_data
+        except Exception:
             Log.debug("No data about freeze list (ENET)")
-        # try:
-        #     freeze_list_data += requests.get("http://" + environment + "-crawler-sportradar-0-lsm.ls-g.net:8070/simulator/listfrozen").json()
-        # except Exception as e:
-        #     Log.debug("No data about freeze list (SR)")
+        try:
+            sr_freeze_list_data = requests.get("http://" + environment + "-crawler-sportradar-0-lsm.ls-g.net:8070/simulator/listfrozen").json()
+            freeze_list_data += sr_freeze_list_data
+        except Exception:
+            Log.debug("No data about freeze list (SR)")
+        freeze_list_data = enet_freeze_list_data + sr_freeze_list_data
         for el in freeze_list_data:
             id_search = re.search(r"etails\D+(\d+)", el)
             if id_search:
@@ -75,7 +80,7 @@ def get_public_api_data_daily(environment, sport, date):
 
     try:
         daily = requests.get(public_api_daily_link).json()
-    except Exception as e:
+    except Exception:
         return "Internal Server Error", 500
     mapping_template = []
     if environment in ["dev", "test"]:
@@ -116,7 +121,7 @@ def get_public_api_data_event(environment, sport, id, pid):
         public_api_event_link = public_api_event_pattern.format(sport=sport, composite_id=composite_id)
     try:
         event = requests.get(public_api_event_link).json()
-    except ConnectionError as e:
+    except ConnectionError:
         return "Internal Server Error", 500
     return event
 

@@ -193,10 +193,6 @@ FileManager.check_dirs_existing()
 scheduler.add_job(func=FileManager.remove_old_result_files, trigger="interval", hours=3)
 Log.info("Cleaner running in background")
 
-# BotController.check_subscriptions_cache_file_existence()
-# scheduler.add_job(func=BotController.update_subscriptions_list, trigger="interval", seconds=15)
-# Log.info("Telegram Bot update reader is running")
-
 scheduler.start()
 
 if __name__ == '__main__':

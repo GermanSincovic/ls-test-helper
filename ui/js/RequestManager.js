@@ -7,8 +7,6 @@ import {ToggleSpinner} from './ToggleSpinner.js'
 import {PAPILiveCount} from './PAPILiveCount.js'
 import {PAPIDaily} from './PAPIDaily.js'
 import {PAPIEvent} from './PAPIEvent.js'
-import {RegressionDataView} from './RegressionDataView.js'
-import {RegressionResultsView} from './RegressionResultsView.js'
 
 export function RequestManager(){
 

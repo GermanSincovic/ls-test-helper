@@ -56,14 +56,6 @@
                                     <div class="form-group list-group list-group-flush mx-3" id="files-container">
 										<div id="files-uploader">
 											<form id="files-uploader-form" onsubmit="return false;">
-<!--												<div id="dropContainer" style="border:1px solid black;height:100px;">-->
-<!--												   Drop Here-->
-<!--												</div>-->
-<!--												<div class="container mb-2" id="dropContainer" style="border:3px dashed grey;">-->
-<!--												   <div class="m-3 justify-content-center">-->
-<!--													   <h4 class="text-muted">Drop single file here</h4>-->
-<!--												   </div>-->
-<!--												</div>-->
 												<div class="form-group">
 													<input id="fileInput" type="file" name="file" class="form-control-file" multiple>
 												</div>
@@ -177,18 +169,6 @@
 				$("#dtl").val($("#dtl-date").val() + "T" + $("#dtl-time").val())
 				console.log($("#dtl").val())
 			})
-
-			//dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
-			//	evt.preventDefault();
-			//};
-			//dropContainer.ondrop = function(evt) {
-			//	fileInput.files = evt.dataTransfer.files;
-			//	const dT = new DataTransfer();
-			//	dT.items.add(evt.dataTransfer.files[0]);
-			//	dT.items.add(evt.dataTransfer.files[3]);
-			//	fileInput.files = dT.files;
-			//	evt.preventDefault();
-			//};
 		</script>
 	</body>
 </html>

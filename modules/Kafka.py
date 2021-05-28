@@ -14,6 +14,8 @@ def produce(environment, topic, key, message):
     producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
     try:
         result = producer.send(topic, key=key, value=message)
+        producer.flush(timeout=10)
+        producer.close(timeout=1)
         if result:
             return "OK", 200
     except result.exception as e:
